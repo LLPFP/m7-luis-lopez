@@ -14,9 +14,9 @@ include 'pelicules.php';
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header class="container-fluid bg-red text-dark py-4 mb-4">
-        <h1 class="text-center">Cartellera Cinema Ocine Magic</h1>.
-        <img src="https://www.ocinemagic.es/images/logo-ocine-mag.png#joomlaImage://local-images/logo-ocine-mag.png?width=240&height=119" alt="">
+    <header class="container-fluid bg-danger bg-gradient text-dark py-3 mb-3">
+        <h1 class="text-center text-white">Cartellera Cinema Ocine Magic</h1>
+        <img class="bg-white rounded " src="https://www.ocinemagic.es/images/logo-ocine-mag.png#joomlaImage://local-images/logo-ocine-mag.png?width=240&height=119" alt="">
     </header>
 
     <main class="container">
@@ -34,7 +34,8 @@ include 'pelicules.php';
                         </div>
                         <div class='d-grid gap-2'>
                             <a href='trailer.php?id=" .$pelicula['Id']. "' class='btn btn-danger'>Veure tràiler</a>
-                            <a href='detall.php?id=" .$pelicula['Id']. "' class='btn btn-danger'>Més informació</a>                        </div>
+                            <a href='detall.php?id=" .$pelicula['Id']. "' class='btn btn-danger'>Més informació</a>                        
+                        </div>
                     </div>
                 </div>
             </div>";

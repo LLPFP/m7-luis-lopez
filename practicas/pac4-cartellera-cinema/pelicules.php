@@ -12,7 +12,7 @@ $peliculas = [
         "Reparto" => "Cillian Murphy, Emily Blunt, Matt Damon",
         "Calificacion" => "8,5",
         "Genero" => "Biografía, Drama",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/uYPbbksJxIg?si=P6HW3HI49uoGVkdN&autoplay=1&mute=1"
     ],
     [
         "Id" => 2,
@@ -25,7 +25,7 @@ $peliculas = [
         "Reparto" => "Margot Robbie, Ryan Gosling",
         "Calificacion" => "7,2",
         "Genero" => "Comedia, Fantasía",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/eUP3hlBel5I?si=CiNYoWE5JmdOpbVd&autoplay=1&mute=1"
     ],
     [
         "Id" => 3,
@@ -38,7 +38,7 @@ $peliculas = [
         "Reparto" => "Shameik Moore, Hailee Steinfeld",
         "Calificacion" => "9,0",
         "Genero" => "Animación, Acción",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/b_yMOiRgMmQ?si=Cb9A-EndiqhRdK8Y&autoplay=1&mute=1"
     ],
     [
         "Id" => 4,
@@ -51,7 +51,7 @@ $peliculas = [
         "Reparto" => "Tom Cruise, Hayley Atwell",
         "Calificacion" => "8,0",
         "Genero" => "Acción, Aventura",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/2m1drlOZSDw?si=vGuv4pveVnyUGdBz&autoplay=1&mute=1"
     ],
     [
         "Id" => 5,
@@ -64,7 +64,7 @@ $peliculas = [
         "Reparto" => "Brie Larson, Iman Vellani",
         "Calificacion" => "6,5",
         "Genero" => "Acción, Aventura",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/aTy0YYepMh8?si=eUKTWwkQ6mzYidzW&autoplay=1&mute=1"
     ],
     [
         "Id" => 6,
@@ -77,7 +77,7 @@ $peliculas = [
         "Reparto" => "Keanu Reeves, Donnie Yen",
         "Calificacion" => "7,9",
         "Genero" => "Acción, Thriller",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/L0anWmmd8TI?si=s2vbsduStUd3pmNi&autoplay=1&mute=1"
     ],
     [
         "Id" => 7,
@@ -90,7 +90,7 @@ $peliculas = [
         "Reparto" => "Tom Blyth, Rachel Zegler",
         "Calificacion" => "7,1",
         "Genero" => "Aventura, Ciencia Ficción",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/RDE6Uz73A7g?si=5oRQkj-BlYcUe89y&autoplay=1&mute=1"
     ],
     [
         "Id" => 8,
@@ -103,7 +103,7 @@ $peliculas = [
         "Reparto" => "Leonardo DiCaprio, Robert De Niro",
         "Calificacion" => "8,7",
         "Genero" => "Crimen, Drama",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/HyyWd2XI1EE?si=UrFzU3ZDbuM5OzK3&autoplay=1&mute=1"
     ],
     [
         "Id" => 9,
@@ -116,7 +116,7 @@ $peliculas = [
         "Reparto" => "Timothée Chalamet, Zendaya",
         "Calificacion" => "8,4",
         "Genero" => "Ciencia Ficción, Aventura",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/Way9Dexny3w?si=jLplsVYxqtUVc52W&autoplay=1&mute=1"
     ],
     [
         "Id" => 10,
@@ -129,7 +129,7 @@ $peliculas = [
         "Reparto" => "Leslie Odom Jr., Ann Dowd",
         "Calificacion" => "6,3",
         "Genero" => "Terror, Suspenso",
-        "Trailer" => "https://www.youtube.com/watch?v=example_trailer"
+        "Trailer" => "https://www.youtube.com/embed/PIxpPMyGcpU?si=S8lMFiwguDAMlDOM&autoplay=1&mute=1"
     ]
 ];
 
