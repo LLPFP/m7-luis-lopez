@@ -15,7 +15,7 @@
     </div>
 
         <div class="container">
-            <-- AQUÍ PUEDES USAR UN FORM DE BOOTSTRAP 5 SENCILLO PARA PEDIR LOS
+            <!-- AQUÍ PUEDES USAR UN FORM DE BOOTSTRAP 5 SENCILLO PARA PEDIR LOS
             DATOS:
             - NOMBRE
             - APELLIDOS
@@ -28,5 +28,5 @@
 </div>
 
  <script src="https: /cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"> </script>
-31 </body>
-32 </html>
+ </body>
+ </html>

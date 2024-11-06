@@ -19,17 +19,17 @@ crossorigin="anonymous">
 <div>
 <h2>Productos disponibles </h2>
 
-    <-- aqui va la tabla de productos -->
+    <!-- aqui va la tabla de productos -->
  </div>
 
 
- <-- aqui incluye los datos de contacto del cliente con un toast live -->
- <-- Button trigger modal -->
+ <!-- aqui incluye los datos de contacto del cliente con un toast live -->
+ <!-- Button trigger modal -->
 
  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-
 target="#staticBackdrop"> Mi perfil 🖐</button>
 
- <-- Modal que al clicar aparece info de contacto-->
+ <!-- Modal que al clicar aparece info de contacto-->
 
  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-
 keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-
@@ -45,7 +45,7 @@ label="Close"></button>
 
  </div>
  <div class="modal-body">
- <-- AQUI VA LA INFORMACIÓN DE CONTACTO -->
+ <!-- AQUI VA LA INFORMACIÓN DE CONTACTO -->
  </div>
 
  </div>
@@ -55,13 +55,13 @@ label="Close"></button>
 
 
 
- <-- Modal con la lista de productos que están disponibles -->
+ <!-- Modal con la lista de productos que están disponibles -->
 
  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
- <-- AQUI LA LISTA DE PRODUCTOS -->
+ <!-- AQUI LA LISTA DE PRODUCTOS -->
 </div>
 
- <-- aqui va un footer -->
+ <!-- aqui va un footer -->
 </div>
 
 
