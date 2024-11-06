@@ -2,15 +2,15 @@
     <div class="container-fluid d-flex justify-content-between">
     <!-- Logo -->
     <a class="navbar-brand" href="index.php">
-        <img src="logo-mercadona" alt="logo-mercadona" class="img-fluid" style="height: 50px;">
+    <img src='tienda/data/assets/logoMercadona.jpg' alt="logoMercadona" style="width: 100px; height: 100px;">
     </a>
 
     <div>
     <!-- mensajes + avatar foto perfil -->
 
         <div class="d-flex align-items-center">
-            <h2 class="me-3 mb-0 px-4">Bienvenido ALUMNO ! /h2>
-            <img src="" alt="Avatar" class="rounded-circle" style="width: 50px; height: 50px;">
+            <h2 class="me-3 mb-0 px-4">Bienvenido <?php echo $_POST['nombre']?> !</h2>
+            <img src='<?php echo $_POST['foto']?>' alt="Avatar" class="rounded-circle" style="width: 50px; height: 50px;">
         </div>
 
 

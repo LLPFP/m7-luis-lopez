@@ -24,6 +24,52 @@
             - CÓDIGO DE SOCIO
             - CORREO ELECTRÓNICO
             -->
+            <div class="row justify-content-center">
+            <div class="col-md-6">  
+
+            <form class="needs-validation" action="index.php" method="post" >
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label">Apellidos:</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto:</label>
+                    <input type="text" class="form-control" id="foto" name="foto" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Número de teléfono:</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" pattern="[0-9]{9}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI:</label>
+                    <input type="text" class="form-control" id="dni" name="dni" pattern="[0-9]{8}[A-Za-z]{1}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="codigo_socio" class="form-label">Código de socio:</label>
+                    <input type="text" class="form-control" id="codigo_socio" name="codigo_socio" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+
         </div>
 </div>
 
