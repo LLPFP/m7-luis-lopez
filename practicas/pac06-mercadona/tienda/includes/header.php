@@ -2,7 +2,7 @@
     <div class="container-fluid d-flex justify-content-between">
     <!-- Logo -->
     <a class="navbar-brand" href="index.php">
-    <img src='tienda/data/assets/logoMercadona.jpg' alt="logoMercadona" style="width: 100px; height: 100px;">
+    <img src='tienda/data/assets/logoMercadona.jpg' alt="logoMercadona" class="img-fluid"  style="height: 50px;">
     </a>
 
     <div>
