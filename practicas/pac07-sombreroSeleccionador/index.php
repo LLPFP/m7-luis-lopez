@@ -19,10 +19,11 @@
 
 </head>
 <body class="text-warning" style="background-color: rgb(242, 242, 242);">
-<div class="container mt-5">
-<h1 class="text-center mb-4">Benvinguts a Hogwarts</h1>
+
+<div class="container mt-5 bg-dark">
+<h1 class="text-center  pt-5 mb-4 bg-dark">Benvinguts a Hogwarts</h1>
 <!-- AQUI VA EL FORMULARI-->
-<div class="container mt-5 rounded bg-dark">
+<div class="container  rounded bg-dark">
 
             <div class="row justify-content-center">
             <div class="col-md-6">  
