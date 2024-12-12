@@ -15,6 +15,11 @@ class Llibre
         $this->autor = $autor;
     }
 
+
+    public function getAutor(){
+        echo "El autor es " . $this->autor;
+    }
+
     public function desripcion(){
         echo "Este es el libro " . $this->titol . " y su autor es: " . $this->autor;
     }
