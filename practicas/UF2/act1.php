@@ -59,6 +59,7 @@ class Calculadora{
 
     public function restar(){
 
+        
     }
 
     public function multiplicar(){
@@ -67,7 +68,7 @@ class Calculadora{
     }
 
     public function dividir(){
-        
+
     }
 }
 
