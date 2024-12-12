@@ -42,6 +42,14 @@ class Persona{
     
 }
 
+class Producte{
+    public string $nom; 
+    public int $preu;
+
+    public function mostrarPreu(){
+        return "El precio es de " . $this->preu;
+    }
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
