@@ -51,6 +51,26 @@ class Producte{
     }
 }
 
+class Calculadora{
+
+    public function sumar(){
+
+    }
+
+    public function restar(){
+
+    }
+
+    public function multiplicar(){
+
+
+    }
+
+    public function dividir(){
+        
+    }
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = $_POST['nom'];
