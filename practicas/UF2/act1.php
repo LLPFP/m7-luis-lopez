@@ -28,4 +28,15 @@ class Llibre
 }
 
 
+class Persona{
+    public string $nom = "Anna";
+    public int $edad = 25;
+
+    public function saludar(){
+        echo "Hola soy " . $this->nom . " y tengo " . $this->edad;
+
+    }
+}
+
+
 ?>
