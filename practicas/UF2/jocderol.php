@@ -1,21 +1,50 @@
 <?php 
 
 class Campeon{
-    public string $nom;
+    public string $nombre;
     public int $hp;
-    public int $atac;
+    public int $atack;
     public int $defensa;
     public string $habilidad;
 
 
-    public function _construct($nom, $hp, $atac, $defensa, $habilidad){
-        $this->nom = $nom;
+    public function _construct($nombre, $hp, $atac, $defensa, $habilidad){
+        $this->nombre = $nombre;
         $this->hp = $hp;
-        $this->atac = $atac;
+        $this->atack = $atac;
         $this->defensa = $defensa;
-        $this->habilidad = $defensa;
+        $this->habilidad = $habilidad;
     }
 
+    public function recibirDaño($daño){
+
+    }
+
+    public function atacar($objectivo){
+
+    }
+
+}
+
+
+
+class Jugador{
+    public string $nombre;
+    public $campeon;
+
+
+    public function _construct($nombre){
+        $this->nombre = $nombre;
+    }
+
+
+    public function seleccionarCampeon($campeon){
+
+    }
+
+    public function realizarAcciom($acciom, $objectivi){
+
+    }
 }
 
 
