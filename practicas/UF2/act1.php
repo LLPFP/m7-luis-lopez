@@ -36,38 +36,77 @@ class Persona{
 
 
     public function saludar(){
-        return "Hola soy " . $this->nom . " y tengo " . $this->edad;
+        
+        return "Hola soy " . $this->nom . " y tengo " . $this->edad ;
     }
 
     
 }
 
-class Producte{
-    public string $nom; 
-    public int $preu;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'], $_POST['edat'])) {
+    $nom = $_POST['nom'];
+    $edat = (int)$_POST['edat'];
 
-    public function mostrarPreu(){
-        return "El precio es de " . $this->preu;
+    $persona = new Persona($nom, (int) $edat);
+    echo $persona->saludar();
+}
+
+
+class Producte
+{
+    public string $nom;
+    public float $preu;
+
+    public function __construct(string $nom, float $preu)
+    {
+        $this->nom = $nom;
+        $this->preu = $preu;
+    }
+
+    public function toHtmlRow(): string
+    {
+        return "<tr><td>" . $this->nom . "</td><td>" . number_format($this->preu, 2) . "€</td></tr>";
     }
 }
 
+$productes = [
+    new Producte("Llibre", 12.50),
+    new Producte("Llapis", 0.99),
+    new Producte("Portàtil", 899.99),
+];
+
+echo "<table border='1'><tr><th>Nom</th><th>Preu</th></tr>";
+foreach ($productes as $producte) {
+    echo $producte->toHtmlRow();
+}
+echo "</table>";
+
+
 class Calculadora{
 
-    public function sumar(){
+    public function sumar(int $a, int $b){
+        return $a+$b;
 
     }
 
-    public function restar(){
-
-        
-    }
-
-    public function multiplicar(){
-
+    public function restar(int $a, int $b){
+        return $a-$b;
 
     }
 
-    public function dividir(){
+    public function multiplicar(int $a, int $b){
+        return $a*$b;
+
+    }
+
+    public function dividir(int $a, int $b){
+
+        if($b==0){
+            return "No se puede devidir entre zero.";
+        }else{
+            return $a / $b;
+        }
+
 
     }
 }
@@ -83,29 +122,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
+
 ?>
 
 
 <!DOCTYPE html>
-<html lang="ca">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulari Persona</title>
+    <title>Exercicis PHP</title>
 </head>
 <body>
-
-    <h2>Introdueix el teu nom i edat</h2>
-
+    <!-- Exercici 6: Crear una Persona -->
+    <h2>Crear una Persona</h2>
     <form method="POST" action="">
         <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" required><br><br>
-
-        <label for="edad">Edat:</label>
-        <input type="number" id="edad" name="edad" required><br><br>
-
-        <input type="submit" value="Enviar">
+        <input type="text" id="nom" name="nom" required>
+        <label for="edat">Edat:</label>
+        <input type="number" id="edat" name="edat" required>
+        <button type="submit">Crear Persona</button>
     </form>
+
+    <br>
 
 </body>
 </html>
