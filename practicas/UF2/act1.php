@@ -63,9 +63,13 @@ class Producte
         $this->preu = $preu;
     }
 
-    public function toHtmlRow(): string
+    public function mostrarPreu(){
+        return "El preu es de: " .$this->preu ;
+    }
+
+    public function filasTabla(): string
     {
-        return "<tr><td>" . $this->nom . "</td><td>" . number_format($this->preu, 2) . "€</td></tr>";
+        return "<tr><td>" . $this->nom . "</td><td>" . $this->preu . "€</td></tr>";
     }
 }
 
@@ -77,7 +81,7 @@ $productes = [
 
 echo "<table border='1'><tr><th>Nom</th><th>Preu</th></tr>";
 foreach ($productes as $producte) {
-    echo $producte->toHtmlRow();
+    echo $producte->filasTabla();
 }
 echo "</table>";
 
@@ -122,6 +126,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
+class Animal
+{
+    public string $nom;
+    public string $tipus;
+
+    public function __construct(string $nom, string $tipus)
+    {
+        $this->nom = $nom;
+        $this->tipus = $tipus;
+    }
+
+    public function descriure(): string
+    {
+        return "L'animal és un " . $this->tipus . " i es diu " . $this->nom . ".";
+    }
+}
+
+// Processament del formulari
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'], $_POST['tipus'])) {
+    $nom = htmlspecialchars($_POST['nom']);
+    $tipus = htmlspecialchars($_POST['tipus']);
+
+    $animal = new Animal($nom, $tipus);
+    echo $animal->descriure();
+}
+
+
+
 
 ?>
 
@@ -143,6 +175,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <br>
+
+    <h2>Crear un Animal</h1>
+    <form method="POST" action="">
+        <label for="nom">Nom de l'animal:</label>
+        <input type="text" id="nom" name="nom" required>
+        <br>
+        <label for="tipus">Tipus d'animal:</label>
+        <input type="text" id="tipus" name="tipus" required>
+        <br>
+        <button type="submit">Descripció</button>
+    </form>
 
 </body>
 </html>

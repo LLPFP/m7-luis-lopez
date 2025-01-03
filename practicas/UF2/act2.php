@@ -53,7 +53,7 @@ echo $persona2->benvinguda() . "<br>";
 // 3. Classe Calculadora amb mètode sumar
 class Calculadora
 {
-    public function sumar(float $a, float $b): float
+    public function sumar(int $a,  int $b): int
     {
         return $a + $b;
     }
@@ -98,9 +98,9 @@ echo $animal->saludar() . "<br>";
 class Producte
 {
     public string $nom;
-    public float $preu;
+    public int $preu;
 
-    public function __construct(string $nom, float $preu)
+    public function __construct(string $nom, int $preu)
     {
         $this->nom = $nom;
         $this->preu = $preu;
