@@ -3,11 +3,7 @@
 class Baraja{
 
     public array $conjunto_cartas = [
-        'blue_0', 'blue_1', 'blue_2', 'blue_3', 'blue_4', 'blue_5', 'blue_6', 'blue_7', 'blue_8', 'blue_9', 'blue_reverse', 'blue_skip', 'blue_+2',
-        'red_0', 'red_1', 'red_2', 'red_3', 'red_4', 'red_5', 'red_6', 'red_7', 'red_8', 'red_9', 'red_reverse', 'red_skip', 'red_+2',
-        'yellow_0', 'yellow_1', 'yellow_2', 'yellow_3', 'yellow_4', 'yellow_5', 'yellow_6', 'yellow_7', 'yellow_8', 'yellow_9', 'yellow_reverse', 'yellow_skip', 'yellow_+2',
-        'green_0', 'green_1', 'green_2', 'green_3', 'green_4', 'green_5', 'green_6', 'green_7', 'green_8', 'green_9', 'green_reverse', 'green_skip', 'green_+2',
-        'wild', 'wild_+4'
+        '0_blue, 1_blue, 2_blue, 3_blue, 4_blue, 5_blue, 6_blue, 7_blue, 8_blue, 9_blue, reverse_blue, skip_blue, picker_blue, 0_red, 1_red, 2_red, 3_red, 4_red, 5_red, 6_red, 7_red, 8_red, 9_red, reverse_red, skip_red, picker_red, 0_green, 1_green, 2_green, 3_green, 4_green, 5_green, 6_green, 7_green, 8_green, 9_green, reverse_green, skip_green, picker_green, 0_yellow, 1_yellow, 2_yellow, 3_yellow, 4_yellow, 5_yellow, 6_yellow, 7_yellow, 8_yellow, 9_yellow, reverse_yellow, skip_yellow, picker_yellow',
     ];
 
 

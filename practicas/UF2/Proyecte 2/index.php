@@ -18,11 +18,15 @@ require_once('baraja.class.php');
     <link rel="stylesheet" href="index.css">
 
 </head>
-<body>
-    <header class="bg-red-400 text-white py-5 px-5">
-        <h1 class="text-center text-5xl font-bold ">Uno!</h1>
+<body class="bodyJuego">
+    <video autoplay muted loop>
+        <source src="./img/video_fondo_uno.mp4" type="video/mp4">
+    </video>
+    <header class="bg-red-500 text-amber-300 py-5 px-5 ">
+        <h1 class="text-center text-5xl font-bold w-50 textoUno ">UNO !</h1>
     </header>
     <main>
+
         <div class="container mx-auto p-4">
             <div class="flex justify-center">
                 <div class="bg-white p-4 rounded-lg shadow-lg">
@@ -30,7 +34,7 @@ require_once('baraja.class.php');
                     <div class="grid grid-cols-4 gap-4">
                         <?php 
                         
-                        pinta_carta
+                        
 
 
                         ?>
