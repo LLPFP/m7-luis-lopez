@@ -1,7 +1,6 @@
 <?php 
 session_start();
 
-require_once('carta.class.php');
 require_once('baraja.class.php');
 
 
@@ -34,8 +33,9 @@ require_once('baraja.class.php');
                     <div class="grid grid-cols-4 gap-4">
                         <?php 
                         
+                       
                         
-
+                        
 
                         ?>
                     </div>

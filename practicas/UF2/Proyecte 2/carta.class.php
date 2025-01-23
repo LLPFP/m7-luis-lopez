@@ -1,11 +1,11 @@
 <?php
 class Carta{
-    public string $palo;
-    public int $numero;
-    public string $index;
+    public  $palo;
+    public  $numero;
+    public  $index;
 
 
-    public function __construct(string $palo, int $numero, string $index){
+    public function __construct( $palo , $numero,  $index){
         $this->palo = $palo;
         $this->numero = $numero;
         $this->index = $index;
@@ -15,15 +15,15 @@ class Carta{
     public function pinta_carta(): string {
         return "
         <div>
-            <img src='./img/cartas/'{$this->palo}_{$this->numero}.png' alt='{$this->palo} {$this->numero}'>
+            <img src='./img/'{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
         </div>";
     }
 
     public function pinta_carta_link(): string {
         return "
         <div>
-            <a href='./img/cartas/'{$this->palo}_{$this->numero}.png' target='_blank'>
-                <img src='./img/cartas/'{$this->palo}_{$this->numero}.png' alt='{$this->palo} {$this->numero}'>
+            <a href='index.php?.$this->numero&$this->palo&$this->index'>
+                <img src='./img/{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
             </a>
         </div>";
 
@@ -32,7 +32,7 @@ class Carta{
     public function pinta_carta_girada(){
         return "
         <div>
-            <img src='./img/cartas/'{$this->palo}_{$this->numero}.png' alt='{$this->palo} {$this->numero}'>
+            <img src='./img/cartas/''>
         </div>";
     }
 }
