@@ -22,7 +22,7 @@ class Carta{
     public function pinta_carta_link(): string {
         return "
         <div>
-            <a href='index.php?.$this->numero&$this->palo&$this->index'>
+            <a href='index.php?.{$this->numero}&{$this->palo}&{$this->index}'>
                 <img src='./img/{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
             </a>
         </div>";

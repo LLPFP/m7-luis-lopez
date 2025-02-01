@@ -1,6 +1,5 @@
 <?php
 
-require_once('carta.class.php');
 require_once('baraja.class.php');
 
 class Partida{
@@ -18,7 +17,7 @@ class Partida{
         $this->numero_jugadores = $numero_jugadores;
         $this->numero_cartas = $numero_cartas;
         $this->turno = $turno;
-        $this->baraja = $baraja;
+        $this->baraja = new Baraja();
         $this->carta_en_mesa = $carta_en_mesa;
         $this->array_jugadores = $array_jugadores;
         $this->constante_sentido = $constante_sentido;
@@ -29,7 +28,19 @@ class Partida{
         foreach ($this->array_jugadores as $jugador) {
             $jugador->baraja->mezcla();
             $jugador->baraja->pinta_Baraja();
+    };
     }
+
+    public function normas_uno(){
+        echo "hola";
+    }
+
+    public function cambiar_turno(){
+        echo "hola";
+    }
+
+    public function cambiar_sentido(){
+        echo "hola";
     }
 
 }

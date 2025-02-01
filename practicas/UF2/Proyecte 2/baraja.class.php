@@ -5,15 +5,16 @@ require_once('carta.class.php');
 
 class Baraja{
 
-    public array $conjunto_cartas = [];
+    public array $conjunto_cartas;
     public string $color;
 
     public $contadorIndice = 1;
 
 
-    public function __construct()
+    public function __construct($conjunto_cartas = [], $color = '')
     {
-        $this->conjunto_cartas = [];
+        $this->conjunto_cartas = $conjunto_cartas;
+        $this->color = $color;
     }
 
 

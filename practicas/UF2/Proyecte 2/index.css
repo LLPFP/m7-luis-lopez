@@ -1,11 +1,13 @@
 .bodyJuego{
   background-color: #e6e6e6;
+  overflow-y: hidden;
+
 }
 
 .bodyForm{
   background-color: #ffffff;
   color: #616161;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 video{
