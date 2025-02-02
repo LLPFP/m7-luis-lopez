@@ -11,22 +11,41 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
     $numCartas = $_POST['cartas'];
 
     $array_jugadores = [];
-    for($i = 0; $i < $numJugadores; $i++) {
-        $baraja = new Baraja();
-        $baraja->crea_Baraja();
-        $baraja->mezcla();
-        $jugador = new Jugador($baraja, $i);
+
+    // 1. Crear baraja principal
+    $barajaPrincipal = new Baraja();
+    $barajaPrincipal->crea_Baraja();
+    $barajaPrincipal->mezcla();
+
+    // 2. Repartir cartas a jugadores
+    for ($i = 0; $i < $numJugadores; $i++) {
+        // Tomar cartas de la baraja principal
+        $manoInicial = array_splice($barajaPrincipal->conjunto_cartas, 0, $numCartas);
+        
+        // Crear mano del jugador
+        $manoJugador = new Baraja();
+        $manoJugador->conjunto_cartas = $manoInicial;
+        
+        $jugador = new Jugador($manoJugador, $i);
         $array_jugadores[] = $jugador;
     }
-    $barajaPartida = new Baraja();
-    $barajaPartida->crea_Baraja();
-    $barajaPartida->mezcla();
 
-    $partida = new Partida($numJugadores, $numCartas, 1, $barajaPartida, $barajaPartida->conjunto_cartas[0], $array_jugadores, 1);
-    
+    // 3. Obtener carta inicial para la mesa
+    $cartaInicial = array_shift($barajaPrincipal->conjunto_cartas);
+
+    // 4. Crear partida con configuración correcta
+    $partida = new Partida(
+        $numJugadores,
+        $numCartas,
+        1,                          // Turno inicial
+        $barajaPrincipal,           // Baraja restante
+        $cartaInicial,              // Primera carta en mesa
+        $array_jugadores,
+        1                           // Sentido del juego
+    );
+
     $_SESSION['partida'] = $partida;
 }
-
 
 
 
@@ -57,13 +76,22 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
             <div class="flex justify-center">
                 <div class="bg-white p-4 rounded-lg shadow-lg">
                     <h2 class="text-2xl font-bold ms-4 mb-4">Cartas</h2>
-                    <div class="grid grid-cols-12 gap-4">
+                    <div class="grid grid-cols-8 gap-4">
                        <?php 
                         if (isset($_SESSION['partida'])) {
                             $partida = $_SESSION['partida'];
                             $partida->jugar();
                         }
-                    ?>
+
+                        
+?>
+                        <div></div>
+                        <div class="flex flex-col items-center">
+                            <h2 class="text-2xl font-bold">Robar</h2>
+                            <a href="index.php">
+                                <img src="./img/carta_girada.png" alt="carta_girada" class="w-16 h-24">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
