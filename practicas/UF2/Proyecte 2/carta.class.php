@@ -15,14 +15,14 @@ class Carta{
     public function pinta_carta(): string {
         return "
         <div>
-            <img src='./img/'{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
+            <img src='./img/{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
         </div>";
     }
 
     public function pinta_carta_link(): string {
         return "
         <div>
-            <a href='index.php?.{$this->numero}&{$this->palo}&{$this->index}'>
+            <a href='index.php?numero={$this->numero}&palo={$this->palo}&index={$this->index}'>
                 <img src='./img/{$this->numero}_{$this->palo}.png' alt='{$this->numero} {$this->palo}'>
             </a>
         </div>";
@@ -32,7 +32,7 @@ class Carta{
     public function pinta_carta_girada(){
         return "
         <div>
-            <img src='./img/cartas/''>
+            <img src='./img/carta_girada.png' alt='carta girada'>
         </div>";
     }
 }
