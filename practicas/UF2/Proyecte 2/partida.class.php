@@ -28,8 +28,6 @@
 
         public function jugar(){
 
-           
-
             $turno_actual = $this->turno;
 
             foreach ($this->array_jugadores as $jugador) {
@@ -67,22 +65,21 @@
 
             
 
-                // Verificar si la carta seleccionada es válida para jugar
-                if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo) {
-                    // Crear nueva carta y actualizar la carta en mesa
-                    $this->carta_en_mesa = new Carta($paloCarta, $numeroCarta, $indexCarta);
-                    
-                    $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
+            // Verificar si la carta seleccionada es válida para jugar
+            if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo || $numeroCarta == 'four') {
                 
+                // Crear nueva carta y actualizar la carta en mesa
+                $this->carta_en_mesa = new Carta($paloCarta, $numeroCarta, $indexCarta);
                     
+                $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
 
-                    $this->normas_uno();
+                $this->normas_uno();
 
-                    // Mostrar la nueva carta en mesa
-                    echo "<script>window.location.href='index.php';</script>";
+                // Mostrar la nueva carta en mesa
+                echo "<script>window.location.href='index.php';</script>";
 
-                    exit;
-                }
+                exit;
+            }
             
 
             // Verificar si algún jugador ha ganado
@@ -106,7 +103,8 @@
                     break;
                     
                 case 'skip':
-                    // Saltar siguiente jugador: cambiar turno dos veces
+                
+                // Saltar siguiente jugador: cambiar turno dos veces
                 for ($i = 0; $i < 2; $i++) {
                     $this->cambiar_turno();
                 }
@@ -121,19 +119,49 @@
 
                     }
                     break;
-                case 'four_card': 
-                    // Añadir dos carta extra a la mano del jugador actual
-                    // El siguiente jugador roba 2 cartas
-                    $this->cambiar_turno(); // Cambiar al siguiente jugador
+                case 'four': 
+                       // Asegurarse de que el jugador ha elegido un color
+            if (isset($_POST['color'])) {
+                // Obtener el color elegido
+                $colorElegido = $_POST['color'];
+                $paloCarta = $colorElegido; // Cambiar el palo de la carta a lo elegido
+
+                // Actualizar la carta en mesa con el nuevo palo
+                $this->carta_en_mesa->palo = $paloCarta;
+
+                // Robar 4 cartas para el jugador
+                $this->cambiar_turno(); // Cambiar al siguiente jugador
                 for ($i = 0; $i < 4; $i++) {
                     $this->robar_carta_jugador_actual(); // Robar 4 cartas
                 }
-                    break;
+
+                // Ahora que todo ha sido procesado, redirigir a la página de juego
+                echo "<script>window.location.href='index.php';</script>";
+                exit; // Detener la ejecución después de la redirección
+            } else {
+                // Si no se ha seleccionado un color, mostrar el formulario
+                $this->mostrarFormularioColor();
+                return; // Detener la ejecución hasta que se elija un color
+            }
+            break;
 
                 default:
                     // Para cartas normales, cambiar turno una vez
                     $this->cambiar_turno();
             }
+        }
+        
+
+        public function mostrarFormularioColor() {
+            echo '<div class="text-center">';
+            echo '<h2>Elige un color:</h2>';
+            echo '<form method="POST" action="index.php">';
+            echo '<button type="submit" name="color" value="rojo" class="btn btn-danger">Rojo</button>';
+            echo '<button type="submit" name="color" value="azul" class="btn btn-primary">Azul</button>';
+            echo '<button type="submit" name="color" value="verde" class="btn btn-success">Verde</button>';
+            echo '<button type="submit" name="color" value="amarillo" class="btn btn-warning">Amarillo</button>';
+            echo '</form>';
+            echo '</div>';
         }
         
 
