@@ -83,7 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
                             $partida->jugar();
                         }
 
-                        
 ?>
                         <div></div>
                         <div class="flex flex-col items-center">

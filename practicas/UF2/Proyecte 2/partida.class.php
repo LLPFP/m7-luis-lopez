@@ -61,11 +61,12 @@
             }
 
             // Capturar datos de la URL de manera segura
-            $numeroCarta = $_GET['numero'] ?? null;
-            $paloCarta = $_GET['palo'] ?? null;
-            $indexCarta = $_GET['index'] ?? null;
+            $numeroCarta = $_GET['numero'];
+            $paloCarta = $_GET['palo'];
+            $indexCarta = $_GET['index'];
 
-        
+            
+
                 // Verificar si la carta seleccionada es válida para jugar
                 if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo) {
                     // Crear nueva carta y actualizar la carta en mesa
@@ -106,16 +107,27 @@
                     
                 case 'skip':
                     // Saltar siguiente jugador: cambiar turno dos veces
+                for ($i = 0; $i < 2; $i++) {
                     $this->cambiar_turno();
-                    $this->cambiar_turno();
+                }
                     break;
                     
                 case 'picker': 
                     // Añadir dos carta extra a la mano del jugador actual
                     // El siguiente jugador roba 2 cartas
                     $this->cambiar_turno(); // Cambiar al siguiente jugador
-                    $this->robar_carta_jugador_actual(); // Robar 2 cartas
-                    $this->robar_carta_jugador_actual(); // Robar 2 cartas
+                    for($i = 0; $i < 2; $i++) {
+                        $this->robar_carta_jugador_actual(); // Robar 2 cartas
+
+                    }
+                    break;
+                case 'four_card': 
+                    // Añadir dos carta extra a la mano del jugador actual
+                    // El siguiente jugador roba 2 cartas
+                    $this->cambiar_turno(); // Cambiar al siguiente jugador
+                for ($i = 0; $i < 4; $i++) {
+                    $this->robar_carta_jugador_actual(); // Robar 4 cartas
+                }
                     break;
 
                 default:

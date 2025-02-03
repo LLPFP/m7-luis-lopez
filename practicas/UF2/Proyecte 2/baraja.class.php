@@ -28,7 +28,17 @@ class Baraja{
             $this->conjunto_cartas[] = new Carta($color, 'reverse', $this->contadorIndice++);
             $this->conjunto_cartas[] = new Carta($color, 'skip', $this->contadorIndice++);
             $this->conjunto_cartas[] = new Carta($color, 'picker', $this->contadorIndice++);
+           
         }        
+
+        // Afegeix cartes especials EXTRA
+        for($i = 0; $i < 4; $i++){
+                $this->conjunto_cartas[] = new Carta('card', 'four', $this->contadorIndice++);
+                $this->conjunto_cartas[] = new Carta('changer', 'color', $this->contadorIndice++);
+        }
+        
+       
+
     }
 
 
