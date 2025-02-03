@@ -1,6 +1,8 @@
     <?php
-
+    require_once('jugador.class.php');
     require_once('baraja.class.php');
+
+    
 
     class Partida{
         public $numero_jugadores;
@@ -60,7 +62,7 @@
                     // Crear nueva carta y actualizar la carta en mesa
                     $this->carta_en_mesa = new Carta($paloCarta, $numeroCarta, $indexCarta);
                     
-                $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
+                    $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
                 
                     
 
