@@ -75,8 +75,7 @@
 
                 $this->normas_uno();
 
-                // Mostrar la nueva carta en mesa
-                echo "<script>window.location.href='index.php';</script>";
+               
 
                 exit;
             }
@@ -119,31 +118,23 @@
 
                     }
                     break;
+
                 case 'four': 
-                       // Asegurarse de que el jugador ha elegido un color
-            if (isset($_POST['color'])) {
-                // Obtener el color elegido
-                $colorElegido = $_POST['color'];
-                $paloCarta = $colorElegido; // Cambiar el palo de la carta a lo elegido
-
-                // Actualizar la carta en mesa con el nuevo palo
-                $this->carta_en_mesa->palo = $paloCarta;
-
-                // Robar 4 cartas para el jugador
-                $this->cambiar_turno(); // Cambiar al siguiente jugador
-                for ($i = 0; $i < 4; $i++) {
-                    $this->robar_carta_jugador_actual(); // Robar 4 cartas
-                }
-
-                // Ahora que todo ha sido procesado, redirigir a la página de juego
-                echo "<script>window.location.href='index.php';</script>";
-                exit; // Detener la ejecución después de la redirección
-            } else {
-                // Si no se ha seleccionado un color, mostrar el formulario
-                $this->mostrarFormularioColor();
-                return; // Detener la ejecución hasta que se elija un color
-            }
-            break;
+                    if (isset($_POST['color'])) {
+                        $colorElegido = $_POST['color'];
+                        $this->carta_en_mesa->palo = $colorElegido;
+                            
+                        $this->cambiar_turno();
+                        for ($i = 0; $i < 4; $i++) {
+                            $this->robar_carta_jugador_actual();
+                        }
+                        echo "<script>window.location.href='index.php';</script>";
+                            exit;
+                        } else {
+                            $this->mostrarFormularioColor();
+                            exit; // Detener completamente la ejecución aquí
+                        }
+                        break;
 
                 default:
                     // Para cartas normales, cambiar turno una vez
@@ -153,15 +144,22 @@
         
 
         public function mostrarFormularioColor() {
-            echo '<div class="text-center">';
-            echo '<h2>Elige un color:</h2>';
-            echo '<form method="POST" action="index.php">';
-            echo '<button type="submit" name="color" value="rojo" class="btn btn-danger">Rojo</button>';
-            echo '<button type="submit" name="color" value="azul" class="btn btn-primary">Azul</button>';
-            echo '<button type="submit" name="color" value="verde" class="btn btn-success">Verde</button>';
-            echo '<button type="submit" name="color" value="amarillo" class="btn btn-warning">Amarillo</button>';
-            echo '</form>';
-            echo '</div>';
+            echo '
+            <div id="colorModal" class="modal" style="display:block;">
+                <div class="modal-content">
+                    <h3>Elige un color</h3>
+                    <form method="POST">
+                        <button type="submit" name="color" value="rojo">Rojo</button>
+                        <button type="submit" name="color" value="azul">Azul</button>
+                        <button type="submit" name="color" value="verde">Verde</button>
+                        <button type="submit" name="color" value="amarillo">Amarillo</button>
+                    </form>
+                </div>
+            </div>
+            <script>
+                document.getElementById("colorModal").style.display = "block";
+            </script>
+            ';
         }
         
 
