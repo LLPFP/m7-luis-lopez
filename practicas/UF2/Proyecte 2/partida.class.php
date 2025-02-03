@@ -1,7 +1,7 @@
-    <?php
+<?php
     require_once('jugador.class.php');
     require_once('baraja.class.php');
-
+    require_once('carta.class.php');
     
 
     class Partida{
@@ -28,7 +28,7 @@
 
         public function jugar(){
 
-
+           
 
             $turno_actual = $this->turno;
 
@@ -69,19 +69,11 @@
                     $this->normas_uno();
 
                     // Mostrar la nueva carta en mesa
-                    echo "<script>window.location.href = 'index.php';</script>";
+                    echo "<script>window.location.href='index.php';</script>";
 
                     exit;
                 }
             
-
-
-            
-
-
-            
-
-                
 
             // Verificar si algún jugador ha ganado
             foreach ($this->array_jugadores as $index => $jugador) {

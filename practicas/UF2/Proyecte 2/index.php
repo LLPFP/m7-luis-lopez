@@ -1,9 +1,9 @@
 <?php 
 
-session_start();
 
 require_once('jugador.class.php');
 require_once('partida.class.php');
+session_start();
 
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['cartas'])) {
@@ -43,10 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
         $array_jugadores,
         1                           // Sentido del juego
     );
+    $_SESSION['partida'] = $partida;
 
 }
 
-    $_SESSION['partida'] = $partida;
 
 
 
