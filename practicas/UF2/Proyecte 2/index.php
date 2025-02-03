@@ -88,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
                         <div></div>
                         <div class="flex flex-col items-center">
                             <h2 class="text-2xl font-bold">Robar</h2>
-                            <a href="index.php">
-                                <img src="./img/carta_girada.png" alt="carta_girada" class="w-16 h-24">
+                            <a href="index.php?action=robar">
+                            <img src="./img/carta_girada.png" alt="carta_girada" class="w-16 h-24">
                             </a>
                         </div>
                     </div>

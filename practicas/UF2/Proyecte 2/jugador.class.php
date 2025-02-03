@@ -13,7 +13,14 @@ class Jugador {
         $this->id = $id+1;
     }
 
-    public function afegir_carta() {
+    public function robar_carta(&$barajaPrincipal) {
+        if (!empty($barajaPrincipal->conjunto_cartas)) {
+            // Toma la primera carta de la baraja principal
+            $cartaRobada = array_shift($barajaPrincipal->conjunto_cartas);
+            
+            // Añade la carta a la mano del jugador
+            $this->mano->conjunto_cartas[] = $cartaRobada;
+        }
     }
 
     public function eliminar_carta($numeroCarta, $paloCarta, $turno, $array_jugadores) {

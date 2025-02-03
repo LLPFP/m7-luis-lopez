@@ -51,6 +51,15 @@
             echo "<div class=''>" . $this->carta_en_mesa->pinta_carta() . "</div>";
             echo "</div>";
 
+               // Capturar acción de robar carta
+            if (isset($_GET['action']) && $_GET['action'] == 'robar') {
+                $this->robar_carta_jugador_actual();
+        
+                // Redirigir para evitar reenvío del formulario
+                echo "<script>window.location.href='index.php';</script>";
+                exit;
+            }
+
             // Capturar datos de la URL de manera segura
             $numeroCarta = $_GET['numero'] ?? null;
             $paloCarta = $_GET['palo'] ?? null;
@@ -103,7 +112,11 @@
                     
                 case 'picker': 
                     // Añadir dos carta extra a la mano del jugador actual
-
+                    // El siguiente jugador roba 2 cartas
+                    $this->cambiar_turno(); // Cambiar al siguiente jugador
+                    $this->robar_carta_jugador_actual(); // Robar 2 cartas
+                    $this->robar_carta_jugador_actual(); // Robar 2 cartas
+                    break;
 
                 default:
                     // Para cartas normales, cambiar turno una vez
@@ -112,8 +125,13 @@
         }
         
 
-
-        public function robar_carta(){
+        public function robar_carta_jugador_actual() {
+            // Obtener jugador actual
+            $jugadorActual = $this->array_jugadores[$this->turno - 1];
+            
+            // Robar carta de la baraja principal
+            $jugadorActual->robar_carta($this->baraja);
+            
             
         }
 
