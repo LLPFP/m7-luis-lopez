@@ -67,7 +67,7 @@ require_once('carta.class.php');
             
 
             // Verificar si la carta seleccionada es válida para jugar
-            if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo || $numeroCarta == 'four') {
+            if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo || $numeroCarta == 'four' || $numeroCarta == 'color' || $paloCarta == $this->carta_en_mesa->index) {
 
                 // Crear nueva carta y actualizar la carta en mesa
                 $this->carta_en_mesa = new Carta($paloCarta, $numeroCarta, $indexCarta);
@@ -84,7 +84,7 @@ require_once('carta.class.php');
                 
 
                 // Redirigir para evitar reenvío del formulario
-            header('Location: index.php');
+                echo "<script>window.location.href='index.php';</script>";
                 exit;
             }
             
@@ -136,20 +136,30 @@ require_once('carta.class.php');
                 case 'four': 
                     if (isset($_POST['color'])) {
                         $colorElegido = $_POST['color'];
-                        $this->carta_en_mesa->palo = $colorElegido;
+                        $this->carta_en_mesa->index = $colorElegido;
                             
                         $this->cambiar_turno();
                         for ($i = 0; $i < 4; $i++) {
                             $this->robar_carta_jugador_actual();
                         }
                         $this->cambiar_turno();
-
                         } else {
                             $this->mostrarFormularioColor();
                             exit; // Detener completamente la ejecución aquí
                         }
                         break;
-
+                    case 'color': 
+                        if (isset($_POST['color'])) {
+                            $colorElegido = $_POST['color'];
+                            $this->carta_en_mesa->index = $colorElegido;
+                                    
+                            
+                            $this->cambiar_turno();
+                            } else {
+                                $this->mostrarFormularioColor();
+                                exit; // Detener completamente la ejecución aquí
+                            }
+                            break;
                 default:
                     // Para cartas normales, cambiar turno una vez
                     $this->cambiar_turno();
@@ -159,21 +169,21 @@ require_once('carta.class.php');
 
         public function mostrarFormularioColor() {
             echo '
-            <div id="colorModal" class="modal" style="display:block;">
-                <div class="modal-content">
-                    <h3>Elige un color</h3>
-                    <form method="POST">
-                        <button type="submit" name="color" value="red">Rojo</button>
-                        <button type="submit" name="color" value="blue">Azul</button>
-                        <button type="submit" name="color" value="green">Verde</button>
-                        <button type="submit" name="color" value="yellow">Amarillo</button>
-                    </form>
-                </div>
-            </div>
-            <script>
-                document.getElementById("colorModal").style.display = "block";
-            </script>
-            ';
+<div id="colorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h3 class="text-xl font-bold mb-4 text-center">Elige un color</h3>
+        <form method="POST" class="flex flex-col space-y-4">
+            <button type="submit" name="color" value="red" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Rojo</button>
+            <button type="submit" name="color" value="blue" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Azul</button>
+            <button type="submit" name="color" value="green" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">Verde</button>
+            <button type="submit" name="color" value="yellow" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-200">Amarillo</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("colorModal").style.display = "flex"; // Cambiado a "flex" para alinear el modal correctamente
+</script>
+';
         }
         
 

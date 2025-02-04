@@ -29,8 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
         $array_jugadores[] = $jugador;
     }
 
-    // 3. Obtener carta inicial para la mesa
+   // 3. Obtener carta inicial para la mesa
+    do {
+    // Sacar una carta del mazo principal
     $cartaInicial = array_shift($barajaPrincipal->conjunto_cartas);
+
+    // Si la carta es una de las no permitidas, la devolvemos al mazo
+    if (in_array($cartaInicial->numero, ['reverse', 'skip', 'picker', 'four', 'color'])) {
+        array_push($barajaPrincipal->conjunto_cartas, $cartaInicial);
+    }
+    } while (in_array($cartaInicial->numero, ['reverse', 'skip', 'picker', 'four', 'color']));
 
     // 4. Crear partida con configuración correcta
     $partida = new Partida(
@@ -76,9 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
                        <?php 
                         if (isset($_SESSION['partida'])) {
                             $partida = $_SESSION['partida'];
-                            $partida->jugar();                            
-                        }
+                            $partida->jugar();
 
+                        }
+                    
+                        
+                        
+                    
 
 
 ?>         
