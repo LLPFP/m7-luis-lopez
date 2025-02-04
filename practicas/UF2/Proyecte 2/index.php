@@ -80,15 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
                        <?php 
                         if (isset($_SESSION['partida'])) {
                             $partida = $_SESSION['partida'];
-                            $partida->jugar();
+                            $partida->jugar();                            
                         }
 
 
 
-?>                    
-
-                      
-
+?>         
                         <div></div>
                         <div class="flex flex-col items-center">
                             <h2 class="text-2xl font-bold">Robar</h2>

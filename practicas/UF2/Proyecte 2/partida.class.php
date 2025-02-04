@@ -58,6 +58,7 @@
                 exit;
             }
 
+
             // Capturar datos de la URL de manera segura
             $numeroCarta = $_GET['numero'];
             $paloCarta = $_GET['palo'];
@@ -74,20 +75,26 @@
                 $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
 
                 $this->normas_uno();
+                
 
-               
+                // Redirigir para evitar reenvío del formulario
+                echo "<script>window.location.href='index.php';</script>";
 
                 exit;
+
+            }
+
+            
+                // Verificar si algún jugador ha ganado
+                foreach ($this->array_jugadores as $index => $jugador) {
+                    if (count($jugador->mano->conjunto_cartas) == 0) {
+                        echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
+                        return true;
+                    }
             }
             
 
-            // Verificar si algún jugador ha ganado
-            foreach ($this->array_jugadores as $index => $jugador) {
-                if (count($jugador->mano->conjunto_cartas) == 0) {
-                    echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
-                    return true;
-                }
-            }
+            
         }
 
 
