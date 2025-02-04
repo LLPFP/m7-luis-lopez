@@ -1,6 +1,5 @@
 <?php 
 
-
 require_once('jugador.class.php');
 require_once('partida.class.php');
 session_start();
@@ -46,9 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
     $_SESSION['partida'] = $partida;
 
 }
-
-
-
 
 ?>
 

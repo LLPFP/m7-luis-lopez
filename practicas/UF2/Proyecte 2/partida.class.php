@@ -1,7 +1,7 @@
 <?php
-    require_once('jugador.class.php');
-    require_once('baraja.class.php');
-    require_once('carta.class.php');
+require_once('jugador.class.php');
+require_once('baraja.class.php');
+require_once('carta.class.php');
     
 
     class Partida{
@@ -68,34 +68,39 @@
 
             // Verificar si la carta seleccionada es válida para jugar
             if ($numeroCarta == $this->carta_en_mesa->numero || $paloCarta == $this->carta_en_mesa->palo || $numeroCarta == 'four') {
-                
+
                 // Crear nueva carta y actualizar la carta en mesa
                 $this->carta_en_mesa = new Carta($paloCarta, $numeroCarta, $indexCarta);
-                    
+                
+                
+
+
+                // Eliminar la carta jugada de la mano del jugador
                 $jugador->eliminar_carta($numeroCarta, $paloCarta, $this->turno, $this->array_jugadores);
 
+                
+                
                 $this->normas_uno();
                 
 
                 // Redirigir para evitar reenvío del formulario
-                echo "<script>window.location.href='index.php';</script>";
-
+            header('Location: index.php');
                 exit;
-
-            }
-
-            
-                // Verificar si algún jugador ha ganado
-                foreach ($this->array_jugadores as $index => $jugador) {
-                    if (count($jugador->mano->conjunto_cartas) == 0) {
-                        echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
-                        return true;
-                    }
             }
             
 
             
+            // Verificar si algún jugador ha ganado
+            foreach ($this->array_jugadores as $index => $jugador) {
+                if (count($jugador->mano->conjunto_cartas) == 0) {
+                    echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
+                    return true;
+                }
         }
+            
+
+            
+    }
 
 
 
@@ -124,6 +129,8 @@
                         $this->robar_carta_jugador_actual(); // Robar 2 cartas
 
                     }
+                    $this->cambiar_turno();
+
                     break;
 
                 case 'four': 
@@ -135,8 +142,8 @@
                         for ($i = 0; $i < 4; $i++) {
                             $this->robar_carta_jugador_actual();
                         }
-                        echo "<script>window.location.href='index.php';</script>";
-                            exit;
+                        $this->cambiar_turno();
+
                         } else {
                             $this->mostrarFormularioColor();
                             exit; // Detener completamente la ejecución aquí
@@ -156,10 +163,10 @@
                 <div class="modal-content">
                     <h3>Elige un color</h3>
                     <form method="POST">
-                        <button type="submit" name="color" value="rojo">Rojo</button>
-                        <button type="submit" name="color" value="azul">Azul</button>
-                        <button type="submit" name="color" value="verde">Verde</button>
-                        <button type="submit" name="color" value="amarillo">Amarillo</button>
+                        <button type="submit" name="color" value="red">Rojo</button>
+                        <button type="submit" name="color" value="blue">Azul</button>
+                        <button type="submit" name="color" value="green">Verde</button>
+                        <button type="submit" name="color" value="yellow">Amarillo</button>
                     </form>
                 </div>
             </div>
@@ -176,7 +183,6 @@
             
             // Robar carta de la baraja principal
             $jugadorActual->robar_carta($this->baraja);
-            
             
         }
 
