@@ -88,13 +88,66 @@ require_once('carta.class.php');
                 exit;
             }
             
+           
+
+                // Verificar si el jugador actual tiene una carta
+                if (count($jugador->mano->conjunto_cartas) == 1) {
+                    // Si el jugador no ha presionado UNO antes, mostramos el botón
+                    if (!isset($_SESSION['dijo_uno'])) {
+                        echo "<div class='text-center mt-4'>
+                                <form method='POST'>
+                                    <input type='hidden' name='uno' value='1'>
+                                    <button type='submit' class='bg-green-500 text-white px-4 py-2 rounded'>UNO!</button>
+                                </form>
+                            </div>";
+
+                        // Temporizador de 3 segundos para castigo si no dice UNO
+                        echo "<script>
+                                setTimeout(() => {
+                                    window.location.href = 'index.php?action=castigo_uno';
+                                }, 3000);
+                            </script>";
+                    }
+                }
+
+            // Si el jugador presiona "UNO", guardamos en sesión y redirigimos
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uno'])) {
+                $_SESSION['dijo_uno'] = true;
+                echo "<script>window.location.href='index.php';</script>";
+                exit;
+            }
+
+            // Si el jugador no presionó "UNO", se ejecuta el castigo
+            if (isset($_GET['action']) && $_GET['action'] == 'castigo_uno' && count($jugador->mano->conjunto_cartas) == 1) {
+                if (!isset($_SESSION['dijo_uno'])) { // Solo castigar si no dijo UNO
+                    for ($i = 0; $i < 3; $i++) {
+                        $this->robar_carta_jugador_actual();
+                    }
+                    $this->cambiar_turno();
+                }
+                unset($_SESSION['dijo_uno']); // Resetear UNO después del turno
+                echo "<script>window.location.href='index.php';</script>";
+                exit;
+            }
+
+            // Resetear la sesión cuando el turno cambia
+            if ($this->turno != $_SESSION['ultimo_turno']) {
+                unset($_SESSION['dijo_uno']);
+                $_SESSION['ultimo_turno'] = $this->turno;
+            }
+
+
+
+
 
             
             // Verificar si algún jugador ha ganado
             foreach ($this->array_jugadores as $index => $jugador) {
                 if (count($jugador->mano->conjunto_cartas) == 0) {
                     echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
-                    return true;
+                    echo "<script>alert('Jugador " . ($index + 1) ." ha ganado' )</script>";
+                    echo "<script>window.location.href='formulario_uno.php';</script>";
+
                 }
         }
             
@@ -103,7 +156,10 @@ require_once('carta.class.php');
     }
 
 
-
+        public function uno(){
+            
+        }
+        
         public function normas_uno(){
             $carta = $this->carta_en_mesa;
             
@@ -161,31 +217,34 @@ require_once('carta.class.php');
                             }
                             break;
                 default:
-                    // Para cartas normales, cambiar turno una vez
+                    // Para cartas normales, cambiar turno una vez    
                     $this->cambiar_turno();
+                    
             }
         }
         
 
         public function mostrarFormularioColor() {
             echo '
-<div id="colorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-        <h3 class="text-xl font-bold mb-4 text-center">Elige un color</h3>
-        <form method="POST" class="flex flex-col space-y-4">
-            <button type="submit" name="color" value="red" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Rojo</button>
-            <button type="submit" name="color" value="blue" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Azul</button>
-            <button type="submit" name="color" value="green" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">Verde</button>
-            <button type="submit" name="color" value="yellow" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-200">Amarillo</button>
-        </form>
-    </div>
-</div>
-<script>
-    document.getElementById("colorModal").style.display = "flex"; // Cambiado a "flex" para alinear el modal correctamente
-</script>
-';
+                <div id="colorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                        <h3 class="text-xl font-bold mb-4 text-center">Elige un color</h3>
+                        <form method="POST" class="flex flex-col space-y-4">
+                            <button type="submit" name="color" value="red" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Rojo</button>
+                            <button type="submit" name="color" value="blue" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Azul</button>
+                            <button type="submit" name="color" value="green" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">Verde</button>
+                            <button type="submit" name="color" value="yellow" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-200">Amarillo</button>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    document.getElementById("colorModal").style.display = "flex"; // Cambiado a "flex" para alinear el modal correctamente
+                </script>
+                ';
         }
         
+
+
 
         public function robar_carta_jugador_actual() {
             // Obtener jugador actual

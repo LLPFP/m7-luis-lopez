@@ -28,15 +28,36 @@ session_start();
         
             <div class="flex justify-center">
                 <div class="bg-slate-100 p-4 rounded-lg shadow-lg ">
-                    <div class="mb-4">
-                        <label for="jugadores" class="block text-gray-700 font-bold mb-2">Número de jugadores:</label>
-                        <input type=number name="jugadores" id="jugadores" class="border border-gray-300 rounded-md px-3 py-2" required>
-                        <label for="cartas" class="block text-gray-700 font-bold mb-2 mt-5">Número de cartas:</label>
-                        <input type=number name="cartas" id="cartas" class="border border-gray-300 rounded-md px-3 py-2 " required>
-                        <div class="flex justify-center">
-                        <button type=submit class="bg-blue-500  mt-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ">¡Jugar!</button>
-                        </div>
-                    </div>
+                <div class="mb-4">
+    <label for="jugadores" class="block text-gray-700 font-bold mb-2">Número de jugadores:</label>
+    <input
+        type="number"
+        name="jugadores"
+        min="1"
+        max="5"
+        id="jugadores"
+        class="border border-gray-300 rounded-md px-4 py-3 w-full text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+        required
+    >
+    <label for="cartas" class="block text-gray-700 font-bold mb-2 mt-5">Número de cartas:</label>
+    <input
+        type="number"
+        name="cartas"
+        min="1"
+        max="7"
+        id="cartas"
+        class="border border-gray-300 rounded-md px-4 py-3 w-full text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+        required
+    >
+    <div class="flex justify-center">
+        <button
+            type="submit"
+            class="bg-blue-500 mt-5 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-200"
+        >
+            ¡Jugar!
+        </button>
+    </div>
+</div>
                 </div>
             </div>
         </form>
