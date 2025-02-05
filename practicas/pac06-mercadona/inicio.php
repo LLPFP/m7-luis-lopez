@@ -15,15 +15,7 @@
     </div>
 
         <div class="container">
-            <!-- AQUÍ PUEDES USAR UN FORM DE BOOTSTRAP 5 SENCILLO PARA PEDIR LOS
-            DATOS:
-            - NOMBRE
-            - APELLIDOS
-            - NÚMERO DE TELÉFONO
-            - DNI
-            - CÓDIGO DE SOCIO
-            - CORREO ELECTRÓNICO
-            -->
+           
             <div class="row justify-content-center">
             <div class="col-md-6">  
 
