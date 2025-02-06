@@ -14,7 +14,7 @@ class Carret {
     public function calcularTotal(){
         $total = 0;
         foreach ($this->productes as $producte) {
-            $total += $producte;
+            $total += $producte->preu;
         }
         return "Total: " . $total;
         

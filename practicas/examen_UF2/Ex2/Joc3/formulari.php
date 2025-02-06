@@ -29,9 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulari Usuari</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <form action="" method="post">
+    <form action="" method="post" class="container mt-5">
         <label for="nom">Nom:</label>
         <input required ="text" name="nom" id="nom">
         <label  for"edat"> Edat:</label>
@@ -45,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_SESSION['usuari'])) {
         $usuari = unserialize($_SESSION['usuari']);
-        echo "<p>Nom: " . $usuari->nom . "</p>";
-        echo "<p>Edat: " . $usuari->edat . "</p>";
-        echo "<p>Correu: " . $usuari->correu . "</p>";
+        echo "<p class='mt-5 ms-5'>Nom: " . $usuari->nom . "</p>";
+        echo "<p class='ms-5'>Edat: " . $usuari->edat . "</p>";
+        echo "<p class='ms-5'>Correu: " . $usuari->correu . "</p>";
     }
 
     ?>

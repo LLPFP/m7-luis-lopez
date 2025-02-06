@@ -13,9 +13,8 @@ class Usuari {
     }
 
     public function validarDades(){
-        if (!is_numeric($this->edat) || !filter_var(($this->correu), FILTER_VALIDATE_EMAIL)){
-            return false;
-        }
+        if (!is_numeric($this->edat) || strpos($this->correu, '@') === false){
+            return false;        }
         
         return true;
     }

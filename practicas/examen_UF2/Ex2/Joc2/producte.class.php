@@ -13,8 +13,8 @@ class Producte{
 
     public function detallesProducte(){
         echo "<tr>";
-        echo "<td>" . $this->nom . "</td>";
-        echo "<td>" . $this->preu . "</td>";
+        echo "<td class='border border-dark'>" . $this->nom . "</td>";
+        echo "<td class='border border-dark'>" . $this->preu . "</td>";
         echo "</tr>";
     }
 
