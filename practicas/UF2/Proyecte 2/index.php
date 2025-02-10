@@ -1,4 +1,5 @@
 <?php 
+ob_start(); // Add at the very top of index.php
 
 require_once('jugador.class.php');
 require_once('partida.class.php');
@@ -110,4 +111,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST' && isset($_POST['jugadores'], $_POST['c
     
     
 
-</body></html>
+</body>
+</html>
+<?php
+ob_end_flush(); // Add at the end
+?>

@@ -52,9 +52,7 @@ require_once('carta.class.php');
                // Capturar acción de robar carta
             if (isset($_GET['action']) && $_GET['action'] == 'robar') {
                 $this->robar_carta_jugador_actual();
-        
-                // Redirigir para evitar reenvío del formulario
-                echo "<script>window.location.href='index.php';</script>";
+                header('Location: index.php');
                 exit;
             }
 
@@ -84,36 +82,39 @@ require_once('carta.class.php');
                 
 
                 // Redirigir para evitar reenvío del formulario
-                echo "<script>window.location.href='index.php';</script>";
+                header('Location: index.php');
                 exit;
             }
             
            
+    $jugadorActual = $this->array_jugadores[$this->turno - 1];
+    
+    // Reset dijo_uno if player has more than 1 card
+    if (count($jugadorActual->mano->conjunto_cartas) > 1) {
+        unset($_SESSION['dijo_uno']);
+    }
 
-                // Verificar si el jugador actual tiene una carta
-                if (count($jugador->mano->conjunto_cartas) == 1) {
-                    // Si el jugador no ha presionado UNO antes, mostramos el botón
-                    if (!isset($_SESSION['dijo_uno'])) {
-                        echo "<div class='text-center mt-4'>
-                                <form method='POST'>
-                                    <input type='hidden' name='uno' value='1'>
-                                    <button type='submit' class='bg-green-500 text-white px-4 py-2 rounded'>UNO!</button>
-                                </form>
-                            </div>";
+    // Show UNO button when player has exactly 1 card
+    if (count($jugadorActual->mano->conjunto_cartas) == 1) {
+        if (!isset($_SESSION['dijo_uno'])) {
+            echo "<div class='text-center mt-4'>
+                    <form method='POST'>
+                        <input type='hidden' name='uno' value='1'>
+                        <button type='submit' class='bg-green-500 text-white px-4 py-2 rounded'>UNO!</button>
+                    </form>
+                </div>";
 
-                        // Temporizador de 3 segundos para castigo si no dice UNO
-                        echo "<script>
-                                setTimeout(() => {
-                                    window.location.href = 'index.php?action=castigo_uno';
-                                }, 3000);
-                            </script>";
-                    }
-                }
-
+            echo "<script>
+                    setTimeout(() => {
+                        window.location.href = 'index.php?action=castigo_uno';
+                    }, 3000);
+                </script>";
+        }
+    }
             // Si el jugador presiona "UNO", guardamos en sesión y redirigimos
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uno'])) {
                 $_SESSION['dijo_uno'] = true;
-                echo "<script>window.location.href='index.php';</script>";
+                header('Location: index.php');
                 exit;
             }
 
@@ -126,7 +127,7 @@ require_once('carta.class.php');
                     $this->cambiar_turno();
                 }
                 unset($_SESSION['dijo_uno']); // Resetear UNO después del turno
-                echo "<script>window.location.href='index.php';</script>";
+                header('Location: index.php');
                 exit;
             }
 
@@ -141,12 +142,15 @@ require_once('carta.class.php');
 
 
             
-            // Verificar si algún jugador ha ganado
+             // Verificar si algún jugador ha ganado
             foreach ($this->array_jugadores as $index => $jugador) {
                 if (count($jugador->mano->conjunto_cartas) == 0) {
                     echo "<div class='text-center mt-4 text-2xl font-bold'>¡El jugador " . ($index + 1) . " ha ganado!</div>";
-                    echo "<script>alert('Jugador " . ($index + 1) ." ha ganado' )</script>";
-                    echo "<script>window.location.href='formulario_uno.php';</script>";
+                    echo "<script>
+                        alert('Jugador " . ($index + 1) ." ha ganado');
+                        window.location.href = 'formulario_uno.php';
+                    </script>";
+                    exit;
 
                 }
         }
