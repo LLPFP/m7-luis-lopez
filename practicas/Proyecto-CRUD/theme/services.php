@@ -1,3 +1,10 @@
+<?php	
+include_once("./config/config.php");
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 
 <!--
@@ -11,7 +18,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Agen | Bootstrap Agency Template</title>
+  <title>TechX</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,11 +51,11 @@
 ?>
 
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="images/banner/bannerTechX.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Our Services</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Servicios</h1>
       </div>
     </div>
   </div>
@@ -125,15 +132,16 @@
           <div class="col-lg-7 offset-lg-1">
             <div class="row">
               <div class="col-12">
-                <h2 class="text-white">We know What Bait to Use</h2>
+                <h2 class="text-white">Sabemos Qué Soluciones Ofrecer
+                </h2>
                 <div class="section-border ml-0"></div>
               </div>
               <div class="col-md-6 mb-4">
                 <div class="media">
                   <i class="icon text-gradient-primary ti-vector mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">User Experience</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Experiencia de Usuario (UX) de Alta Calidad</h4>
+                    <p class="text-light">El diseño centrado en el usuario es fundamental para nosotros. En TechX, nos aseguramos de que cada aplicación, plataforma o software sea fácil de usar, intuitivo y estéticamente atractivo.</p>
                   </div>
                 </div>
               </div>
@@ -141,8 +149,8 @@
                 <div class="media">
                   <i class="icon text-gradient-primary ti-layout mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Responsive Layout</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Diseño Responsivo y Adaptable</h4>
+                    <p class="text-light">En un mundo donde el acceso a la tecnología se realiza desde múltiples dispositivos, es crucial que nuestras soluciones sean 100% responsivas.</p>
                   </div>
                 </div>
               </div>
@@ -150,8 +158,8 @@
                 <div class="media">
                   <i class="icon text-gradient-primary ti-headphone-alt mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Digital Solutions</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Soluciones Digitales para el Futuro</h4>
+                    <p class="text-light">TechX está comprometido con el desarrollo de soluciones digitales innovadoras. Desde la creación de aplicaciones móviles hasta la implementación de sistemas basados en la nube, buscamos transformar la manera en que las empresas operan mediante el uso de tecnologías emergentes.</p>
                   </div>
                 </div>
               </div>
@@ -159,8 +167,8 @@
                 <div class="media">
                   <i class="icon text-gradient-primary ti-ruler-pencil mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Bootstrap 4x</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Tecnologías Avanzadas y Frameworks Modernos</h4>
+                    <p class="text-light">Utilizamos las últimas tecnologías y frameworks como Bootstrap 4, React, Node.js, y más, para desarrollar soluciones robustas y escalables. Estas herramientas nos permiten ofrecer productos rápidos, eficientes y visualmente atractivos, adaptándonos rápidamente a las necesidades de nuestros clientes y manteniéndonos a la vanguardia del sector tecnológico.</p>
                   </div>
                 </div>
               </div>
@@ -172,20 +180,6 @@
   </div>
 </section>
 <!-- /feature -->
-
-<!-- call to action -->
-<section class="section">
-  <div class="container section-sm overlay-secondary-half bg-cover" data-background="images/backgrounds/cta-bg.jpg">
-  <div class="row">
-    <div class="col-lg-8 offset-lg-1">
-      <h2 class="text-gradient-primary">Let's Start With Us!</h2>
-      <p class="h4 font-weight-bold text-white mb-4">Lorem ipsum dolor sit amet, magna habemus ius ad</p>
-      <a href="contact.php" class="btn btn-lg btn-primary">Let’s talk</a>
-    </div>
-  </div>
-</div>
-</section>
-<!-- /call to action -->
 
 
 <?php 

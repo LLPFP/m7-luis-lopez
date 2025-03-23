@@ -1,6 +1,7 @@
 <?php 
 include_once("./config/config.php");
 
+session_start();
 
 //paso 2. hacer la query con el ->que devolverá on objeto
 $testomonialsObject = $conn->query("SELECT * FROM TESTIMONIALS");
@@ -58,7 +59,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
 
 
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="images/banner/bannerTechX.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
@@ -187,19 +188,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
 <!-- /testimonial-slider -->
 
 
-<!-- call to action -->
-<section class="section">
-  <div class="container section-sm overlay-secondary-half bg-cover" data-background="images/backgrounds/cta-bg.jpg">
-  <div class="row">
-    <div class="col-lg-8 offset-lg-1">
-      <h2 class="text-gradient-primary">Let's Start With Us!</h2>
-      <p class="h4 font-weight-bold text-white mb-4">Lorem ipsum dolor sit amet, magna habemus ius ad</p>
-      <a href="contact.php" class="btn btn-lg btn-primary">Let’s talk</a>
-    </div>
-  </div>
-</div>
-</section>
-<!-- /call to action -->
+
 
 <!-- footer -->
 

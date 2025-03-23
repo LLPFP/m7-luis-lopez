@@ -1,5 +1,6 @@
 <?php 
 include_once("./config/config.php");
+session_start();
 
 //paso 2. hacer la query con el ->que devolverá on objeto
 $noticiasObject = $conn->query("SELECT * FROM NEWS ORDER BY new_data DESC");
@@ -44,7 +45,7 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
   include("./componentes/header.php")
 ?>
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="images/banner/bannerTechX.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">

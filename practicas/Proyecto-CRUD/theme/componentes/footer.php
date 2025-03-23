@@ -1,6 +1,5 @@
 <!-- footer -->
-<footer class="bg-secondary position-relative">
-  <img src="images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
+<footer class=" position-relative" style="background-image: url('images/banner/banner2.jpg'); background-size: cover; background-position: center;">
   <div class="section">
     <div class="container">
       <div class="row align-items-center">
@@ -25,13 +24,13 @@
           </ul>
         </div>
         <div class="col-md-6">
-          <div class="bg-white p-4">
+          <div class="bg-white p-4 rounded rounded-lg">
             <h3>Contactanos</h3>
             <form action="#">
-              <input type="text" id="name" name="name" class="form-control mb-4 px-0" placeholder="Nombre completo">
-              <input type="text" id="name" name="name" class="form-control mb-4 px-0" placeholder="Correo electrónico">
-              <textarea name="message" id="message" class="form-control mb-4 px-0" placeholder="Mensaje"></textarea>
-              <button class="btn btn-primary" type="submit">Enviar</button>
+              <input type="text" id="name" name="name" class="form-control mb-4 px-0 rounded" placeholder="Nombre completo">
+              <input type="text" id="name" name="name" class="form-control mb-4 px-0 rounded" placeholder="Correo electrónico">
+              <textarea name="message" id="message" class="form-control mb-4 px-0 rounded" placeholder="Mensaje"></textarea>
+              <button class="btn btn-primary rounded" type="submit">Enviar</button>
             </form>
           </div>
         </div>
@@ -42,7 +41,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-6 text-center text-md-left">
-          <p class="text-light mb-0">Copyright &copy; 2025 <a class="text-gradient-primary" href="https://themefisher.com">TechX</a>
+          <p class="text-light mb-0">Copyright © 2025 <a class="text-gradient-primary" href="https://themefisher.com">TechX</a>
           </p>
         </div>
         <div class="col-md-6">

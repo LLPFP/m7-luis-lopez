@@ -1,5 +1,6 @@
 <?php 
 include_once("./config/config.php");
+session_start();
 
 //paso 2. hacer la query con el ->que devolverá on objeto
 $projectsObject = $conn->query("SELECT * FROM PROJECTS");
@@ -72,7 +73,7 @@ $projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
 
 <!-- banner -->
 <section class="banner bg-cover position-relative d-flex justify-content-center align-items-center"
-  data-background="images/banner/banner2.jpg">
+  data-background="images/banner/bannerTechX.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">

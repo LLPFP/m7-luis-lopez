@@ -1,5 +1,7 @@
 <?php 
 include_once("./config/config.php");
+session_start();
+
 // Verificar si se ha proporcionado un ID en la URL
 if(isset($_GET['id']) && is_numeric($_GET['id'])) {
   $id = $_GET['id'];
@@ -82,7 +84,7 @@ $commentsArray = $commentsObject->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="images/banner/bannerTechX.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">

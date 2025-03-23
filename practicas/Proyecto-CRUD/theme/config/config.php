@@ -1,5 +1,3 @@
-
-
 <?php
 $servername = "mysql-luislpfp.alwaysdata.net";
 $username = "luislpfp";
