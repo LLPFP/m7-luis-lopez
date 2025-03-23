@@ -1,17 +1,17 @@
 <?php 
-  include_once("./config/config.php");
+include_once("./config/config.php");
 
-  //paso 2. hacer la query con el ->que devolverá on objeto
-  $projectsObject = $conn->query("SELECT * FROM PROJECTS");
-  var_dump($projectsObject);
+//paso 2. hacer la query con el ->que devolverá on objeto
+$projectsObject = $conn->query("SELECT * FROM PROJECTS");
+var_dump($projectsObject);
 
 //paso 3. convertir el objeto a un array para poder hacer el foreach
-  $projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
-  echo '<br><br>';
+$projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
+echo '<br><br>';
  
-  echo '<pre>';
- print_r($projectsArray);
- echo '</pre>';
+echo '<pre>';
+print_r($projectsArray);
+echo '</pre>';
  
 
 //PASO 4. RECORRER EL ARRAY CON FOREACH
@@ -36,7 +36,7 @@ foreach ($projectsArray as $project){
 
 <head>
   <meta charset="utf-8">
-  <title>Agen | Bootstrap Agency Template</title>
+  <title>TechX</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,7 +78,7 @@ foreach ($projectsArray as $project){
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Creative Agency</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">TechX</h1>
       </div>
     </div>
   </div>
