@@ -20,6 +20,11 @@ foreach ($projectsArray as $project){
   echo $project['description'];
 
 }
+
+//paso 2. hacer la query con el ->que devolverá on objeto
+$noticiasObject = $conn->query("SELECT * FROM NEWS ORDER BY new_data DESC");
+$noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 
@@ -90,10 +95,8 @@ foreach ($projectsArray as $project){
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto text-center">
-        <h2 class="section-title">Our Services</h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.</p>
+        <h2 class="section-title">Nuestros servicios</h2>
+        <p class="lead">En TechX ofrecemos desarrollo de software, ciberseguridad, inteligencia artificial, computación en la nube, consultoría tecnológica, IoT y desarrollo de hardware para impulsar la transformación digital.</p>
         <div class="section-border"></div>
       </div>
     </div>
@@ -103,11 +106,11 @@ foreach ($projectsArray as $project){
           <div class="card-body text-center">
             <div class="position-relative">
               <i
-                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-palette mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-palette"></i>
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-server mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-server"></i>
             </div>
-            <h4 class="mb-4">Design</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Desarrollo de Software</h4>
+            <p>Creamos soluciones de software, aplicaciones web y móviles utilizando las últimas tecnologías</p>
           </div>
         </div>
       </div>
@@ -116,11 +119,11 @@ foreach ($projectsArray as $project){
           <div class="card-body text-center">
             <div class="position-relative">
               <i
-                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-dashboard mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-dashboard"></i>
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-shield mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-shield"></i>
             </div>
-            <h4 class="mb-4">Development</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Ciberseguridad</h4>
+            <p>Protegemos su infraestructura digital con soluciones avanzadas de seguridad y prevención de amenazas</p>
           </div>
         </div>
       </div>
@@ -129,17 +132,16 @@ foreach ($projectsArray as $project){
           <div class="card-body text-center">
             <div class="position-relative">
               <i
-                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-announcement mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-announcement"></i>
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-cloud mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-cloud"></i>
             </div>
-            <h4 class="mb-4">Marketing</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Cloud Computing</h4>
+            <p>Implementamos y gestionamos infraestructuras cloud para optimizar sus operaciones empresariales</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </div></section>
 <!-- /service -->
 
 <!-- feature -->
@@ -235,7 +237,7 @@ foreach ($projectsArray as $project){
   <div class="container-fluid px-0">
     <div class="row">
       <div class="col-lg-10 mx-auto text-center">
-        <h2>Our Feature Works</h2>
+        <h2>Nuestros últimos proyectos</h2>
         <div class="section-border"></div>
       </div>
     </div>
@@ -290,20 +292,6 @@ foreach ($projectsArray as $project){
   </div>
 </section>
 <!-- /project -->
-
-<!-- call to action -->
-<section>
-  <div class="container section-sm overlay-secondary-half bg-cover" data-background="images/backgrounds/cta-bg.jpg">
-  <div class="row">
-    <div class="col-lg-8 offset-lg-1">
-      <h2 class="text-gradient-primary">Let's Start With Us!</h2>
-      <p class="h4 font-weight-bold text-white mb-4">Lorem ipsum dolor sit amet, magna habemus ius ad</p>
-      <a href="contact.php" class="btn btn-lg btn-primary">Let’s talk</a>
-    </div>
-  </div>
-</div>
-</section>
-<!-- /call to action -->
 
 <!-- pricing -->
 <section class="section pb-0">
@@ -378,46 +366,27 @@ foreach ($projectsArray as $project){
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-10 mx-auto text-center">
-        <h2>Latest News</h2>
-        <div class="section-border"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+      <?php 
+      $count = 0;
+      foreach($noticiasArray as $noticia): 
+      if($count < 3):
+      ?>
+      <div class="col-lg-4 col-md-6 mb-4">
         <article class="card">
-          <img src="images/blog/post-1.jpg" alt="post-thumb" class="card-img-top mb-2">
+          <img src="<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
           <div class="card-body p-0">
-            <time>January 15, 2018</time>
-            <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
-              Book Covers Reflect the Design</a>
-            <a href="#" class="btn btn-transparent">Read more</a>
+            <time><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></time>
+            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="h4 card-title d-block my-3 text-dark hover-text-underline"><?php echo $noticia['title']; ?></a>
+            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Read more</a>
           </div>
         </article>
       </div>
-      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-        <article class="card">
-          <img src="images/blog/post-2.jpg" alt="post-thumb" class="card-img-top mb-2">
-          <div class="card-body p-0">
-            <time>January 15, 2018</time>
-            <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
-              Book Covers Reflect the Design</a>
-            <a href="#" class="btn btn-transparent">Read more</a>
-          </div>
-        </article>
-      </div>
-      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-        <article class="card">
-          <img src="images/blog/post-3.jpg" alt="post-thumb" class="card-img-top mb-2">
-          <div class="card-body p-0">
-            <time>January 15, 2018</time>
-            <a href="blog-single" class="h4 card-title d-block my-3 text-dark hover-text-underline">How These Different
-              Book Covers Reflect the Design</a>
-            <a href="#" class="btn btn-transparent">Read more</a>
-          </div>
-        </article>
-      </div>
-    </div>
+      <?php
+      $count++;
+      endif;
+      endforeach; 
+      ?>
+     </div>
   </div>
 </section>
 <!-- /blog -->

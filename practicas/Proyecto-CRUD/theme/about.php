@@ -1,3 +1,14 @@
+<?php 
+include_once("./config/config.php");
+
+
+//paso 2. hacer la query con el ->que devolverá on objeto
+$testomonialsObject = $conn->query("SELECT * FROM TESTIMONIALS");
+$testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
+
+?>
+
+
 <!DOCTYPE html>
 
 <!--
@@ -179,68 +190,30 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h2 class="text-white mb-5">Our Client Testimonails</h2>
+        <h2 class="text-white mb-5">Opinión de nuestros clientes</h2>
       </div>
     </div>
     <div class="row bg-contain" data-background="images/banner/brush.png">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div id="slider" class="ui-card-slider bg-contain">
+          <?php foreach($testimonialsArray as $testimonial): ?>
           <div class="slide">
             <div class="card text-center">
               <div class="card-body px-5 py-4">
-                <img src="images/testimonial/user-1.jpg" alt="user-1" class="img-fluid rounded-circle mb-4">
-                <h4 class="text-secondary">Mellissa Christine</h4>
-                <p>“Great work I got a lot more than what I ordered, they are very legítimas and catchy. I went for one
-                  of them for my brand but is always better to have more options.”</p>
+                <img src="<?php echo $testimonial['photo']; ?>" alt="<?php echo $testimonial['name']; ?>" class="img-fluid rounded-circle mb-4" style="width: 100px; height: 100px; object-fit: cover;">
+                <h4 class="text-secondary"><?php echo $testimonial['name'] . ' ' . $testimonial['surname'];  ?></h4>
+                <p>"<?php echo $testimonial['description']; ?>"</p>
               </div>
             </div>
           </div>
-          <div class="slide">
-            <div class="card text-center">
-              <div class="card-body px-5 py-4">
-                <img src="images/testimonial/user-1.jpg" alt="user-1" class="img-fluid rounded-circle mb-4">
-                <h4 class="text-secondary">Mellissa Christine</h4>
-                <p>“Great work I got a lot more than what I ordered, they are very legítimas and catchy. I went for one
-                  of them for my brand but is always better to have more options.”</p>
-              </div>
-            </div>
-          </div>
-          <div class="slide">
-            <div class="card text-center">
-              <div class="card-body px-5 py-4">
-                <img src="images/testimonial/user-1.jpg" alt="user-1" class="img-fluid rounded-circle mb-4">
-                <h4 class="text-secondary">Mellissa Christine</h4>
-                <p>“Great work I got a lot more than what I ordered, they are very legítimas and catchy. I went for one
-                  of them for my brand but is always better to have more options.”</p>
-              </div>
-            </div>
-          </div>
-          <div class="slide">
-            <div class="card text-center">
-              <div class="card-body px-5 py-4">
-                <img src="images/testimonial/user-1.jpg" alt="user-1" class="img-fluid rounded-circle mb-4">
-                <h4 class="text-secondary">Mellissa Christine</h4>
-                <p>“Great work I got a lot more than what I ordered, they are very legítimas and catchy. I went for one
-                  of them for my brand but is always better to have more options.”</p>
-              </div>
-            </div>
-          </div>
-          <div class="slide">
-            <div class="card text-center">
-              <div class="card-body px-5 py-4">
-                <img src="images/testimonial/user-1.jpg" alt="user-1" class="img-fluid rounded-circle mb-4">
-                <h4 class="text-secondary">Mellissa Christine</h4>
-                <p>“Great work I got a lot more than what I ordered, they are very legítimas and catchy. I went for one
-                  of them for my brand but is always better to have more options.”</p>
-              </div>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>
   </div>
 </section>
 <!-- /testimonial-slider -->
+
 
 <!-- call to action -->
 <section class="section">

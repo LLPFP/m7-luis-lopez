@@ -38,7 +38,7 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
 
 <head>
   <meta charset="utf-8">
-  <title>Agen | Bootstrap Agency Template</title>
+  <title>TechX</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,7 +77,7 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Blog Details</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Noticias</h1>
       </div>
     </div>
   </div>

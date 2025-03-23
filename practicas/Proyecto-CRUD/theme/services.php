@@ -59,81 +59,54 @@
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
+      <div class="col-lg-10 mx-auto text-center">
+        <h2 class="section-title">Nuestros servicios</h2>
+        <p class="lead">En TechX ofrecemos desarrollo de software, ciberseguridad, inteligencia artificial, computación en la nube, consultoría tecnológica, IoT y desarrollo de hardware para impulsar la transformación digital.</p>
+        <div class="section-border"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="card hover-bg-secondary shadow py-4 active">
           <div class="card-body text-center">
             <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-palette mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-palette"></i>
+              <i
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-server mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-server"></i>
             </div>
-            <h4 class="mb-4">Design</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Desarrollo de Software</h4>
+            <p>Creamos soluciones de software, aplicaciones web y móviles utilizando las últimas tecnologías</p>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
+      <div class="col-lg-4 mb-4 mb-lg-0">
         <div class="card hover-bg-secondary shadow py-4">
           <div class="card-body text-center">
             <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-dashboard mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-dashboard"></i>
+              <i
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-shield mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-shield"></i>
             </div>
-            <h4 class="mb-4">Development</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Ciberseguridad</h4>
+            <p>Protegemos su infraestructura digital con soluciones avanzadas de seguridad y prevención de amenazas</p>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
+      <div class="col-lg-4 mb-4 mb-lg-0">
         <div class="card hover-bg-secondary shadow py-4">
           <div class="card-body text-center">
             <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-announcement mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-announcement"></i>
+              <i
+                class="icon-lg icon-box bg-gradient-primary rounded-circle ti-cloud mb-5 d-inline-block text-white"></i>
+              <i class="icon-lg icon-watermark text-white ti-cloud"></i>
             </div>
-            <h4 class="mb-4">Marketing</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-game mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-game"></i>
-            </div>
-            <h4 class="mb-4">Apps</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-crown mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-crown"></i>
-            </div>
-            <h4 class="mb-4">Branding</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-bar-chart mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-bar-chart"></i>
-            </div>
-            <h4 class="mb-4">Analytics</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+            <h4 class="mb-4">Cloud Computing</h4>
+            <p>Implementamos y gestionamos infraestructuras cloud para optimizar sus operaciones empresariales</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </div></section>
 <!-- /service -->
 
 <!-- feature -->
