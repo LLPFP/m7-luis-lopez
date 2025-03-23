@@ -8,6 +8,30 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'Admin') {
     exit();
 }
 
+// Procesar la creación de un nuevo usuario
+if (isset($_POST['crear_usuario'])) {
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $age = $_POST['age'];
+    $job = $_POST['job'];
+    $rol = $_POST['rol'];
+    
+    $sql_insert = "INSERT INTO USERS (name, surname, email, password, age, job, rol, date_register) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->bind_param("sssssss", $name, $surname, $email, $password, $age, $job, $rol);
+    
+    if ($stmt_insert->execute()) {
+        $mensaje = "Usuario creado correctamente";
+        $tipo_mensaje = "success";
+    } else {
+        $mensaje = "Error al crear el usuario: " . $conn->error;
+        $tipo_mensaje = "danger";
+    }
+    $stmt_insert->close();
+}
+
 // Procesar eliminación de usuario
 if (isset($_GET['delete']) && !empty($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -25,25 +49,49 @@ if (isset($_GET['delete']) && !empty($_GET['delete'])) {
     $stmt_delete->close();
 }
 
-// Procesar cambio de rol 
-if (isset($_POST['cambiar_rol'])) {
+// Procesar cambios de usuario
+if (isset($_POST['actualizar_usuario'])) {
     $user_id = $_POST['user_id'];
-    $nuevo_rol = $_POST['nuevo_rol'];
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $rol = $_POST['rol'];
+    $job = $_POST['job'];
     
-    $sql_update = "UPDATE USERS SET rol = ? WHERE id = ?";
+    // Preparar la consulta base
+    $sql_update = "UPDATE USERS SET name = ?, surname = ?, rol = ?, job = ?";
+    $tipos = "ssss";
+    $params = [$name, $surname, $rol, $job];
+
+    // Manejar la subida de imagen si existe
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+        $imagen_nombre = time() . '_' . $_FILES['avatar']['name'];
+        $imagen_temporal = $_FILES['avatar']['tmp_name'];
+        $ruta_destino = 'uploads/' . $imagen_nombre;
+        
+        if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
+            $sql_update .= ", avatar = ?";
+            $tipos .= "s";
+            $params[] = $ruta_destino;
+        }
+    }
+
+    // Completar la consulta
+    $sql_update .= " WHERE id = ?";
+    $tipos .= "i";
+    $params[] = $user_id;
+    
     $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param("si", $nuevo_rol, $user_id);
+    $stmt_update->bind_param($tipos, ...$params);
     
     if ($stmt_update->execute()) {
-        $mensaje = "Rol actualizado correctamente";
+        $mensaje = "Usuario actualizado correctamente";
         $tipo_mensaje = "success";
     } else {
-        $mensaje = "Error al actualizar el rol: " . $conn->error;
+        $mensaje = "Error al actualizar el usuario: " . $conn->error;
         $tipo_mensaje = "danger";
     }
     $stmt_update->close();
 }
-
 // Obtener todos los usuarios
 $sql = "SELECT id, name, surname, email, avatar, age, job, date_register, rol FROM USERS ORDER BY date_register DESC";
 $result = $conn->query($sql);
@@ -107,17 +155,74 @@ if ($result->num_rows > 0) {
 <!-- /page-title -->
 
 <section class="section">
-  <div class="w-75"> 
+  <div class="w-75 mx-auto"> 
     <!-- Cabecera con botones de acción -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="bg-light rounded p-4 d-flex justify-content-between align-items-center">
           <h2 class="mb-0">Usuarios Registrados</h2>
           <div>
-            <a href="admin.php" class="btn btn-secondary mr-2">
+            <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#createUserModal">
+              <i class="ti-plus"></i> Nuevo Usuario
+            </button>
+            <a href="admin.php" class="btn btn-secondary">
               <i class="ti-arrow-left"></i> Volver al Panel
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Crear Usuario -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Crear Nuevo Usuario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <form action="" method="post">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="surname">Apellidos</label>
+                <input type="text" class="form-control" id="surname" name="surname" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <div class="form-group">
+                <label for="age">Edad</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+              </div>
+              <div class="form-group">
+                <label for="job">Trabajo</label>
+                <input type="text" class="form-control" id="job" name="job" required>
+              </div>
+              <div class="form-group">
+                <label for="rol">Rol</label>
+                <select class="form-control" id="rol" name="rol" required>
+                  <option value="User">Usuario</option>
+                  <option value="Editor">Editor</option>
+                  <option value="Admin">Administrador</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" name="crear_usuario" class="btn btn-primary">Crear Usuario</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -245,7 +350,7 @@ if ($result->num_rows > 0) {
                         </div>
                       </div>
                       
-                      <!-- Modal Cambiar Rol -->
+                      <!-- Modal Editar -->
                       <div class="modal fade" id="roleModal<?php echo $usuario['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
@@ -255,18 +360,31 @@ if ($result->num_rows > 0) {
                                 <span aria-hidden="true">×</span>
                               </button>
                             </div>
-                            <form action="" method="post">
+                            <form action="" method="post" enctype="multipart/form-data">
                               <div class="modal-body">
                                 <input type="hidden" name="user_id" value="<?php echo $usuario['id']; ?>">
-                                <p>Usuario: <strong><?php echo $usuario['name'] . ' ' . $usuario['surname']; ?></strong></p>
-                                <p>Rol actual: 
-                                  <span class="badge <?php echo $usuario['rol'] == 'Admin' ? 'badge-danger' : ($usuario['rol'] == 'Editor' ? 'badge-info' : 'badge-success'); ?> rounded-pill px-3">
-                                    <?php echo $usuario['rol']; ?>
-                                  </span>
-                                </p>
                                 <div class="form-group">
-                                  <label for="nuevo_rol">Seleccionar nuevo rol:</label>
-                                  <select class="form-control" id="nuevo_rol" name="nuevo_rol" required>
+                                  <label for="name">Nombre:</label>
+                                  <input type="text" class="form-control" id="name" name="name" value="<?php echo $usuario['name']; ?>" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="surname">Apellidos:</label>
+                                  <input type="text" class="form-control" id="surname" name="surname" value="<?php echo $usuario['surname']; ?>" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="job">Trabajo:</label>
+                                  <input type="text" class="form-control" id="job" name="job" value="<?php echo $usuario['job']; ?>" required>
+                                </div>
+                                <div class="form-group">
+                                  <label for="avatar">Avatar:</label>
+                                  <input type="file" class="form-control-file" id="avatar" name="avatar" accept="image/*">
+                                  <?php if (!empty($usuario['avatar']) && file_exists($usuario['avatar'])): ?>
+                                    <img src="<?php echo $usuario['avatar']; ?>" alt="Avatar actual" class="mt-2" style="width: 100px; height: 100px; object-fit: cover;">
+                                  <?php endif; ?>
+                                </div>                               
+                                <div class="form-group">
+                                  <label for="rol">Rol:</label>
+                                  <select class="form-control" id="rol" name="rol" required>
                                     <option value="User" <?php echo ($usuario['rol'] == 'User') ? 'selected' : ''; ?>>Usuario</option>
                                     <option value="Editor" <?php echo ($usuario['rol'] == 'Editor') ? 'selected' : ''; ?>>Editor</option>
                                     <option value="Admin" <?php echo ($usuario['rol'] == 'Admin') ? 'selected' : ''; ?>>Administrador</option>
@@ -274,14 +392,17 @@ if ($result->num_rows > 0) {
                                 </div>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" name="cambiar_rol" class="btn btn-warning">Guardar</button>
+                                <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 shadow-sm" data-dismiss="modal">
+                                  <i class="fas fa-times mr-2"></i>Cancelar
+                                </button>
+                                <button type="submit" name="actualizar_usuario" class="btn btn-warning rounded-pill px-4 py-2 shadow-sm">
+                                  <i class="fas fa-save mr-2"></i>Guardar
+                                </button>
                               </div>
                             </form>
                           </div>
                         </div>
-                      </div>
-                      
+                      </div>                      
                       <!-- Modal Eliminar Usuario -->
                       <div class="modal fade" id="deleteModal<?php echo $usuario['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">

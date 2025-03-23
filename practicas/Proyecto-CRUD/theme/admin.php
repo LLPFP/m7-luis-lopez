@@ -236,37 +236,7 @@ $total_projects = $result_projects->fetch_assoc()['total'];
         </a>
       </div>
       
-      <!-- Configuración del Sitio -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <a href="admin-configuracion.php" class="text-decoration-none">
-          <div class="card admin-card h-100">
-            <div class="card-body text-center">
-              <div class="icon-box bg-secondary mx-auto">
-                <i class="ti-settings"></i>
-              </div>
-              <h3>Configuración del Sitio</h3>
-              <p>Personaliza la apariencia y configuración general del sitio web.</p>
-              <span class="btn btn-outline-secondary">Configurar Sitio</span>
-            </div>
-          </div>
-        </a>
-      </div>
-      
-      <!-- Estadísticas y Análisis -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <a href="admin-estadisticas.php" class="text-decoration-none">
-          <div class="card admin-card h-100">
-            <div class="card-body text-center">
-              <div class="icon-box bg-danger mx-auto">
-                <i class="ti-bar-chart"></i>
-              </div>
-              <h3>Estadísticas y Análisis</h3>
-              <p>Visualiza estadísticas de visitas, interacciones y comportamiento de usuarios.</p>
-              <span class="btn btn-outline-danger">Ver Estadísticas</span>
-            </div>
-          </div>
-        </a>
-      </div>
+     
     </div>
   </div>
 </section>
