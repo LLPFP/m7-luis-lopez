@@ -51,7 +51,7 @@
             <span class="dropdown-item-text">Rol: <?php echo $usuario['rol']; ?></span>
             <div class="dropdown-divider"></div>
             <?php if($usuario['rol'] === 'Admin'): ?>
-            <a class="dropdown-item" href="admin/dashboard.php">Admin Panel</a>
+            <a class="dropdown-item" href="admin.php">Admin Panel</a>
             <div class="dropdown-divider"></div>
             <?php endif; ?>
             <a class="dropdown-item" href="perfil.php">Mi Perfil</a>
