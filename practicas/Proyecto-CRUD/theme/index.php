@@ -3,27 +3,20 @@ include_once("./config/config.php");
 
 //paso 2. hacer la query con el ->que devolverá on objeto
 $projectsObject = $conn->query("SELECT * FROM PROJECTS");
-var_dump($projectsObject);
 
-//paso 3. convertir el objeto a un array para poder hacer el foreach
-$projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
-echo '<br><br>';
- 
-echo '<pre>';
-print_r($projectsArray);
-echo '</pre>';
- 
 
-//PASO 4. RECORRER EL ARRAY CON FOREACH
-foreach ($projectsArray as $project){
-  echo $project['title'];
-  echo $project['description'];
 
-}
 
 //paso 2. hacer la query con el ->que devolverá on objeto
 $noticiasObject = $conn->query("SELECT * FROM NEWS ORDER BY new_data DESC");
 $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
+
+
+//paso 3. convertir el objeto a un array para poder hacer el foreach
+$projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
+ 
+
+
 
 ?>
 
@@ -89,6 +82,27 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
   </div>
 </section>
 <!-- /banner -->
+
+
+<!-- about -->
+<section class="section-lg position-relative bg-cover" data-background="images/backgrounds/about-bg.jpg">
+  <img src="images/backgrounds/about-bg-overlay.png" alt="overlay" class="overlay-image img-fluid">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-lg-6 col-md-8 col-sm-7 col-8">
+        <h2 class="text-white mb-4">Quiénes Somos</h2>
+        <p class="text-light mb-4">TechX es una empresa líder en tecnología enfocada en desarrollar soluciones innovadoras para empresas y particulares. Nuestro equipo está formado por expertos en software, hardware e inteligencia artificial, comprometidos en ofrecer productos y servicios de vanguardia. Creemos en la transformación digital como motor de crecimiento y en la tecnología como herramienta para mejorar la vida de las personas.</p>
+        <a href="about.php" class="btn btn-primary">Leer más</a>
+      </div>
+      <div class="col-md-2 col-sm-4 col-4 text-right align-self-end">
+        <a class="venobox" data-autoplay="true" data-vbtype="video"
+          href="https://www.youtube.com/watch?v=jrkvirglgaQ"><i
+            class="text-center icon-sm icon-box rounded-circle text-white bg-gradient-primary d-block ti-control-play"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /about -->
 
 <!-- service -->
 <section class="section">
@@ -159,15 +173,16 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
           <div class="col-lg-7 offset-lg-1">
             <div class="row">
               <div class="col-12">
-                <h2 class="text-white">We know What Bait to Use</h2>
+                <h2 class="text-white">Sabemos Qué Soluciones Ofrecer
+                </h2>
                 <div class="section-border ml-0"></div>
               </div>
               <div class="col-md-6 mb-4">
                 <div class="media">
                   <i class="icon text-gradient-primary ti-vector mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">User Experience</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Experiencia de Usuario (UX) de Alta Calidad</h4>
+                    <p class="text-light">El diseño centrado en el usuario es fundamental para nosotros. En TechX, nos aseguramos de que cada aplicación, plataforma o software sea fácil de usar, intuitivo y estéticamente atractivo.</p>
                   </div>
                 </div>
               </div>
@@ -175,8 +190,8 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
                 <div class="media">
                   <i class="icon text-gradient-primary ti-layout mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Responsive Layout</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Diseño Responsivo y Adaptable</h4>
+                    <p class="text-light">En un mundo donde el acceso a la tecnología se realiza desde múltiples dispositivos, es crucial que nuestras soluciones sean 100% responsivas.</p>
                   </div>
                 </div>
               </div>
@@ -184,8 +199,8 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
                 <div class="media">
                   <i class="icon text-gradient-primary ti-headphone-alt mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Digital Solutions</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Soluciones Digitales para el Futuro</h4>
+                    <p class="text-light">TechX está comprometido con el desarrollo de soluciones digitales innovadoras. Desde la creación de aplicaciones móviles hasta la implementación de sistemas basados en la nube, buscamos transformar la manera en que las empresas operan mediante el uso de tecnologías emergentes.</p>
                   </div>
                 </div>
               </div>
@@ -193,8 +208,8 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
                 <div class="media">
                   <i class="icon text-gradient-primary ti-ruler-pencil mr-3"></i>
                   <div class="media-body">
-                    <h4 class="text-white">Bootstrap 4x</h4>
-                    <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                    <h4 class="text-white">Tecnologías Avanzadas y Frameworks Modernos</h4>
+                    <p class="text-light">Utilizamos las últimas tecnologías y frameworks como Bootstrap 4, React, Node.js, y más, para desarrollar soluciones robustas y escalables. Estas herramientas nos permiten ofrecer productos rápidos, eficientes y visualmente atractivos, adaptándonos rápidamente a las necesidades de nuestros clientes y manteniéndonos a la vanguardia del sector tecnológico.</p>
                   </div>
                 </div>
               </div>
@@ -209,96 +224,34 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
 
 
 
-<!-- about -->
-<section class="section-lg position-relative bg-cover" data-background="images/backgrounds/about-bg.jpg">
-  <img src="images/backgrounds/about-bg-overlay.png" alt="overlay" class="overlay-image img-fluid">
-  <div class="container">
-    <div class="row justify-content-between">
-      <div class="col-lg-6 col-md-8 col-sm-7 col-8">
-        <h2 class="text-white mb-4">Who We Are</h2>
-        <p class="text-light mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-          incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.</p>
-        <a href="about.php" class="btn btn-primary">Read More</a>
-      </div>
-      <div class="col-md-2 col-sm-4 col-4 text-right align-self-end">
-        <a class="venobox" data-autoplay="true" data-vbtype="video"
-          href="https://www.youtube.com/watch?v=jrkvirglgaQ"><i
-            class="text-center icon-sm icon-box rounded-circle text-white bg-gradient-primary d-block ti-control-play"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- /about -->
 
 <!-- project -->
-<section class="section">
+<section>
   <div class="container-fluid px-0">
-    <div class="row">
-      <div class="col-lg-10 mx-auto text-center">
-        <h2>Nuestros últimos proyectos</h2>
-        <div class="section-border"></div>
-      </div>
-    </div>
-
     <div class="row no-gutters shuffle-wrapper">
+      <?php foreach($projectsArray as $project): ?>
       <div class="col-lg-4 col-md-6 shuffle-item">
         <div class="project-item">
-          <img src="images/project/project-1.jpg" alt="project-image" class="img-fluid w-100">
+          <img src="<?php echo $project['thumbnail']; ?>" alt="<?php echo $project['title']; ?>" class="img-fluid w-100">
           <div class="project-hover bg-secondary px-4 py-3">
-            <a href="#" class="text-white h4">Project title</a>
-            <a href="#"><i class="ti-link icon-xs text-white"></i></a>
+            <a href="project-single.php?id=<?php echo $project['id']; ?>" class="text-white h4"><?php echo $project['title']; ?></a>
+            <a href="project-single.php?id=<?php echo $project['id']; ?>"><i class="ti-link icon-xs text-white"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 shuffle-item">
-        <div class="project-item">
-          <img src="images/project/project-2.jpg" alt="project-image" class="img-fluid w-100">
-          <div class="project-hover bg-secondary px-4 py-3">
-            <a href="#" class="text-white h4">Project title</a>
-            <a href="#"><i class="ti-link icon-xs text-white"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 shuffle-item">
-        <div class="project-item">
-          <img src="images/project/project-3.jpg" alt="project-image" class="img-fluid w-100">
-          <div class="project-hover bg-secondary px-4 py-3">
-            <a href="#" class="text-white h4">Project title</a>
-            <a href="#"><i class="ti-link icon-xs text-white"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 shuffle-item">
-        <div class="project-item">
-          <img src="images/project/project-4.jpg" alt="project-image" class="img-fluid w-100">
-          <div class="project-hover bg-secondary px-4 py-3">
-            <a href="#" class="text-white h4">Project title</a>
-            <a href="#"><i class="ti-link icon-xs text-white"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 shuffle-item">
-        <div class="project-item">
-          <img src="images/project/project-5.jpg" alt="project-image" class="img-fluid w-100">
-          <div class="project-hover bg-secondary px-4 py-3">
-            <a href="#" class="text-white h4">Project title</a>
-            <a href="#"><i class="ti-link icon-xs text-white"></i></a>
-          </div>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
 <!-- /project -->
 
-<!-- pricing -->
+
+<!-- precios -->
 <section class="section pb-0">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto text-center">
-        <h2>Our Smart Pricing Table</h2>
+        <h2>Nuestra Tabla de Precios Inteligente</h2>
         <div class="section-border"></div>
       </div>
     </div>
@@ -306,61 +259,61 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
       <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
         <div class="card bottom-shape bg-secondary pt-4 pb-5">
           <div class="card-body text-center">
-            <h4 class="text-white">Basic</h4>
-            <p class="text-light mb-4">Besic and simple website</p>
-            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">30</span></p>
+            <h4 class="text-white">Básico</h4>
+            <p class="text-light mb-4">Para pequeños negocios</p>
+            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">29</span></p>
             <ul class="list-unstyled mb-5">
-              <li class="text-white mb-3">Mobile-Optimized Website</li>
-              <li class="text-white mb-3">Powerful Website Metrics</li>
-              <li class="text-white mb-3">Free Custom Domain</li>
-              <li class="text-white mb-3">24/7 Customer Support</li>
-              <li class="text-white mb-3">Fully Integrated E-Cormmerce</li>
-              <li class="text-white mb-3">Sell unlimited Product</li>
+              <li class="text-white mb-3">Sitio Web Responsive</li>
+              <li class="text-white mb-3">3 Páginas Personalizadas</li>
+              <li class="text-white mb-3">Formulario de Contacto</li>
+              <li class="text-white mb-3">Soporte por Email</li>
+              <li class="text-white mb-3">SEO Básico</li>
+              <li class="text-white mb-3">Actualización Mensual</li>
             </ul>
-            <a href="#" class="btn btn-outline-light">Try it now</a>
+            <a href="#" class="btn btn-outline-light">Empezar Ahora</a>
           </div>
         </div>
       </div>
       <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
         <div class="card bottom-shape bg-secondary pt-4 pb-5">
           <div class="card-body text-center">
-            <h4 class="text-white">Basic</h4>
-            <p class="text-light mb-4">Besic and simple website</p>
-            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">30</span></p>
+            <h4 class="text-white">Profesional</h4>
+            <p class="text-light mb-4">Para empresas en crecimiento</p>
+            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">79</span></p>
             <ul class="list-unstyled mb-5">
-              <li class="text-white mb-3">Mobile-Optimized Website</li>
-              <li class="text-white mb-3">Powerful Website Metrics</li>
-              <li class="text-white mb-3">Free Custom Domain</li>
-              <li class="text-white mb-3">24/7 Customer Support</li>
-              <li class="text-white mb-3">Fully Integrated E-Cormmerce</li>
-              <li class="text-white mb-3">Sell unlimited Product</li>
+              <li class="text-white mb-3">Sitio Web Premium</li>
+              <li class="text-white mb-3">10 Páginas Personalizadas</li>
+              <li class="text-white mb-3">E-Commerce Básico</li>
+              <li class="text-white mb-3">Soporte 24/5</li>
+              <li class="text-white mb-3">SEO Avanzado</li>
+              <li class="text-white mb-3">Actualizaciones Semanales</li>
             </ul>
-            <a href="#" class="btn btn-outline-light">Try it now</a>
+            <a href="#" class="btn btn-outline-light">Seleccionar Plan</a>
           </div>
         </div>
       </div>
       <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
         <div class="card bottom-shape bg-secondary pt-4 pb-5">
           <div class="card-body text-center">
-            <h4 class="text-white">Basic</h4>
-            <p class="text-light mb-4">Besic and simple website</p>
-            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">30</span></p>
+            <h4 class="text-white">Empresarial</h4>
+            <p class="text-light mb-4">Solución completa para empresas</p>
+            <p class="text-white mb-4">$ <span class="display-3 font-weight-bold vertical-align-middle">149</span></p>
             <ul class="list-unstyled mb-5">
-              <li class="text-white mb-3">Mobile-Optimized Website</li>
-              <li class="text-white mb-3">Powerful Website Metrics</li>
-              <li class="text-white mb-3">Free Custom Domain</li>
-              <li class="text-white mb-3">24/7 Customer Support</li>
-              <li class="text-white mb-3">Fully Integrated E-Cormmerce</li>
-              <li class="text-white mb-3">Sell unlimited Product</li>
+              <li class="text-white mb-3">Sitio Web Personalizado</li>
+              <li class="text-white mb-3">Páginas Ilimitadas</li>
+              <li class="text-white mb-3">E-Commerce Avanzado</li>
+              <li class="text-white mb-3">Soporte 24/7 Prioritario</li>
+              <li class="text-white mb-3">SEO Premium + Marketing</li>
+              <li class="text-white mb-3">Mantenimiento Continuo</li>
             </ul>
-            <a href="#" class="btn btn-outline-light">Try it now</a>
+            <a href="#" class="btn btn-outline-light">Contactar Ventas</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- /pricing -->
+<!-- /precios -->
 
 <!-- blog -->
 <section class="section">
@@ -377,7 +330,7 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
           <div class="card-body p-0">
             <time><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></time>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="h4 card-title d-block my-3 text-dark hover-text-underline"><?php echo $noticia['title']; ?></a>
-            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Read more</a>
+            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Leer más</a>
           </div>
         </article>
       </div>

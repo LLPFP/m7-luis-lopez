@@ -23,6 +23,15 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])) {
 //paso 2. hacer la query con el ->que devolverá on objeto
 $noticiasObject = $conn->query("SELECT * FROM NEWS ORDER BY new_data DESC");
 $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
+
+
+// Obtener los comentarios para esta noticia
+$commentsObject = $conn->query("SELECT * FROM COMMENTS WHERE new_id = $id ORDER BY date DESC");
+$commentsArray = $commentsObject->fetch_all(MYSQLI_ASSOC);
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -105,56 +114,49 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <div class="p-5 mb-4">
-          <div class="media border-bottom py-4">
-            <img src="images/user-1.jpg" class="img-fluid align-self-start mr-3" alt="">
-            <div class="media-body">
-              <h5 class="mb-0 text-secondary">Carole Marvin.</h5>
-              <span class="mr-3">15 january 2015 At 10:30 pm</span>
-              <a href="#" class="btn btn-transparent py-1 px-2 "><i class="ti-share-alt"></i> Reply</a>
-              <p>Ne erat velit invidunt his. Eum in dicta veniam interesset, harum fuisset te nam ea cu lupta
-                definitionem.</p>
-              <div class="media my-5">
-                <img src="images/user-2.jpg" class="img-fluid align-self-start mr-3" alt="">
+          <?php if(count($commentsArray) > 0): ?>
+            <?php foreach($commentsArray as $comment): ?>
+              <?php 
+                // Get the user who wrote this specific comment
+                $userObject = $conn->query("SELECT name, surname, avatar FROM USERS WHERE id = " . $comment['user_id']);
+                $userData = ($userObject && $userObject->num_rows > 0) ? $userObject->fetch_assoc() : null;
+                $userName = $userData ? $userData['name'] : 'Anonymous';
+                $userSurname = $userData ? $userData['surname'] : '';
+                $userAvatar = $userData && $userData['avatar'] ? $userData['avatar'] : 'images/user-1.jpg';
+              ?>
+              <div class="media border-bottom py-4">
+                <img src="<?php echo htmlspecialchars($userAvatar); ?>" class="img-fluid align-self-center mr-3" alt="<?php echo htmlspecialchars($userName); ?>" style="width: 64px; height: 64px; object-fit: cover; border-radius: 50%;">
                 <div class="media-body">
-                  <h5 class="mb-0 text-secondary">Jaquan Rolfson.</h5>
-                  <span class="mr-3">15 january 2015 At 10:30 pm</span>
-                  <a href="#" class="btn btn-transparent py-1 px-2 "><i class="ti-share-alt"></i> Reply</a>
-                  <p>Ne erat velit invidunt his. Eum in dicta veniam interesset, harum fuisset te nam ea cu lupta
-                    definitionem.</p>
+                  <h5 class="mb-0 text-secondary"><?php echo htmlspecialchars($userName . ' ' . $userSurname); ?></h5>
+                  <span class="mr-3"><?php echo date('d F Y \A\t h:i a', strtotime($comment['date'])); ?></span>                  <a href="#" class="btn btn-transparent py-1 px-2 "><i class="ti-share-alt"></i> Reply</a>
+                  <p><?php echo htmlspecialchars($comment['description']); ?></p>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="media py-4">
-            <img src="images/user-1.jpg" class="img-fluid align-self-start mr-3" alt="">
-            <div class="media-body">
-              <h5 class="mb-0 text-secondary">Bruce Bernier.</h5>
-              <span class="mr-3">15 january 2015 At 10:30 pm</span>
-              <a href="#" class="btn btn-transparent py-1 px-2 "><i class="ti-share-alt"></i> Reply</a>
-              <p>Ne erat velit invidunt his. Eum in dicta veniam interesset, harum fuisset te nam ea cu lupta
-                definitionem.</p>
-            </div>
-          </div>
-        </div>
-        <h4 class="mb-3 pb-3 text-secondary">Leave a Comment</h4>
-        <form action="#" class="row">
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p>No hay comentarios todavía. ¡Sé el primero en comentar!</p>
+          <?php endif; ?>
+        </div>        <h4 class="mb-3 pb-3 text-secondary">Dejar un Comentario</h4>
+        <form action="add-comment.php" method="post" class="row">
+          <input type="hidden" name="new_id" value="<?php echo $id; ?>">
           <div class="col-12">
-            <textarea name="comment" id="comment" placeholder="Message" class="form-control mb-4 border"></textarea>
+            <textarea name="comment" id="comment" placeholder="Mensaje" class="form-control mb-4 border" required></textarea>
           </div>
           <div class="col-md-5">
-            <input type="text" name="name" id="name" class="form-control mb-4 mb-lg-0 border" placeholder="Name">
+            <input type="text" name="name" id="name" class="form-control mb-4 mb-lg-0 border" placeholder="Nombre" required>
           </div>
           <div class="col-md-5">
-            <input type="email" name="Email" id="Email" class="form-control mb-4 mb-lg-0 border" placeholder="Email">
+            <input type="email" name="email" id="Email" class="form-control mb-4 mb-lg-0 border" placeholder="Correo" required>
           </div>
           <div class="col-md-2">
-            <button type="submit" class="btn btn-secondary rounded-0">Send</button>
+            <button type="submit" class="btn btn-secondary rounded-0">Enviar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </section>
+
 
 
 <!-- blog -->

@@ -66,7 +66,7 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
           <div class="card-body p-0">
             <time><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></time>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="h4 card-title d-block my-3 text-dark hover-text-underline"><?php echo $noticia['title']; ?></a>
-            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Read more</a>
+            <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Leer más</a>
           </div>
         </article>
       </div>

@@ -22,7 +22,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
 
 <head>
   <meta charset="utf-8">
-  <title>Agen | Bootstrap Agency Template</title>
+  <title>TechX</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,17 +55,40 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
   include("./componentes/header.php")
 ?>
 
+
+
 <!-- page-title -->
 <section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">About Agen</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Quienes somos</h1>
       </div>
     </div>
   </div>
 </section>
 <!-- /page-title -->
+
+<!-- about -->
+<section class="section-lg position-relative bg-cover" data-background="images/backgrounds/about-bg.jpg">
+  <img src="images/backgrounds/about-bg-overlay.png" alt="overlay" class="overlay-image img-fluid">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-lg-6 col-md-8 col-sm-7 col-8">
+        <h2 class="text-white mb-4">Quiénes Somos</h2>
+        <p class="text-light mb-4">TechX es una empresa líder en tecnología enfocada en desarrollar soluciones innovadoras para empresas y particulares. Nuestro equipo está formado por expertos en software, hardware e inteligencia artificial, comprometidos en ofrecer productos y servicios de vanguardia. Creemos en la transformación digital como motor de crecimiento y en la tecnología como herramienta para mejorar la vida de las personas.</p>
+        <a href="about.php" class="btn btn-primary">Leer más</a>
+      </div>
+      <div class="col-md-2 col-sm-4 col-4 text-right align-self-end">
+        <a class="venobox" data-autoplay="true" data-vbtype="video"
+          href="https://www.youtube.com/watch?v=jrkvirglgaQ"><i
+            class="text-center icon-sm icon-box rounded-circle text-white bg-gradient-primary d-block ti-control-play"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /about -->
+
 
 <!-- progressbar -->
 <section class="section pb-0">
@@ -76,7 +99,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
       </div>
       <div class="col-md-6 col-lg-5">
         <div class="progress-block">
-          <h6 class="text-uppercase">HTML5 Expertise</h6>
+          <h6 class="text-uppercase">Experiencia en HTML5</h6>
           <div class="progress">
             <div class="progress-bar" data-percent="85">
               <span class="skill-number text-dark font-weight-bold"><span class="count">85</span>%</span>
@@ -84,7 +107,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
           </div>
         </div>
         <div class="progress-block">
-          <h6 class="text-uppercase">jQuery Expertise</h6>
+          <h6 class="text-uppercase">Experiencia en jQuery</h6>
           <div class="progress">
             <div class="progress-bar" data-percent="95">
               <span class="skill-number text-dark font-weight-bold"><span class="count">95</span>%</span>
@@ -92,7 +115,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
           </div>
         </div>
         <div class="progress-block">
-          <h6 class="text-uppercase">PHP Expertise</h6>
+          <h6 class="text-uppercase">Experiencia en PHP</h6>
           <div class="progress">
             <div class="progress-bar" data-percent="79">
               <span class="skill-number text-dark font-weight-bold"><span class="count">79</span>%</span>
@@ -100,7 +123,7 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
           </div>
         </div>
         <div class="progress-block">
-          <h6 class="text-uppercase">User Interface Expertise</h6>
+          <h6 class="text-uppercase">Experiencia en Interfaz de Usuario</h6>
           <div class="progress">
             <div class="progress-bar" data-percent="90">
               <span class="skill-number text-dark font-weight-bold"><span class="count">90</span>%</span>
@@ -112,7 +135,6 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
   </div>
 </section>
 <!-- /progressbar -->
-
 <!-- video -->
 <section class="section pb-0">
   <div class="container">
@@ -133,58 +155,8 @@ $testimonialsArray = $testomonialsObject->fetch_all(MYSQLI_ASSOC);
 </section>
 <!-- /video -->
 
-<!-- team -->
-<section class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-10 mx-auto text-center">
-        <h2>Our Team</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</p>
-        <div class="section-border"></div>
-      </div>
-    </div>
-    <div class="row no-gutters">
-      <div class="col-lg-3 col-sm-6">
-        <div class="card hover-shadow">
-          <img src="images/team/member-1.jpg" alt="team-member" class="card-img-top">
-          <div class="card-body text-center position-relative zindex-1">
-            <h4><a class="text-dark" href="team-single.php">Sara Adams</a></h4>
-            <i>Designer</i>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card hover-shadow">
-          <img src="images/team/member-2.jpg" alt="team-member" class="card-img-top">
-          <div class="card-body text-center position-relative zindex-1">
-            <h4><a class="text-dark" href="team-single.php">Tom Bills</a></h4>
-            <i>Developer</i>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card hover-shadow">
-          <img src="images/team/member-3.jpg" alt="team-member" class="card-img-top">
-          <div class="card-body text-center position-relative zindex-1">
-            <h4><a class="text-dark" href="team-single.php">Anna Walle</a></h4>
-            <i>Manager</i>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card hover-shadow">
-          <img src="images/team/member-4.jpg" alt="team-member" class="card-img-top">
-          <div class="card-body text-center">
-            <h4>Devid Json</h4>
-            <i>CEO</i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="section pb-0 mt-5">
 </section>
-<!-- /team -->
-
 <!-- testimonial-slider -->
 <section class="section bg-secondary">
   <div class="container">

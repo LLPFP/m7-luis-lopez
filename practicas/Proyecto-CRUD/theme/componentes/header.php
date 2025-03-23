@@ -9,13 +9,13 @@
     <div class="collapse navbar-collapse text-center" id="navigation">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home</a>
+          <a class="nav-link" href="index.php">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="about.php">About</a>
+          <a class="nav-link" href="about.php">Quienes somos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="services.php">Services</a>
+          <a class="nav-link" href="services.php">Servicios</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="blog.php">Blog</a>
@@ -25,7 +25,7 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link" href="contact.php">Contact</a>
+          <a class="nav-link" href="contact.php">Contacto</a>
         </li>
       </ul>
     </div>
