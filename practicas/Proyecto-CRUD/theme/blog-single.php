@@ -138,28 +138,28 @@ $commentsArray = $commentsObject->fetch_all(MYSQLI_ASSOC);
           <?php else: ?>
             <p>No hay comentarios todavía. ¡Sé el primero en comentar!</p>
           <?php endif; ?>
-        </div>        <h4 class="mb-3 pb-3 text-secondary">Dejar un Comentario</h4>
+        </div>
+        <?php if(isset($_SESSION['user_id'])): ?>
+        <h4 class="mb-3 pb-3 text-secondary">Dejar un Comentario</h4>
         <form action="add-comment.php" method="post" class="row">
           <input type="hidden" name="new_id" value="<?php echo $id; ?>">
+          <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
           <div class="col-12">
-            <textarea name="comment" id="comment" placeholder="Mensaje" class="form-control mb-4 border" required></textarea>
+            <textarea name="description" id="comment" placeholder="Mensaje" class="form-control mb-4 border" required></textarea>
           </div>
-          <div class="col-md-5">
-            <input type="text" name="name" id="name" class="form-control mb-4 mb-lg-0 border" placeholder="Nombre" required>
-          </div>
-          <div class="col-md-5">
-            <input type="email" name="email" id="Email" class="form-control mb-4 mb-lg-0 border" placeholder="Correo" required>
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="btn btn-secondary rounded-0">Enviar</button>
+          <div class="col-12">
+            <button type="submit" class="btn btn-secondary">Enviar Comentario</button>
           </div>
         </form>
+        <?php else: ?>
+        <div class="alert alert-info">
+          <p>Debes <a href="inicioSesion.php">iniciar sesión</a> para poder comentar.</p>
+        </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
 </section>
-
-
 
 <!-- blog -->
 <section class="section">

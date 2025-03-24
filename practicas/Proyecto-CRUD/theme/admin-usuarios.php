@@ -64,9 +64,14 @@ if (isset($_POST['actualizar_usuario'])) {
 
     // Manejar la subida de imagen si existe
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
+        // Crear el directorio si no existe
+        if (!file_exists('uploads/avatars')) {
+            mkdir('uploads/avatars', 0777, true);
+        }
+        
         $imagen_nombre = time() . '_' . $_FILES['avatar']['name'];
         $imagen_temporal = $_FILES['avatar']['tmp_name'];
-        $ruta_destino = 'uploads/' . $imagen_nombre;
+        $ruta_destino = 'uploads/avatars/' . $imagen_nombre;
         
         if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
             $sql_update .= ", avatar = ?";
@@ -92,6 +97,7 @@ if (isset($_POST['actualizar_usuario'])) {
     }
     $stmt_update->close();
 }
+
 // Obtener todos los usuarios
 $sql = "SELECT id, name, surname, email, avatar, age, job, date_register, rol FROM USERS ORDER BY date_register DESC";
 $result = $conn->query($sql);
