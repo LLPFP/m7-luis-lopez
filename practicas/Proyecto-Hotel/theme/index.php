@@ -1,6 +1,6 @@
-<?php 
+<?php session_start();
+
 include_once("./config/config.php");
-session_start();
 
 // Consulta SQL para obtener las habitaciones
 $sql = "SELECT * FROM habitaciones";
@@ -237,11 +237,9 @@ $result = $conn->query($sql);
 		<div class="row justify-content-md-center text-center">
 			<div class="col-md-8">
 				<div class="content-holder">
-					<h2>Start today to get more exposure and
-					grow your business</h2>
+					<h2>Empieza hoy a disfrutar de una experiencia única en nuestro hotel</h2>
 					<ul class="list-inline mt-30">
-						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.php">Add Listing</a></li>
-						<li class="list-inline-item"><a class="btn btn-secondary" href="category.php">Browser Listing</a></li>
+						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.php">Reservar ahora</a></li>
 					</ul>
 				</div>
 			</div>
@@ -249,7 +247,6 @@ $result = $conn->query($sql);
 	</div>
 	<!-- Container End -->
 </section>
-
 <!--============================
 =            Footer            =
 =============================-->

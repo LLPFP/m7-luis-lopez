@@ -21,7 +21,9 @@
 							</li>
 							
 						</ul>
-						<?php if(!isset($_SESSION['user_id'])) { ?>
+						<?php 
+						if(!isset($_SESSION['id_cliente']) || empty($_SESSION['id_cliente'])) { 
+						?>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
 								<a class="nav-link login-button btn btn-primary text-white px-4 rounded-pill" href="login.php">
@@ -34,16 +36,26 @@
 								</a>
 							</li>
 						</ul>
-						<?php } else { ?>
+						<?php } else { 
+							// Asegurarse de que todas las variables de sesión necesarias existen
+							$nombre = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'Usuario';
+							$imagen = isset($_SESSION['imagen']) ? $_SESSION['imagen'] : '';
+						?>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item dropdown dropdown-slide @@profile">
-								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!">Mi Perfil<span><i class="fa fa-angle-down"></i></span>
+							<li class="nav-item dropdown dropdown-slide">
+								<a class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="#!">
+									<img src="<?php echo $imagen ? 'uploads/avatars/'.$imagen : 'images/default-avatar.png'; ?>" 
+										alt="Avatar" class="rounded-circle mr-2" style="width: 30px; height: 30px; object-fit: cover;">
+									<span><?php echo htmlspecialchars($nombre); ?></span>
+									<i class="fa fa-angle-down ml-2"></i>
 								</a>
 								<!-- Dropdown list -->
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="user-profile.php">Ver Perfil</a></li>
-									<li><a class="dropdown-item" href="edit-profile.php">Editar Perfil</a></li>
-									<li><a class="dropdown-item" href="my-bookings.php">Mis Reservas</a></li>
+									<li><a class="dropdown-item" href="user-profile.php"><i class="fa fa-user mr-2"></i>Ver Perfil</a></li>
+									<li><a class="dropdown-item" href="edit-profile.php"><i class="fa fa-edit mr-2"></i>Editar Perfil</a></li>
+									<li><a class="dropdown-item" href="my-bookings.php"><i class="fa fa-calendar mr-2"></i>Mis Reservas</a></li>
+									<li><div class="dropdown-divider"></div></li>
+									<li><a class="dropdown-item text-danger" href="logout.php"><i class="fa fa-sign-out mr-2"></i>Cerrar Sesión</a></li>
 								</ul>
 							</li>
 						</ul>
