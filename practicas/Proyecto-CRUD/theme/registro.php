@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h3 class="text-center m-0 font-weight-bold"><i class="ti-user mr-2"></i>Registro de Usuario</h3>
                     </div>
                     <div class="card-body p-5 mt-3">
-                        <form method="POST" action="login.php" class="needs-validation" novalidate enctype="multipart/form-data">
+                        <form method="POST" action="" class="needs-validation" novalidate enctype="multipart/form-data">
                             <div class="mb-4 floating-label">
                                 <label for="name" class="form-label text-primary fw-bold"><i class="ti-user mr-2"></i>Nombre</label>
                                 <input type="text" class="form-control form-control-lg rounded-pill border-2" id="name" name="name" placeholder="Ingresa tu nombre" required>

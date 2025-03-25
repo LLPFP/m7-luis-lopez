@@ -1,6 +1,7 @@
 <?php
-session_start();
 include_once("./config/config.php");
+
+session_start();
 
 // Verificar si el usuario está logueado y es administrador
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'Admin') {
@@ -8,133 +9,80 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'Admin') {
     exit();
 }
 
-// Procesar la creación de un nuevo proyecto
-if (isset($_POST['crear_proyecto'])) {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $client = $_POST['client'];
-    $category = $_POST['category'];
-    $date = $_POST['date'];
+// Procesar eliminación de proyecto si se solicita
+if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    $id = $_GET['delete'];
     
-    // Procesar la imagen
-    $target_dir = "images/projects/";
-    $thumbnail = "";
-    
-    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
-        $file_name = time() . '_' . basename($_FILES['thumbnail']['name']);
-        $target_file = $target_dir . $file_name;
-        
-        // Verificar si es una imagen real
-        $check = getimagesize($_FILES['thumbnail']['tmp_name']);
-        if ($check !== false) {
-            // Intentar subir el archivo
-            if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $target_file)) {
-                $thumbnail = $target_file;
-            }
+    // Obtener la imagen antes de eliminar
+    $result = $conn->query("SELECT thumbnail FROM PROJECTS WHERE id = $id");
+    if($result && $row = $result->fetch_assoc()) {
+        if($row['thumbnail'] && file_exists('uploads/projects/' . $row['thumbnail'])) {
+            unlink('uploads/projects/' . $row['thumbnail']);
         }
     }
     
-    // Insertar el proyecto en la base de datos
-    $sql = "INSERT INTO PROJECTS (title, description, client, category, date, thumbnail) 
-            VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $title, $description, $client, $category, $date, $thumbnail);
+    // Eliminar el proyecto
+    $delete_project = $conn->query("DELETE FROM PROJECTS WHERE id = $id");
     
-    if ($stmt->execute()) {
-        $success_message = "Proyecto creado correctamente";
+    if ($delete_project) {
+        $_SESSION['success_message'] = "Proyecto eliminado correctamente.";
     } else {
-        $error_message = "Error al crear el proyecto: " . $conn->error;
+        $_SESSION['error_message'] = "Error al eliminar el proyecto: " . $conn->error;
     }
-    $stmt->close();
+    
+    header("Location: admin-proyectos.php");
+    exit();
 }
 
-// Procesar la actualización de un proyecto
-if (isset($_POST['actualizar_proyecto'])) {
+// Procesar actualización de proyecto
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
     $title = $_POST['title'];
+    $url = $_POST['url'];
     $description = $_POST['description'];
-    $client = $_POST['client'];
-    $category = $_POST['category'];
-    $date = $_POST['date'];
     
-    // Obtener la imagen actual
-    $sql_img = "SELECT thumbnail FROM PROJECTS WHERE id = ?";
-    $stmt_img = $conn->prepare($sql_img);
-    $stmt_img->bind_param("i", $id);
-    $stmt_img->execute();
-    $result_img = $stmt_img->get_result();
-    $current_img = $result_img->fetch_assoc()['thumbnail'];
-    $stmt_img->close();
-    
-    // Procesar la nueva imagen si se ha subido
-    $thumbnail = $current_img;
-    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
-        $target_dir = "images/projects/";
-        $file_name = time() . '_' . basename($_FILES['thumbnail']['name']);
-        $target_file = $target_dir . $file_name;
+    // Modificar esta parte del código donde se sube la imagen
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {
+        $imagen_nombre = time() . '_' . $_FILES['thumbnail']['name'];
+        $imagen_temporal = $_FILES['thumbnail']['tmp_name'];
+        $ruta_destino = 'uploads/projects/' . $imagen_nombre;
         
-        // Verificar si es una imagen real
-        $check = getimagesize($_FILES['thumbnail']['tmp_name']);
-        if ($check !== false) {
-            // Intentar subir el archivo
-            if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $target_file)) {
-                $thumbnail = $target_file;
-                
-                // Eliminar la imagen anterior si existe y no es la imagen por defecto
-                if (!empty($current_img) && file_exists($current_img) && $current_img != "images/project-placeholder.jpg") {
-                    unlink($current_img);
-                }
+        // Obtener la imagen anterior
+        $result = $conn->query("SELECT thumbnail FROM PROJECTS WHERE id = $id");
+        if($result && $row = $result->fetch_assoc()) {
+            if($row['thumbnail'] && file_exists($row['thumbnail'])) {
+                unlink($row['thumbnail']);
             }
         }
-    }
-    
-    // Actualizar el proyecto en la base de datos
-    $sql = "UPDATE PROJECTS SET title = ?, description = ?, client = ?, category = ?, date = ?, thumbnail = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssi", $title, $description, $client, $category, $date, $thumbnail, $id);
-    
-    if ($stmt->execute()) {
-        $success_message = "Proyecto actualizado correctamente";
-    } else {
-        $error_message = "Error al actualizar el proyecto: " . $conn->error;
-    }
-    $stmt->close();
-}
-
-// Procesar la eliminación de un proyecto
-if (isset($_POST['eliminar_proyecto'])) {
-    $id = $_POST['id'];
-    
-    // Obtener la imagen actual para eliminarla
-    $sql_img = "SELECT thumbnail FROM PROJECTS WHERE id = ?";
-    $stmt_img = $conn->prepare($sql_img);
-    $stmt_img->bind_param("i", $id);
-    $stmt_img->execute();
-    $result_img = $stmt_img->get_result();
-    $current_img = $result_img->fetch_assoc()['thumbnail'];
-    $stmt_img->close();
-    
-    // Eliminar el proyecto de la base de datos
-    $sql = "DELETE FROM PROJECTS WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    
-    if ($stmt->execute()) {
-        // Eliminar la imagen si existe y no es la imagen por defecto
-        if (!empty($current_img) && file_exists($current_img) && $current_img != "images/project-placeholder.jpg") {
-            unlink($current_img);
+        
+        if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
+            // Guardar la ruta completa en la base de datos
+            $update_query = "UPDATE PROJECTS SET title = ?, url = ?, description = ?, thumbnail = ? WHERE id = ?";
+            $stmt = $conn->prepare($update_query);
+            $stmt->bind_param("ssssi", $title, $url, $description, $ruta_destino, $id);
+        } else {
+            $_SESSION['error_message'] = "Error al subir la imagen.";
+            header("Location: admin-proyectos.php");
+            exit();
         }
-        $success_message = "Proyecto eliminado correctamente";
     } else {
-        $error_message = "Error al eliminar el proyecto: " . $conn->error;
+        $update_query = "UPDATE PROJECTS SET title = ?, url = ?, description = ? WHERE id = ?";
+        $stmt = $conn->prepare($update_query);
+        $stmt->bind_param("sssi", $title, $url, $description, $id);
+    }    
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Proyecto actualizado correctamente.";
+    } else {
+        $_SESSION['error_message'] = "Error al actualizar el proyecto: " . $conn->error;
     }
-    $stmt->close();
+    
+    header("Location: admin-proyectos.php");
+    exit();
 }
 
 // Obtener todos los proyectos
-$sql = "SELECT * FROM PROJECTS ORDER BY date DESC";
-$result = $conn->query($sql);
-$proyectos = $result->fetch_all(MYSQLI_ASSOC);
+$proyectosObject = $conn->query("SELECT * FROM PROJECTS ORDER BY id DESC");
+$proyectosArray = $proyectosObject->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +90,7 @@ $proyectos = $result->fetch_all(MYSQLI_ASSOC);
 
 <head>
   <meta charset="utf-8">
-  <title>Gestión de Proyectos - TechX</title>
+  <title>TechX - Gestión de Proyectos</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -171,27 +119,43 @@ $proyectos = $result->fetch_all(MYSQLI_ASSOC);
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
-    .project-thumbnail {
-      width: 80px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-    
-    .table-responsive {
-      overflow-x: auto;
-    }
-    
-    .btn-action {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
-    }
-    
-    .description-preview {
-      max-width: 300px;
-      white-space: nowrap;
+    .admin-table {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border-radius: 10px;
       overflow: hidden;
-      text-overflow: ellipsis;
+    }
+    
+    .admin-table th {
+      background-color: #f8f9fa;
+    }
+    
+    .action-buttons .btn {
+      margin-right: 5px;
+    }
+    
+    .project-title {
+      max-width: 300px;
+      overflow: visible;
+    }
+    
+    .project-content {
+      max-width: 400px;
+      overflow: visible;
+    }
+
+    .modal-lg {
+      max-width: 80%;
+    }
+
+    .modal-body {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .project-thumbnail {
+      max-width: 200px;
+      height: auto;
+      margin-bottom: 15px;
     }
   </style>
 </head>
@@ -217,275 +181,214 @@ $proyectos = $result->fetch_all(MYSQLI_ASSOC);
     <div class="row mb-5">
       <div class="col-12">
         <div class="card border-0 shadow-sm">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <h2 class="mb-0">Proyectos</h2>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProjectModal">
-              <i class="ti-plus mr-2"></i>Nuevo Proyecto
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <?php if(isset($success_message)): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <?php echo $success_message; ?>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <?php endif; ?>
-    
-    <?php if(isset($error_message)): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <?php echo $error_message; ?>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <?php endif; ?>
-    
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-0 shadow-sm">
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead class="bg-light">
-                  <tr>
-                    <th>ID</th>
-                    <th>Imagen</th>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Cliente</th>
-                    <th>Categoría</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php if(count($proyectos) > 0): ?>
-                    <?php foreach($proyectos as $proyecto): ?>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="mb-0">Proyectos Publicados</h2>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#createProjectModal"><i class="ti-plus mr-2"></i>Crear Nuevo Proyecto</button>
+            </div>
+            
+            <?php if (isset($_SESSION['success_message'])): ?>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php 
+                  echo $_SESSION['success_message']; 
+                  unset($_SESSION['success_message']);
+                ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            <?php endif; ?>
+            
+            <?php if (isset($_SESSION['error_message'])): ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php 
+                  echo $_SESSION['error_message']; 
+                  unset($_SESSION['error_message']);
+                ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            <?php endif; ?>
+            
+            <?php if (count($proyectosArray) > 0): ?>
+              <div class="table-responsive admin-table">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Thumbnail</th>
+                      <th>Título</th>
+                      <th>URL</th>
+                      <th>Descripción</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($proyectosArray as $proyecto): ?>
                       <tr>
                         <td><?php echo $proyecto['id']; ?></td>
                         <td>
-                          <?php if(!empty($proyecto['thumbnail']) && file_exists($proyecto['thumbnail'])): ?>
-                            <img src="<?php echo $proyecto['thumbnail']; ?>" alt="<?php echo $proyecto['title']; ?>" class="project-thumbnail">
+                          <?php if($proyecto['thumbnail']): ?>
+                            <img src="<?php echo $proyecto['thumbnail']; ?>" alt="Thumbnail" class="project-thumbnail">
                           <?php else: ?>
-                            <img src="images/project-placeholder.jpg" alt="Placeholder" class="project-thumbnail">
+                            <span class="text-muted">Sin imagen</span>
                           <?php endif; ?>
                         </td>
-                        <td><?php echo $proyecto['title']; ?></td>
-                        <td class="description-preview"><?php echo substr(strip_tags($proyecto['description']), 0, 50); ?>...</td>
-                        <td><?php echo $proyecto['client']; ?></td>
-                        <td><?php echo $proyecto['category']; ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($proyecto['date'])); ?></td>
-                        <td>
-                          <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-info btn-action" data-toggle="modal" data-target="#viewModal<?php echo $proyecto['id']; ?>">
-                              <i class="ti-eye"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning btn-action" data-toggle="modal" data-target="#editModal<?php echo $proyecto['id']; ?>">
-                              <i class="ti-pencil"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-action" data-toggle="modal" data-target="#deleteModal<?php echo $proyecto['id']; ?>">
-                              <i class="ti-trash"></i>
-                            </button>
-                          </div>
+                        <td class="project-title"><?php echo $proyecto['title']; ?></td>
+                        <td><a href="<?php echo $proyecto['url']; ?>" target="_blank"><?php echo substr($proyecto['url'], 0, 30) . (strlen($proyecto['url']) > 30 ? '...' : ''); ?></a></td>
+                        <td class="project-content"><?php echo substr($proyecto['description'], 0, 100) . '...'; ?></td>
+                        <td class="action-buttons">
+                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#viewModal<?php echo $proyecto['id']; ?>">
+                            <i class="ti-eye"></i> Ver
+                          </button>
+                          <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal<?php echo $proyecto['id']; ?>">
+                            <i class="ti-pencil"></i> Editar
+                          </button>
+                          <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $proyecto['id']; ?>">
+                            <i class="ti-trash"></i> Eliminar
+                          </button>
                         </td>
                       </tr>
-                      
-                      <!-- Modal Ver Proyecto -->
+
+                      <!-- Modal para ver el proyecto -->
                       <div class="modal fade" id="viewModal<?php echo $proyecto['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
-                            <div class="modal-header bg-info text-white">
-                              <h5 class="modal-title">Detalles del Proyecto</h5>
+                            <div class="modal-header">
+                              <h5 class="modal-title"><?php echo $proyecto['title']; ?></h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                               </button>
                             </div>
                             <div class="modal-body">
-                              <div class="text-center mb-4">
-                                <?php if(!empty($proyecto['thumbnail']) && file_exists($proyecto['thumbnail'])): ?>
-                                  <img src="<?php echo $proyecto['thumbnail']; ?>" alt="<?php echo $proyecto['title']; ?>" class="img-fluid rounded" style="max-height: 300px;">
-                                <?php else: ?>
-                                  <img src="images/project-placeholder.jpg" alt="Placeholder" class="img-fluid rounded" style="max-height: 300px;">
+                              <?php if($proyecto['thumbnail']): ?>
+                                <img src="<?php echo $proyecto['thumbnail']; ?>" alt="Thumbnail" class="project-thumbnail">
                                 <?php endif; ?>
-                              </div>
-                              <h3 class="text-center mb-4"><?php echo $proyecto['title']; ?></h3>
-                              <div class="row">
-                                <div class="col-md-6 mb-3">
-                                  <h6 class="text-muted">Cliente</h6>
-                                  <p class="font-weight-bold"><?php echo $proyecto['client']; ?></p>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                  <h6 class="text-muted">Categoría</h6>
-                                  <p class="font-weight-bold"><?php echo $proyecto['category']; ?></p>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                  <h6 class="text-muted">Fecha</h6>
-                                  <p class="font-weight-bold"><?php echo date('d/m/Y', strtotime($proyecto['date'])); ?></p>
-                                </div>
-                              </div>
-                              <h6 class="text-muted">Descripción</h6>
-                              <div class="p-3 bg-light rounded">
+                              <p><strong>URL:</strong> <a href="<?php echo $proyecto['url']; ?>" target="_blank"><?php echo $proyecto['url']; ?></a></p>
+                              <div class="content">
+                                <h6>Descripción:</h6>
                                 <?php echo $proyecto['description']; ?>
                               </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      
-                      <!-- Modal Editar Proyecto -->
+
+                      <!-- Modal para editar el proyecto -->
                       <div class="modal fade" id="editModal<?php echo $proyecto['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
-                            <div class="modal-header bg-warning text-white">
+                            <div class="modal-header">
                               <h5 class="modal-title">Editar Proyecto</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                               </button>
                             </div>
-                            <form action="" method="post" enctype="multipart/form-data">
-                              <input type="hidden" name="id" value="<?php echo $proyecto['id']; ?>">
-                              <div class="modal-body">
-                                <div class="form-group">
-                                  <label for="title">Título</label>
-                                  <input type="text" class="form-control" id="title" name="title" value="<?php echo $proyecto['title']; ?>" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="description">Descripción</label>
-                                  <textarea class="form-control" id="description" name="description" rows="5" required><?php echo $proyecto['description']; ?></textarea>
-                                </div>
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label for="client">Cliente</label>
-                                      <input type="text" class="form-control" id="client" name="client" value="<?php echo $proyecto['client']; ?>" required>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label for="category">Categoría</label>
-                                      <input type="text" class="form-control" id="category" name="category" value="<?php echo $proyecto['category']; ?>" required>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="date">Fecha</label>
-                                  <input type="date" class="form-control" id="date" name="date" value="<?php echo date('Y-m-d', strtotime($proyecto['date'])); ?>" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="thumbnail">Imagen (Dejar en blanco para mantener la actual)</label>
-                                  <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
-                                  <?php if(!empty($proyecto['thumbnail']) && file_exists($proyecto['thumbnail'])): ?>
-                                    <div class="mt-2">
-                                      <small class="text-muted">Imagen actual:</small>
-                                      <img src="<?php echo $proyecto['thumbnail']; ?>" alt="<?php echo $proyecto['title']; ?>" class="d-block mt-2" style="max-height: 100px;">
-                                    </div>
-                                  <?php endif; ?>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" name="actualizar_proyecto" class="btn btn-warning">Guardar Cambios</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <!-- Modal Eliminar Proyecto -->
-                      <div class="modal fade" id="deleteModal<?php echo $proyecto['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header bg-danger text-white">
-                              <h5 class="modal-title">Confirmar Eliminación</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                              </button>
-                            </div>
                             <div class="modal-body">
-                              <p>¿Estás seguro de que deseas eliminar el proyecto <strong><?php echo $proyecto['title']; ?></strong>?</p>
-                              <p class="text-danger">Esta acción no se puede deshacer.</p>
-                            </div>
-                            <div class="modal-footer">
-                              <form action="" method="post">
+                              <form action="admin-proyectos.php" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="<?php echo $proyecto['id']; ?>">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" name="eliminar_proyecto" class="btn btn-danger">Eliminar</button>
+                                <?php if($proyecto['thumbnail']): ?>
+                                  <div class="form-group">
+                                    <img src="<?php echo $proyecto['thumbnail']; ?>" alt="Thumbnail" class="project-thumbnail">
+                                    </div>
+                                <?php endif; ?>
+                                <div class="form-group">
+                                  <label>Nuevo Thumbnail</label>
+                                  <input type="file" class="form-control-file" name="thumbnail" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                  <label>Título</label>
+                                  <input type="text" class="form-control" name="title" value="<?php echo $proyecto['title']; ?>" required>
+                                </div>
+                                <div class="form-group">
+                                  <label>URL</label>
+                                  <input type="url" class="form-control" name="url" value="<?php echo $proyecto['url']; ?>" required>
+                                </div>
+                                <div class="form-group">
+                                  <label>Descripción</label>
+                                  <textarea class="form-control" name="description" rows="10" required><?php echo $proyecto['description']; ?></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
                               </form>
                             </div>
                           </div>
                         </div>
                       </div>
+                      
+                      <!-- Modal de confirmación para eliminar -->
+                      <div class="modal fade" id="deleteModal<?php echo $proyecto['id']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Confirmar eliminación</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>¿Estás seguro de que deseas eliminar el proyecto "<strong><?php echo $proyecto['title']; ?></strong>"?</p>
+                              <p class="text-danger">Esta acción no se puede deshacer.</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <a href="admin-proyectos.php?delete=<?php echo $proyecto['id']; ?>" class="btn btn-danger">Eliminar</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     <?php endforeach; ?>
-                  <?php else: ?>
-                    <tr>
-                      <td colspan="8" class="text-center">No hay proyectos disponibles</td>
-                    </tr>
-                  <?php endif; ?>
-                </tbody>
-              </table>
-            </div>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-info">
+                No hay proyectos publicados. ¡Crea tu primer proyecto!
+              </div>
+            <?php endif; ?>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Modal Crear Proyecto -->
+    <!-- Modal para crear nuevo proyecto -->
     <div class="modal fade" id="createProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
+          <div class="modal-header">
             <h5 class="modal-title">Crear Nuevo Proyecto</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <form action="" method="post" enctype="multipart/form-data">
-            <div class="modal-body">
+          <div class="modal-body">
+            <form action="crear_project.php" method="POST" enctype="multipart/form-data">
               <div class="form-group">
-                <label for="title">Título</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-              </div>
-              <div class="form-group">
-                <label for="description">Descripción</label>
-                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="client">Cliente</label>
-                    <input type="text" class="form-control" id="client" name="client" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="category">Categoría</label>
-                    <input type="text" class="form-control" id="category" name="category" required>
-                  </div>
-                </div>
+                <label>Thumbnail</label>
+                <input type="file" class="form-control-file" name="thumbnail" accept="image/*" required>
               </div>
               <div class="form-group">
-                <label for="date">Fecha</label>
-                <input type="date" class="form-control" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" required>
+                <label>Título</label>
+                <input type="text" class="form-control" name="title" required>
               </div>
               <div class="form-group">
-                <label for="thumbnail">Imagen</label>
-                <input type="file" class="form-control-file" id="thumbnail" name="thumbnail" required>
+                <label>URL</label>
+                <input type="url" class="form-control" name="url" required>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="submit" name="crear_proyecto" class="btn btn-primary">Crear Proyecto</button>
-            </div>
-          </form>
+              <div class="form-group">
+                <label>Descripción</label>
+                <textarea class="form-control" name="description" rows="10" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Crear Proyecto</button>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-center">
+      <a href="admin.php" class="btn btn-secondary"><i class="ti-arrow-left mr-2"></i>Volver al Panel de Administración</a>
       </div>
     </div>
   </div>
@@ -509,17 +412,9 @@ $proyectos = $result->fetch_all(MYSQLI_ASSOC);
 <script src="plugins/counto/counTo.js"></script>
 <!-- card slider -->
 <script src="plugins/card-slider/js/card-slider-min.js"></script>
-<!-- google map -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
-<script src="plugins/google-map/gmap.js"></script>
 
 <!-- Main Script -->
 <script src="js/script.js"></script>
-
-<script>
-  // Añadir editor WYSIWYG para las descripciones si se desea
-  // Aquí se podría integrar un editor como TinyMCE o CKEditor
-</script>
 
 </body>
 </html>
