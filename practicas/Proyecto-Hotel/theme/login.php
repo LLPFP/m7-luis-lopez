@@ -8,40 +8,52 @@ $password = $_POST['password'];
   
 // Verificar que los campos no estén vacíos
 if (empty($email) || empty($password)) {
-  $error = "Por favor, complete todos los campos";
+$error = "Por favor, complete todos los campos";
 }
 // Verificar formato de email
 elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $error = "Por favor, introduce un email válido";
+  $error = "Por favor, introduce un email válido";
 } else {
-    // Debug para verificar los datos recibidos
-    error_log("Email recibido: " . $email);
+  // Debug para verificar los datos recibidos
+  error_log("Email recibido: " . $email);
       
-    $sql = "SELECT * FROM clientes WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+  $sql = "SELECT * FROM clientes WHERE email = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $resultado = $stmt->get_result();
         
-    if ($resultado->num_rows > 0) {
-        $cliente = $resultado->fetch_assoc();
-        if ($password === $cliente['contraseña']) {
-            // Debug para verificar la sesión
-            error_log("Login exitoso para el usuario: " . $cliente['email']);
-              
-            $_SESSION['id_cliente'] = $cliente['id'];
-            $_SESSION['email'] = $cliente['email'];
-            $_SESSION['nombre'] = $cliente['nombre'];
-            header("Location: index.php");
-            exit();
-        } else {
-            $error = "Contraseña incorrecta";
-            error_log("Contraseña incorrecta para el usuario: " . $email);
-        }
-    } else {
-        $error = "No existe una cuenta con este email";
-        error_log("Intento de login con email no existente: " . $email);
-    }
+  if ($resultado->num_rows > 0) {
+      $cliente = $resultado->fetch_assoc();
+      if (!password_verify($password, $cliente['contraseña'])) {
+          // Si la contraseña no está hasheada, la hasheamos y actualizamos
+          if ($password === $cliente['contraseña']) {
+              $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+              $update_sql = "UPDATE clientes SET contraseña = ? WHERE id = ?";
+              $update_stmt = $conn->prepare($update_sql);
+              $update_stmt->bind_param("si", $hashed_password, $cliente['id']);
+              $update_stmt->execute();
+                
+              $_SESSION['id_cliente'] = $cliente['id'];
+              $_SESSION['email'] = $cliente['email'];
+              $_SESSION['nombre'] = $cliente['nombre'];
+              header("Location: index.php");
+              exit();
+          } else {
+              $error = "Contraseña incorrecta";
+              error_log("Contraseña incorrecta para el usuario: " . $email);
+          }
+      } else {
+          $_SESSION['id_cliente'] = $cliente['id'];
+          $_SESSION['email'] = $cliente['email'];
+          $_SESSION['nombre'] = $cliente['nombre'];
+          header("Location: index.php");
+          exit();
+      }
+  } else {
+      $error = "No existe una cuenta con este email";
+      error_log("Intento de login con email no existente: " . $email);
+  }
 }
 }
 ?>
@@ -74,22 +86,22 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 <div class="row justify-content-center">
 <div class="col-lg-5 col-md-8 align-item-center">
 <div class="border">
-  <h3 class="bg-gray p-4">Iniciar Sesión</h3>
-  <?php if(isset($error)) { ?>
-    <div class="alert alert-danger m-3"><?php echo htmlspecialchars($error); ?></div>
-  <?php } ?>
-  <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-    <fieldset class="p-4">
-      <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
-      <input class="form-control mb-3" type="password" name="password" placeholder="Contraseña" required>
-      <div class="loggedin-forgot">
-        <input type="checkbox" id="keep-me-logged-in" name="keep-logged">
-        <label for="keep-me-logged-in" class="pt-3 pb-2">Mantener sesión iniciada</label>
-      </div>
-      <button type="submit" name="login" class="btn btn-primary font-weight-bold mt-3">Iniciar Sesión</button>
-      <a class="mt-3 d-inline-block text-primary" href="register.php">Registrarse</a>
-    </fieldset>
-  </form>  </div>
+<h3 class="bg-gray p-4">Iniciar Sesión</h3>
+<?php if(isset($error)) { ?>
+  <div class="alert alert-danger m-3"><?php echo htmlspecialchars($error); ?></div>
+<?php } ?>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+  <fieldset class="p-4">
+    <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
+    <input class="form-control mb-3" type="password" name="password" placeholder="Contraseña" required>
+    <div class="loggedin-forgot">
+      <input type="checkbox" id="keep-me-logged-in" name="keep-logged">
+      <label for="keep-me-logged-in" class="pt-3 pb-2">Mantener sesión iniciada</label>
+    </div>
+    <button type="submit" name="login" class="btn btn-primary font-weight-bold mt-3">Iniciar Sesión</button>
+    <a class="mt-3 d-inline-block text-primary" href="register.php">Registrarse</a>
+  </fieldset>
+</form>  </div>
 </div>
 </div>
 </div>
