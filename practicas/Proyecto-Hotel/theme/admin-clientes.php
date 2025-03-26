@@ -10,11 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST
     $id = $_POST['id'];
     
     // Primero obtenemos la información de la imagen del cliente
-    $sql = "SELECT imagen FROM clientes WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $sql = "SELECT imagen FROM clientes WHERE id = " . intval($id);
+    $result = mysqli_query($conn, $sql);
     $cliente = mysqli_fetch_assoc($result);
     
     // Si existe una imagen, la eliminamos del servidor
@@ -26,11 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST
     }
     
     // Eliminamos el registro de la base de datos
-    $sql = "DELETE FROM clientes WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id);
+    $sql = "DELETE FROM clientes WHERE id = " . intval($id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Cliente eliminado exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
         header("Location: admin-clientes.php");
@@ -41,17 +36,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST
         header("Location: admin-clientes.php");
         exit();
     }
-    
-    mysqli_stmt_close($stmt);
-
 }
 
 // Procesar creación de cliente
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_cliente'])) {
-    $nombre = $_POST['nombre'];
-    $email = $_POST['email'];
-    $telefono = $_POST['telefono'];
-    $rol = $_POST['rol'];
+    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $telefono = mysqli_real_escape_string($conn, $_POST['telefono']);
+    $rol = mysqli_real_escape_string($conn, $_POST['rol']);
     $imagen = '';
 
     // Procesar la imagen si se subió una
@@ -61,15 +53,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_cliente'])) {
         $ruta_destino = 'uploads/clientes/' . $imagen_nombre;
 
         if(move_uploaded_file($imagen_temp, $ruta_destino)) {
-            $imagen = $imagen_nombre;
+            $imagen = mysqli_real_escape_string($conn, $imagen_nombre);
         }
     }
 
-    $sql = "INSERT INTO clientes (nombre, email, telefono, rol, imagen) VALUES (?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $nombre, $email, $telefono, $rol, $imagen);
+    $sql = "INSERT INTO clientes (nombre, email, telefono, rol, imagen) VALUES ('$nombre', '$email', '$telefono', '$rol', '$imagen')";
 
-    if(mysqli_stmt_execute($stmt)) {
+    if(mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Cliente creado exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {
@@ -83,20 +73,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_cliente'])) {
 
 // Procesar edición de cliente
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_cliente'])) {
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $email = $_POST['email'];
-    $telefono = $_POST['telefono'];
-    $rol = $_POST['rol'];
+    $id = intval($_POST['id']);
+    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $telefono = mysqli_real_escape_string($conn, $_POST['telefono']);
+    $rol = mysqli_real_escape_string($conn, $_POST['rol']);
 
     // Si se subió una nueva imagen
     if(isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
         // Primero eliminamos la imagen anterior si existe
-        $sql = "SELECT imagen FROM clientes WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $sql = "SELECT imagen FROM clientes WHERE id = $id";
+        $result = mysqli_query($conn, $sql);
         $cliente = mysqli_fetch_assoc($result);
 
         if (!empty($cliente['imagen'])) {
@@ -112,17 +99,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_cliente'])) {
         $ruta_destino = 'uploads/clientes/' . $imagen_nombre;
 
         if(move_uploaded_file($imagen_temp, $ruta_destino)) {
-            $sql = "UPDATE clientes SET nombre = ?, email = ?, telefono = ?, rol = ?, imagen = ? WHERE id = ?";
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "sssssi", $nombre, $email, $telefono, $rol, $imagen_nombre, $id);
+            $imagen_nombre = mysqli_real_escape_string($conn, $imagen_nombre);
+            $sql = "UPDATE clientes SET nombre = '$nombre', email = '$email', telefono = '$telefono', rol = '$rol', imagen = '$imagen_nombre' WHERE id = $id";
         }
     } else {
-        $sql = "UPDATE clientes SET nombre = ?, email = ?, telefono = ?, rol = ? WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssssi", $nombre, $email, $telefono, $rol, $id);
+        $sql = "UPDATE clientes SET nombre = '$nombre', email = '$email', telefono = '$telefono', rol = '$rol' WHERE id = $id";
     }
 
-    if(mysqli_stmt_execute($stmt)) {
+    if(mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Cliente actualizado exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {
@@ -308,50 +292,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_cliente'])) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="crearClienteModalLabel">Nuevo Cliente</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="crear_cliente" value="1">
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono</label>
-                        <input type="text" class="form-control" name="telefono" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Imagen de perfil</label>
-                        <input type="file" class="form-control-file" name="imagen">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear Cliente</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php include("./componentes/footer.php"); ?>
-
-<script src="plugins/jquery/jquery.min.js"></script>
-<script src="plugins/bootstrap/popper.min.js"></script>
-<script src="plugins/bootstrap/bootstrap.min.js"></script>
-<script src="plugins/bootstrap/bootstrap-slider.js"></script>
-<script src="plugins/tether/js/tether.min.js"></script>
-<script src="plugins/raty/jquery.raty-fa.js"></script>
-<script src="plugins/slick/slick.min.js"></script>
-<script src="plugins/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-<script src="js/script.js"></script>
-
-</body>
-</html>
+                <button type="button" class="close"

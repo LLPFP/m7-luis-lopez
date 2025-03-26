@@ -8,10 +8,8 @@ $result = mysqli_query($conn, $sql);
 // Procesar eliminación de habitación
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST['editar_habitacion'])) {
     $id = $_POST['id'];
-    $sql = "DELETE FROM habitaciones WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    if (mysqli_stmt_execute($stmt)) {
+    $sql = "DELETE FROM habitaciones WHERE id = " . intval($id);
+    if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Habitación eliminada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {
@@ -24,13 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST
 
 // Procesar creación de habitación
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_habitacion'])) {
-    $tipo = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $disponibilidad = $_POST['disponibilidad'];
-    $sql = "INSERT INTO habitaciones (tipo, precio, disponible) VALUES (?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sdi", $tipo, $precio, $disponibilidad);
-    if (mysqli_stmt_execute($stmt)) {
+    $tipo = mysqli_real_escape_string($conn, $_POST['nombre']);
+    $precio = floatval($_POST['precio']);
+    $disponibilidad = intval($_POST['disponibilidad']);
+    $sql = "INSERT INTO habitaciones (tipo, precio, disponible) VALUES ('$tipo', $precio, $disponibilidad)";
+    if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Habitación creada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {
@@ -43,14 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_habitacion'])) {
 
 // Procesar edición de habitación
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) {
-    $id = $_POST['id'];
-    $tipo = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $disponibilidad = $_POST['disponibilidad'];
-    $sql = "UPDATE habitaciones SET tipo = ?, precio = ?, disponible = ? WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sdii", $tipo, $precio, $disponibilidad, $id);
-    if (mysqli_stmt_execute($stmt)) {
+    $id = intval($_POST['id']);
+    $tipo = mysqli_real_escape_string($conn, $_POST['nombre']);
+    $precio = floatval($_POST['precio']);
+    $disponibilidad = intval($_POST['disponibilidad']);
+    $sql = "UPDATE habitaciones SET tipo = '$tipo', precio = $precio, disponible = $disponibilidad WHERE id = $id";
+    if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Habitación actualizada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {

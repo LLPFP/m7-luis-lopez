@@ -17,7 +17,7 @@
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" href="about-us.php">Sobre Nosotros</a>
+								<a class="nav-link" href="about-us.php">Sobre HotelVac</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="rooms.php">Habitaciones</a>
@@ -58,7 +58,6 @@
 									<img src="<?php echo $ruta_imagen; ?>" 
 										alt="Avatar" class="rounded-circle mr-2" style="width: 30px; height: 30px; object-fit: cover;">
 									<span><?php echo htmlspecialchars($nombre); ?></span>
-									<i class="fa fa-angle-down ml-2"></i>
 								</a>
 								<!-- Dropdown list -->
 								<ul class="dropdown-menu">
