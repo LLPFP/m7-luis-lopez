@@ -25,7 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear_habitacion'])) {
     $tipo = mysqli_real_escape_string($conn, $_POST['nombre']);
     $precio = floatval($_POST['precio']);
     $disponibilidad = intval($_POST['disponibilidad']);
-    $sql = "INSERT INTO habitaciones (tipo, precio, disponible) VALUES ('$tipo', $precio, $disponibilidad)";
+    
+    // Procesar la imagen
+    $imagen = "";
+    if(isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+        $target_dir = "uploads/habitaciones/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $imagen = $target_dir . time() . '_' . basename($_FILES["imagen"]["name"]);
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $imagen);
+    }
+    
+    $sql = "INSERT INTO habitaciones (tipo, precio, disponible, imagen) VALUES ('$tipo', $precio, $disponibilidad, '$imagen')";
     if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Habitación creada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
@@ -43,7 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
     $tipo = mysqli_real_escape_string($conn, $_POST['nombre']);
     $precio = floatval($_POST['precio']);
     $disponibilidad = intval($_POST['disponibilidad']);
-    $sql = "UPDATE habitaciones SET tipo = '$tipo', precio = $precio, disponible = $disponibilidad WHERE id = $id";
+    
+    // Procesar la imagen
+    $imagen_sql = "";
+    if(isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+        $target_dir = "uploads/habitaciones/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $imagen = $target_dir . time() . '_' . basename($_FILES["imagen"]["name"]);
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $imagen);
+        $imagen_sql = ", imagen = '$imagen'";
+        
+        // Eliminar imagen anterior
+        $sql_old = "SELECT imagen FROM habitaciones WHERE id = $id";
+        $result_old = mysqli_query($conn, $sql_old);
+        if($row_old = mysqli_fetch_assoc($result_old)) {
+            if(!empty($row_old['imagen']) && file_exists($row_old['imagen'])) {
+                unlink($row_old['imagen']);
+            }
+        }
+    }
+    
+    $sql = "UPDATE habitaciones SET tipo = '$tipo', precio = $precio, disponible = $disponibilidad" . $imagen_sql . " WHERE id = $id";
     if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Habitación actualizada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
@@ -84,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
         <div class="modal fade" id="crearHabitacionModal">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title">Crear Nueva Habitación</h5>
                             <button type="button" class="close" data-dismiss="modal">×</button>
@@ -103,6 +137,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
                                 <label>Disponibilidad</label>
                                 <input type="number" class="form-control" name="disponibilidad" required min="0">
                             </div>
+                            <div class="form-group">
+                                <label>Imagen</label>
+                                <input type="file" class="form-control" name="imagen" accept="image/*" required>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Crear Habitación</button>
@@ -119,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
                     <th>Tipo</th>
                     <th>Precio</th>
                     <th>Disponibilidad</th>
+                    <th>Imagen</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -130,6 +169,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
                     <td><?php echo $row['precio']; ?>€</td>
                     <td><?php echo $row['disponible']; ?></td>
                     <td>
+                        <?php if(!empty($row['imagen'])): ?>
+                            <img src="<?php echo $row['imagen']; ?>" alt="Imagen de la habitación" style="max-width: 100px;">
+                        <?php else: ?>
+                            Sin imagen
+                        <?php endif; ?>
+                    </td>
+                    <td>
                         <button class="btn btn-info" data-toggle="modal" data-target="#editarModal<?php echo $row['id']; ?>">Editar</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal<?php echo $row['id']; ?>">Eliminar</button>
                     </td>
@@ -139,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
                 <div class="modal fade" id="editarModal<?php echo $row['id']; ?>">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST">
+                            <form method="POST" enctype="multipart/form-data">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Editar Habitación</h5>
                                     <button type="button" class="close" data-dismiss="modal">×</button>
@@ -158,6 +204,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_habitacion'])) 
                                     <div class="form-group">
                                         <label>Disponibilidad</label>
                                         <input type="number" class="form-control" name="disponibilidad" value="<?php echo $row['disponible']; ?>" required min="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Imagen Actual</label>
+                                        <?php if(!empty($row['imagen'])): ?>
+                                            <img src="<?php echo $row['imagen']; ?>" alt="Imagen actual" style="max-width: 200px; display: block; margin-bottom: 10px;">
+                                        <?php else: ?>
+                                            <p>No hay imagen</p>
+                                        <?php endif; ?>
+                                        <label>Nueva Imagen (dejar vacío para mantener la actual)</label>
+                                        <input type="file" class="form-control" name="imagen" accept="image/*">
                                     </div>
                                 </div>
                                 <div class="modal-footer">

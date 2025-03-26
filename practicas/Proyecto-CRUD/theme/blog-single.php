@@ -100,7 +100,7 @@ $commentsArray = $commentsObject->fetch_all(MYSQLI_ASSOC);
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <h3 class="font-tertiary mb-5"><?php echo $noticia['title']; ?></h3>
-        <img src="<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="img-fluid w-100 mb-3">
+        <img src="./uploads/news/<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
         <p class="float-left mr-4">Post by <?php echo $noticia['author'] ?? 'Admin'; ?></p>
         <p><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></p>
         <div class="content">
@@ -172,8 +172,8 @@ $commentsArray = $commentsObject->fetch_all(MYSQLI_ASSOC);
       ?>
       <div class="col-lg-4 col-md-6 mb-4">
         <article class="card">
-          <img src="<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
-          <div class="card-body p-0">
+        <img src="./uploads/news/<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
+        <div class="card-body p-0">
             <time><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></time>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="h4 card-title d-block my-3 text-dark hover-text-underline"><?php echo $noticia['title']; ?></a>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Read more</a>

@@ -327,8 +327,8 @@ $projectsArray = $projectsObject->fetch_all(MYSQLI_ASSOC);
       ?>
       <div class="col-lg-4 col-md-6 mb-4">
         <article class="card">
-          <img src="<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
-          <div class="card-body p-0">
+        <img src="./uploads/news/<?php echo $noticia['thumbnail']; ?>" alt="<?php echo $noticia['title']; ?>" class="card-img-top mb-2">
+        <div class="card-body p-0">
             <time><?php echo date('F j, Y', strtotime($noticia['new_data'])); ?></time>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="h4 card-title d-block my-3 text-dark hover-text-underline"><?php echo $noticia['title']; ?></a>
             <a href="blog-single.php?id=<?php echo $noticia['id']; ?>" class="btn btn-transparent">Leer más</a>

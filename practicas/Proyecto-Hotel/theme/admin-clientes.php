@@ -292,4 +292,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_cliente'])) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="crearClienteModalLabel">Nuevo Cliente</h5>
-                <button type="button" class="close"
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="crear_cliente" value="1">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" class="form-control" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rol</label>
+                        <select class="form-control" name="rol" required>
+                            <option value="Usuario">Usuario</option>
+                            <option value="Admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen de perfil</label>
+                        <input type="file" class="form-control-file" name="imagen" accept="image/*">
+                    </div>
+                    <div class="modal-footer px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Crear Cliente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php include("./componentes/footer.php"); ?>
+
+<!-- Scripts necesarios para Bootstrap y los modales -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/bootstrap/bootstrap.min.js"></script>
+</body>
+</html>
