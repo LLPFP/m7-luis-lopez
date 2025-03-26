@@ -6,8 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    $nombre = filter_var($_POST['nombre'], FILTER_SANITIZE_STRING);
-    $telefono = filter_var($_POST['telefono'], FILTER_SANITIZE_STRING);
+    // Replace deprecated FILTER_SANITIZE_STRING with htmlspecialchars
+    $nombre = htmlspecialchars($_POST['nombre'], ENT_QUOTES, 'UTF-8');
+    $telefono = htmlspecialchars($_POST['telefono'], ENT_QUOTES, 'UTF-8');
     
     // Validaciones
     if (empty($email) || empty($password) || empty($confirm_password) || empty($nombre) || empty($telefono)) {
@@ -21,9 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else {
         // Verificar si el email ya existe
-        $stmt = $conn->prepare("SELECT id FROM clientes WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        $resultado = $stmt->fetch();
+        // Fix the prepared statement syntax for mysqli
+        $stmt = $conn->prepare("SELECT id FROM clientes WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $resultado = $stmt->get_result()->fetch_assoc();
         
         if ($resultado) {
             $error = "Este email ya está registrado";
@@ -31,25 +34,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Hash de la contraseña
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
-            // Insertar nuevo cliente
-            $stmt = $conn->prepare("INSERT INTO clientes (nombre, email, contraseña, telefono) VALUES (:nombre, :email, :password, :telefono)");
+            // Insertar nuevo cliente - fix the prepared statement syntax
+            $stmt = $conn->prepare("INSERT INTO clientes (nombre, email, contraseña, telefono) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nombre, $email, $hashed_password, $telefono);
             
-            if ($stmt->execute([
-                'nombre' => $nombre,
-                'email' => $email,
-                'password' => $hashed_password,
-                'telefono' => $telefono
-            ])) {
+            if ($stmt->execute()) {
                 $_SESSION['success'] = "Registro completado con éxito";
                 header("Location: login.php");
                 exit();
             } else {
-                $error = "Error al registrar el usuario";
+                $error = "Error al registrar el usuario: " . $conn->error;
             }
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">

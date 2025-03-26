@@ -197,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_cliente'])) {
                                         echo "<td>".$row['email']."</td>";
                                         echo "<td>".$row['telefono']."</td>";
                                         echo "<td>".$row['rol']."</td>";
-                                        echo "<td>".date('d/m/Y', strtotime($row['fecha_registro']))."</td>";
+                                        echo "<td>" . (isset($row['fecha_registro']) && $row['fecha_registro'] ? date('d/m/Y', strtotime($row['fecha_registro'])) : 'N/A') . "</td>";
                                         echo "<td>
                                                 <button type='button' class='btn btn-sm btn-info mr-2' data-toggle='modal' data-target='#editarModal".$row['id']."'><i class='fa fa-edit'></i></button>
                                                 <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#eliminarModal".$row['id']."'><i class='fa fa-trash'></i></button>

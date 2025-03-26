@@ -6,10 +6,10 @@ $error = "";
 $success = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING));
+      $nombre = trim(htmlspecialchars(strip_tags($_POST['nombre'])));
       $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
-      $asunto = trim(filter_input(INPUT_POST, 'asunto', FILTER_SANITIZE_STRING));
-      $mensaje = trim(filter_input(INPUT_POST, 'mensaje', FILTER_SANITIZE_STRING));
+      $asunto = trim(htmlspecialchars(strip_tags($_POST['asunto'])));
+      $mensaje = trim(htmlspecialchars(strip_tags($_POST['mensaje'])));
 
       if (empty($nombre) || empty($email) || empty($asunto) || empty($mensaje)) {
           $error = "Todos los campos son obligatorios.";
