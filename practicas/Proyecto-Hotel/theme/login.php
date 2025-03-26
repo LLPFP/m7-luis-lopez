@@ -17,11 +17,8 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   // Debug para verificar los datos recibidos
   error_log("Email recibido: " . $email);
       
-  $sql = "SELECT * FROM clientes WHERE email = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $resultado = $stmt->get_result();
+  $sql = "SELECT * FROM clientes WHERE email = '$email'";
+  $resultado = $conn->query($sql);
         
   if ($resultado->num_rows > 0) {
       $cliente = $resultado->fetch_assoc();
@@ -29,10 +26,8 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
           // Si la contraseña no está hasheada, la hasheamos y actualizamos
           if ($password === $cliente['contraseña']) {
               $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-              $update_sql = "UPDATE clientes SET contraseña = ? WHERE id = ?";
-              $update_stmt = $conn->prepare($update_sql);
-              $update_stmt->bind_param("si", $hashed_password, $cliente['id']);
-              $update_stmt->execute();
+              $update_sql = "UPDATE clientes SET contraseña = '$hashed_password' WHERE id = " . $cliente['id'];
+              $conn->query($update_sql);
                 
               $_SESSION['id_cliente'] = $cliente['id'];
               $_SESSION['email'] = $cliente['email'];
@@ -47,7 +42,8 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
           $_SESSION['id_cliente'] = $cliente['id'];
           $_SESSION['email'] = $cliente['email'];
           $_SESSION['nombre'] = $cliente['nombre'];
-          header("Location: index.php");
+          $_SESSION['rol'] = $cliente['rol'];  // Añadir esta línea aquí
+          header("Location: user-profile.php");
           exit();
       }
   } else {

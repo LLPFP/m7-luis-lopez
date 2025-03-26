@@ -1,314 +1,204 @@
 <?php 
+session_start();
 
+require_once("./config/config.php");
 
+// Obtener el ID de la habitación de la URL
+$id_habitacion = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+// Preparar y ejecutar la consulta
+$sql = "SELECT * FROM habitaciones WHERE id = " . $id_habitacion;
+$resultado = $conn->query($sql);
+$habitacion = $resultado->fetch_assoc();
+
+// Si no existe la habitación, redirigir
+if (!$habitacion) {
+		header("Location: index.php");
+		exit();
+}
 ?>
 
 <!DOCTYPE html>
-
-<!--
- // WEBSITE: https://themefisher.com
- // TWITTER: https://twitter.com/themefisher
- // FACEBOOK: https://www.facebook.com/themefisher
- // GITHUB: https://github.com/themefisher/
--->
-
-<html lang="en">
+<html lang="es">
 <head>
+	<meta charset="utf-8">
+	<title>Hotel - <?php echo htmlspecialchars($habitacion['tipo']); ?></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+	<meta name="author" content="Hotel">
 
-  <!-- ** Basic Page Needs ** -->
-  <meta charset="utf-8">
-  <title>Classimax | Classified Marketplace Template</title>
-
-  <!-- ** Mobile Specific Metas ** -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Agency HTML Template">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="author" content="Themefisher">
-  <meta name="generator" content="Themefisher Classified Marketplace Template v1.0">
-
-  <!-- favicon -->
-  <link href="images/favicon.png" rel="shortcut icon">
-
-  <!-- 
-  Essential stylesheets
-  =====================================-->
-  <link href="plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <link href="plugins/bootstrap/bootstrap-slider.css" rel="stylesheet">
-  <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="plugins/slick/slick.css" rel="stylesheet">
-  <link href="plugins/slick/slick-theme.css" rel="stylesheet">
-  <link href="plugins/jquery-nice-select/css/nice-select.css" rel="stylesheet">
-  
-  <link href="css/style.css" rel="stylesheet">
-
+	<link href="images/favicon.png" rel="shortcut icon">
+	<link href="plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="plugins/bootstrap/bootstrap-slider.css" rel="stylesheet">
+	<link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="plugins/slick/slick.css" rel="stylesheet">
+	<link href="plugins/slick/slick-theme.css" rel="stylesheet">
+	<link href="plugins/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<link href="plugins/animate/animate.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<style>
+		.product-title {
+			font-size: 2.5rem;
+			color: #2c3e50;
+			margin-bottom: 1.5rem;
+			font-weight: 600;
+		}
+		.product-meta {
+			background: #f8f9fa;
+			padding: 15px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+		}
+		.product-slider-item img {
+			border-radius: 12px;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease;
+		}
+		.product-slider-item img:hover {
+			transform: scale(1.02);
+		}
+		.widget {
+			background: #fff;
+			padding: 25px;
+			border-radius: 12px;
+			box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+			margin-bottom: 30px;
+		}
+		.btn-primary {
+			background: #3498db;
+			border: none;
+			padding: 12px 25px;
+			border-radius: 25px;
+			transition: all 0.3s ease;
+		}
+		.btn-primary:hover {
+			background: #2980b9;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(52,152,219,0.3);
+		}
+		.form-control {
+			border-radius: 8px;
+			padding: 12px;
+			border: 2px solid #e9ecef;
+		}
+		.form-control:focus {
+			border-color: #3498db;
+			box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25);
+		}
+		.table {
+			border-radius: 8px;
+			overflow: hidden;
+		}
+		.nav-pills .nav-link.active {
+			background: #3498db;
+			border-radius: 25px;
+		}
+		.nav-pills .nav-link {
+			color: #2c3e50;
+			border-radius: 25px;
+			padding: 12px 30px;
+		}
+	</style>
 </head>
 
 <body class="body-wrapper">
 
+<?php include("./componentes/header.php"); ?>
 
-<?php 
-
-include("./componentes/header.php");
-?>
-
-<!--===================================
-=            Store Section            =
-====================================-->
 <section class="section bg-gray">
-	<!-- Container Start -->
 	<div class="container">
 		<div class="row">
-			<!-- Left sidebar -->
 			<div class="col-lg-8">
-				<div class="product-details">
-					<h1 class="product-title">Hp Dual Core 2gb Ram-Slim Laptop Available In Very Low Price</h1>
+				<div class="product-details animate__animated animate__fadeIn">
+					<h1 class="product-title">Habitacion <?php echo htmlspecialchars($habitacion['tipo']); ?></h1>
 					<div class="product-meta">
 						<ul class="list-inline">
-							<li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="user-profile.php">Andrew</a></li>
-							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="category.php">Electronics</a></li>
-							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="category.php">Dhaka Bangladesh</a></li>
+							<li class="list-inline-item"><i class="fa fa-tag"></i> Tipo: <?php echo htmlspecialchars($habitacion['tipo']); ?></li>
+							<li class="list-inline-item"><i class="fa fa-check"></i> Disponibilidad: 
+																<span class="badge <?php echo $habitacion['disponible'] ? 'badge-success' : 'badge-danger'; ?>">
+																		<?php echo $habitacion['disponible'] ? 'Disponible' : 'No disponible'; ?>
+																</span>
+														</li>
 						</ul>
 					</div>
 
-					<!-- product slider -->
-					<div class="product-slider">
-						<div class="product-slider-item my-4" data-image="images/products/products-1.jpg">
-							<img class="img-fluid w-100" src="images/products/products-1.jpg" alt="product-img">
-						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-2.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-2.jpg" alt="Second slide">
-						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-3.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-3.jpg" alt="Third slide">
-						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-1.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-1.jpg" alt="Third slide">
-						</div>
-						<div class="product-slider-item my-4" data-image="images/products/products-2.jpg">
-							<img class="d-block img-fluid w-100" src="images/products/products-2.jpg" alt="Third slide">
+					<div class="product-image">
+						<div class="my-4">
+							<img class="img-fluid w-100 rounded" src="<?php echo htmlspecialchars($habitacion['imagen']); ?>" alt="Imagen habitación">
 						</div>
 					</div>
-					<!-- product slider -->
 
 					<div class="content mt-5 pt-5">
-						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+						<ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
-								 aria-selected="true">Product Details</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
-								 aria-selected="false">Specifications</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
-								 aria-selected="false">Reviews</a>
+								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Detalles de la Habitación</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-								<h3 class="tab-title">Product Description</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia laudantium beatae quod perspiciatis, neque
-									dolores eos rerum, ipsa iste cum culpa numquam amet provident eveniet pariatur, sunt repellendus quas
-									voluptate dolor cumque autem molestias. Ab quod quaerat molestias culpa eius, perferendis facere vitae commodi
-									maxime qui numquam ex voluptatem voluptate, fuga sequi, quasi! Accusantium eligendi vitae unde iure officia
-									amet molestiae velit assumenda, quidem beatae explicabo dolore laboriosam mollitia quod eos, eaque voluptas
-									enim fuga laborum, error provident labore nesciunt ad. Libero reiciendis necessitatibus voluptates ab
-									excepturi rem non, nostrum aut aperiam? Itaque, aut. Quas nulla perferendis neque eveniet ullam?</p>
-
-								<iframe width="100%" height="400" src="https://www.youtube.com/embed/LUH7njvhydE?rel=0&amp;controls=0&amp;showinfo=0"
-								 frameborder="0" allowfullscreen></iframe>
-								<p></p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed, officia reiciendis necessitatibus
-									obcaecati eum, quaerat unde illo suscipit placeat nihil voluptatibus ipsa omnis repudiandae, excepturi! Id
-									aperiam eius perferendis cupiditate exercitationem, mollitia numquam fuga, inventore quam eaque cumque fugiat,
-									neque repudiandae dolore qui itaque iste asperiores ullam ut eum illum aliquam dignissimos similique! Aperiam
-									aut temporibus optio nulla numquam molestias eum officia maiores aliquid laborum et officiis pariatur,
-									delectus sapiente molestiae sit accusantium a libero, eligendi vero eius laboriosam minus. Nemo quibusdam
-									nesciunt doloribus repellendus expedita necessitatibus velit vero?</p>
-
-							</div>
-							<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-								<h3 class="tab-title">Product Specifications</h3>
+								<h3 class="tab-title">Detalles de la Habitación</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
 										<tr>
-											<td>Seller Price</td>
-											<td>$450</td>
+											<td><i class="fa fa-money"></i> Precio por noche</td>
+											<td class="text-primary">$<?php echo number_format($habitacion['precio'], 2); ?></td>
 										</tr>
 										<tr>
-											<td>Added</td>
-											<td>26th December</td>
+											<td><i class="fa fa-bed"></i> Tipo</td>
+											<td><?php echo htmlspecialchars($habitacion['tipo']); ?></td>
 										</tr>
 										<tr>
-											<td>State</td>
-											<td>Dhaka</td>
-										</tr>
-										<tr>
-											<td>Brand</td>
-											<td>Apple</td>
-										</tr>
-										<tr>
-											<td>Condition</td>
-											<td>Used</td>
-										</tr>
-										<tr>
-											<td>Model</td>
-											<td>2017</td>
-										</tr>
-										<tr>
-											<td>State</td>
-											<td>Dhaka</td>
-										</tr>
-										<tr>
-											<td>Battery Life</td>
-											<td>23</td>
+											<td><i class="fa fa-info-circle"></i> Estado</td>
+											<td>
+																								<span class="badge <?php echo $habitacion['disponible'] ? 'badge-success' : 'badge-danger'; ?>">
+																										<?php echo $habitacion['disponible'] ? 'Disponible' : 'No disponible'; ?>
+																								</span>
+																						</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-								<h3 class="tab-title">Product Review</h3>
-								<div class="product-review">
-									<div class="media">
-										<!-- Avater -->
-										<img src="images/user/user-thumb.jpg" alt="avater">
-										<div class="media-body">
-											<!-- Ratings -->
-											<div class="ratings">
-												<ul class="list-inline">
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-												</ul>
-											</div>
-											<div class="name">
-												<h5>Jessica Brown</h5>
-											</div>
-											<div class="date">
-												<p>Mar 20, 2018</p>
-											</div>
-											<div class="review-comment">
-												<p>
-													Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape
-													riamipsa eaque.
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="review-submission">
-										<h3 class="tab-title">Submit your review</h3>
-										<!-- Rate -->
-										<div class="rate">
-											<div class="starrr"></div>
-										</div>
-										<div class="review-submit">
-											<form action="#" method="POST" class="row">
-												<div class="col-lg-6 mb-3">
-													<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
-												</div>
-												<div class="col-lg-6 mb-3">
-													<input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-												</div>
-												<div class="col-12 mb-3">
-													<textarea name="review" id="review" rows="6" class="form-control" placeholder="Message" required></textarea>
-												</div>
-												<div class="col-12">
-													<button type="submit" class="btn btn-main">Sumbit</button>
-												</div>
-											</form>
-										</div>
-									</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-5 pt-5">
+				<div class="sidebar">
+					<div class="widget price text-center animate__animated animate__fadeInRight">
+						<h4>Precio por noche</h4>
+						<p class="display-4">$<?php echo number_format($habitacion['precio'], 2); ?></p>
+					</div>
+					
+					<?php if($habitacion['disponible']): ?>
+					<div class="widget user text-center animate__animated animate__fadeInRight">
+						<h4>Reserva ahora</h4>
+						<form action="procesar-reserva.php" method="POST" id="reservaForm">
+							<input type="hidden" name="id_habitacion" value="<?php echo $id_habitacion; ?>">
+							<div class="form-group">
+								<label><i class="fa fa-calendar"></i> Fecha de entrada</label>
+								<input type="date" class="form-control" name="fecha_entrada" id="fecha_entrada" required>
+							</div>
+							<div class="form-group">
+								<label><i class="fa fa-calendar"></i> Fecha de salida</label>
+								<input type="date" class="form-control" name="fecha_salida" id="fecha_salida" required>
+							</div>
+							<div class="form-group" id="resumen" style="display: none;">
+								<div class="alert alert-info">
+									<p><strong>Total de noches:</strong> <span id="total_noches">0</span></p>
+									<p><strong>Precio total:</strong> $<span id="precio_total">0.00</span></p>
 								</div>
 							</div>
-						</div>
+							<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i> Reservar ahora</button>
+						</form>
 					</div>
+					<?php endif; ?>
 				</div>
-			</div>
-			<div class="col-lg-4">
-				<div class="sidebar">
-					<div class="widget price text-center">
-						<h4>Price</h4>
-						<p>$230</p>
-					</div>
-					<!-- User Profile widget -->
-					<div class="widget user text-center">
-						<img class="rounded-circle img-fluid mb-5 px-5" src="images/user/user-thumb.jpg" alt="">
-						<h4><a href="user-profile.php">Jonathon Andrew</a></h4>
-						<p class="member-time">Member Since Jun 27, 2017</p>
-						<a href="single.php">See all ads</a>
-						<ul class="list-inline mt-20">
-							<li class="list-inline-item"><a href="contact-us.php" class="btn btn-contact d-inline-block  btn-primary px-lg-5 my-1 px-md-3">Contact</a></li>
-							<li class="list-inline-item"><a href="single.php" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Make an
-									offer</a></li>
-						</ul>
-					</div>
-					<!-- Map Widget -->
-					<div class="widget map">
-						<div class="map">
-							<div id="map" data-latitude="51.507351" data-longitude="-0.127758"></div>
-						</div>
-					</div>
-					<!-- Rate Widget -->
-					<div class="widget rate">
-						<!-- Heading -->
-						<h5 class="widget-header text-center">What would you rate
-							<br>
-							this product</h5>
-						<!-- Rate -->
-						<div class="starrr"></div>
-					</div>
-					<!-- Safety tips widget -->
-					<div class="widget disclaimer">
-						<h5 class="widget-header">Safety Tips</h5>
-						<ul>
-							<li>Meet seller at a public place</li>
-							<li>Check the item before you buy</li>
-							<li>Pay only after collecting the item</li>
-							<li>Pay only after collecting the item</li>
-						</ul>
-					</div>
-					<!-- Coupon Widget -->
-					<div class="widget coupon text-center">
-						<!-- Coupon description -->
-						<p>Have a great product to post ? Share it with
-							your fellow users.
-						</p>
-						<!-- Submii button -->
-						<a href="single.php" class="btn btn-transparent-white">Submit Listing</a>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
+			</div>		</div>
 	</div>
-	<!-- Container End -->
 </section>
-<!--============================
-=            Footer            =
-=============================-->
 
-<?php 
+<?php include("./componentes/footer.php"); ?>
 
-include("./componentes/footer.php");
-?>
-<!-- 
-Essential Scripts
-=====================================-->
 <script src="plugins/jquery/jquery.min.js"></script>
 <script src="plugins/bootstrap/popper.min.js"></script>
 <script src="plugins/bootstrap/bootstrap.min.js"></script>
@@ -317,12 +207,31 @@ Essential Scripts
 <script src="plugins/raty/jquery.raty-fa.js"></script>
 <script src="plugins/slick/slick.min.js"></script>
 <script src="plugins/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-<!-- google map -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
-<script src="plugins/google-map/map.js" defer></script>
-
 <script src="js/script.js"></script>
 
-</body>
+<script>
+$(document).ready(function() {
+    function calcularTotalNoches() {
+        var fechaEntrada = new Date($('#fecha_entrada').val());
+        var fechaSalida = new Date($('#fecha_salida').val());
+        
+        if(fechaEntrada && fechaSalida && fechaSalida > fechaEntrada) {
+            var diferencia = fechaSalida.getTime() - fechaEntrada.getTime();
+            var noches = Math.ceil(diferencia / (1000 * 3600 * 24));
+            var precioNoche = <?php echo $habitacion['precio']; ?>;
+            var precioTotal = noches * precioNoche;
+            
+            $('#total_noches').text(noches);
+            $('#precio_total').text(precioTotal.toFixed(2));
+            $('#resumen').show();
+        } else {
+            $('#resumen').hide();
+        }
+    }
 
+    $('#fecha_entrada, #fecha_salida').on('change', calcularTotalNoches);
+});
+</script>
+
+</body>
 </html>

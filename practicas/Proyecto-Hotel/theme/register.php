@@ -21,24 +21,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else {
         // Verificar si el email ya existe
-        $sql = "SELECT id FROM clientes WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+        $stmt = $conn->prepare("SELECT id FROM clientes WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $resultado = $stmt->fetch();
         
-        if ($resultado->num_rows > 0) {
+        if ($resultado) {
             $error = "Este email ya está registrado";
         } else {
             // Hash de la contraseña
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
             // Insertar nuevo cliente
-            $sql = "INSERT INTO clientes (nombre, email, contraseña, telefono) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssss", $nombre, $email, $hashed_password, $telefono);
+            $stmt = $conn->prepare("INSERT INTO clientes (nombre, email, contraseña, telefono) VALUES (:nombre, :email, :password, :telefono)");
             
-            if ($stmt->execute()) {
+            if ($stmt->execute([
+                'nombre' => $nombre,
+                'email' => $email,
+                'password' => $hashed_password,
+                'telefono' => $telefono
+            ])) {
                 $_SESSION['success'] = "Registro completado con éxito";
                 header("Location: login.php");
                 exit();

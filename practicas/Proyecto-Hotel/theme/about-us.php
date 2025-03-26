@@ -1,3 +1,9 @@
+<?php session_start();
+
+include_once("./config/config.php");
+?>
+
+
 <!DOCTYPE html>
 
 <!--
@@ -40,326 +46,188 @@
 
 <body class="body-wrapper">
 
+<?php 
 
-<header>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<nav class="navbar navbar-expand-lg navbar-light navigation">
-					<a class="navbar-brand" href="index.php">
-						<img src="images/logo.png" alt="">
-					</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item @@home">
-								<a class="nav-link" href="index.php">Home</a>
-							</li>
-							<li class="nav-item dropdown dropdown-slide @@dashboard">
-								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!">Dashboard<span><i class="fa fa-angle-down"></i></span>
-								</a>
+include ("./componentes/header.php");
 
-								<!-- Dropdown list -->
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item @@dashboardPage" href="dashboard.php">Dashboard</a></li>
-									<li><a class="dropdown-item @@dashboardMyAds" href="dashboard-my-ads.php">Dashboard My Ads</a></li>
-									<li><a class="dropdown-item @@dashboardFavouriteAds" href="dashboard-favourite-ads.php">Dashboard Favourite Ads</a></li>
-									<li><a class="dropdown-item @@dashboardArchivedAds" href="dashboard-archived-ads.php">Dashboard Archived Ads</a></li>
-									<li><a class="dropdown-item @@dashboardPendingAds" href="dashboard-pending-ads.php">Dashboard Pending Ads</a></li>
-									
-									<li class="dropdown dropdown-submenu dropright">
-										<a class="dropdown-item dropdown-toggle" href="#!" id="dropdown0501" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub Menu</a>
-					
-										<ul class="dropdown-menu" aria-labelledby="dropdown0501">
-											<li><a class="dropdown-item" href="index.php">Submenu 01</a></li>
-											<li><a class="dropdown-item" href="index.php">Submenu 02</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li class="nav-item dropdown dropdown-slide active">
-								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages <span><i class="fa fa-angle-down"></i></span>
-								</a>
-								<!-- Dropdown list -->
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item active" href="about-us.php">About Us</a></li>
-									<li><a class="dropdown-item @@contact" href="contact-us.php">Contact Us</a></li>
-									<li><a class="dropdown-item @@profile" href="user-profile.php">User Profile</a></li>
-									<li><a class="dropdown-item @@404" href="404.php">404 Page</a></li>
-									<li><a class="dropdown-item @@package" href="package.php">Package</a></li>
-									<li><a class="dropdown-item @@singlePage" href="single.php">Single Page</a></li>
-									<li><a class="dropdown-item @@store" href="store.php">Store Single</a></li>
-									<li><a class="dropdown-item @@blog" href="blog.php">Blog</a></li>
-									<li><a class="dropdown-item @@singleBlog" href="single-blog.php">Blog Details</a></li>
-									<li><a class="dropdown-item @@terms" href="terms-condition.php">Terms &amp; Conditions</a></li>
-								</ul>
-							</li>
-							<li class="nav-item dropdown dropdown-slide @@listing">
-								<a class="nav-link dropdown-toggle" href="#!" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Listing <span><i class="fa fa-angle-down"></i></span>
-								</a>
-								<!-- Dropdown list -->
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item @@category" href="category.php">Ad-Gird View</a></li>
-									<li><a class="dropdown-item @@listView" href="ad-list-view.php">Ad-List View</a></li>
-									
-									<li class="dropdown dropdown-submenu dropleft">
-										<a class="dropdown-item dropdown-toggle" href="#!" id="dropdown0201" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub Menu</a>
-					
-										<ul class="dropdown-menu" aria-labelledby="dropdown0201">
-											<li><a class="dropdown-item" href="index.php">Submenu 01</a></li>
-											<li><a class="dropdown-item" href="index.php">Submenu 02</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item">
-								<a class="nav-link login-button" href="login.php">Login</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-white add-button" href="ad-listing.php"><i class="fa fa-plus-circle"></i> Add Listing</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-		</div>
-	</div>
-</header>
-
+?>
 <!--================================
 =            Page Title            =
 =================================-->
-<section class="page-title">
+<section class="page-title bg-primary py-5">
 	<!-- Container Start -->
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 offset-md-2 text-center">
 				<!-- Title text -->
-				<h3>About Us</h3>
+				<h3 class="text-white font-weight-bold mb-3">Sobre HotelVac</h3>
+				<div class="border-top border-white w-25 mx-auto"></div>
 			</div>
 		</div>
 	</div>
 	<!-- Container End -->
 </section>
-
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-6">
-        <div class="about-img">
-          <img src="images/about/about.jpg" class="img-fluid w-100 rounded" alt="">
-        </div>
-      </div>
-      <div class="col-lg-6 pt-5 pt-lg-0">
-        <div class="about-content">
-          <h3 class="font-weight-bold">Introduction</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
-            fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-            euismod. Nam sollicitudin mi quis orci lobortis feugiat.</p>
-          <h3 class="font-weight-bold">How we can help</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc est justo, aliquam nec tempor
-            fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus dictum tincidunt magna id
-            euismod. Nam sollicitudin mi quis orci lobortis feugiat. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Nunc est justo, aliquam nec tempor fermentum, commodo et libero. Quisque et rutrum arcu. Vivamus dictum
-            tincidunt magna id euismod. Nam sollicitudin mi quis orci lobortis feugiat.</p>
+      <div class="col-lg-12">
+        <div class="about-img position-relative">
+          <img src="images/about/about.jpg" class="img-fluid w-100 rounded-lg shadow-lg" alt="Hotel Exterior">
+          <div class="about-content mt-5 px-5">
+            <div class="section-title text-center mb-5">
+              <h3 class="font-weight-bold text-black display-4">Bienvenidos a HotelVac</h3>
+              <div class="border-bottom border-primary w-25 mx-auto mb-4"></div>
+            </div>
+            <p class="lead text-black px-4">HotelVac es un lujoso establecimiento ubicado en el corazón de la ciudad, diseñado para ofrecer una experiencia única de alojamiento. Nuestras instalaciones combinan el confort moderno con un servicio excepcional para garantizar una estancia inolvidable.</p>
+            
+            <div class="section-title text-center my-5">
+              <h3 class="font-weight-bold text-black display-4">Nuestros Servicios</h3>
+              <div class="border-bottom border-primary w-25 mx-auto mb-4"></div>
+            </div>
+            <p class="lead text-black px-4">Ofrecemos una amplia gama de servicios premium que incluyen restaurante gourmet, spa de lujo, centro de fitness 24/7, piscina climatizada y salones para eventos. Nuestras habitaciones están equipadas con la última tecnología y comodidades para garantizar el máximo confort. El compromiso con la excelencia y la atención personalizada son los pilares fundamentales de nuestra filosofía de servicio.</p>
+            
+            <div class="section-title text-center my-5">
+              <h3 class="font-weight-bold text-black display-4">Nuestra Historia</h3>
+              <div class="border-bottom border-primary w-25 mx-auto mb-4"></div>
+            </div>
+            <p class="lead text-black px-4">Fundado en 1995, HotelVac ha sido sinónimo de excelencia hotelera durante más de 25 años. Comenzamos con la visión de crear un espacio que combinara el lujo con la hospitalidad auténtica, y hoy somos reconocidos como uno de los hoteles más prestigiosos de la región.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="mb-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="heading text-center text-capitalize font-weight-bold py-5">
-          <h2>our team</h2>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card my-3 my-lg-0">
-          <img class="card-img-top" src="images/team/team1.jpg" class="img-fluid w-100" alt="Card image cap">
-          <div class="card-body bg-gray text-center">
-            <h5 class="card-title">John Doe</h5>
-            <p class="card-text">Founder / CEO</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card my-3 my-lg-0">
-          <img class="card-img-top" src="images/team/team2.jpg" class="img-fluid w-100" alt="Card image cap">
-          <div class="card-body bg-gray text-center">
-            <h5 class="card-title">John Doe</h5>
-            <p class="card-text">Founder / CEO</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card my-3 my-lg-0">
-          <img class="card-img-top" src="images/team/team3.jpg" class="img-fluid w-100" alt="Card image cap">
-          <div class="card-body bg-gray text-center">
-            <h5 class="card-title">John Doe</h5>
-            <p class="card-text">Founder / CEO</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6">
-        <div class="card my-3 my-lg-0">
-          <img class="card-img-top" src="images/team/team4.jpg" class="img-fluid w-100" alt="Card image cap">
-          <div class="card-body bg-gray text-center">
-            <h5 class="card-title">John Doe</h5>
-            <p class="card-text">Founder / CEO</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+<section class=" section">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<!-- Section title -->
+				<div class="section-title">
+					<h2>Servicios del Hotel</h2>
+					<p>Descubre todos los servicios y comodidades que ofrecemos para tu estancia</p>
+				</div>
+				<div class="row">
+					<!-- Category list -->
+					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+						<div class="category-block">
+							<div class="header">
+								<i class="fa fa-bed icon-bg-1"></i>
+								<h4>Habitaciones</h4>
+							</div>
+							<ul class="category-list">
+								<li><a href="category.php">Individual <span>15</span></a></li>
+								<li><a href="category.php">Doble <span>25</span></a></li>
+								<li><a href="category.php">Suite <span>10</span></a></li>
+								<li><a href="category.php">Familiar <span>8</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Category list -->
+					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+						<div class="category-block">
+							<div class="header">
+								<i class="fa fa-cutlery icon-bg-2"></i>
+								<h4>Restaurantes</h4>
+							</div>
+							<ul class="category-list">
+								<li><a href="category.php">Buffet <span>3</span></a></li>
+								<li><a href="category.php">A la carta <span>2</span></a></li>
+								<li><a href="category.php">Bar <span>1</span></a></li>
+								<li><a href="category.php">Cafetería <span>1</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Category list -->
+					
+					
+					<!-- Category list -->
+					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+						<div class="category-block">
+							<div class="header">
+								<i class="fa fa-car icon-bg-5"></i>
+								<h4>Transporte</h4>
+							</div>
+							<ul class="category-list">
+								<li><a href="category.php">Aeropuerto <span>2</span></a></li>
+								<li><a href="category.php">Parking <span>1</span></a></li>
+								<li><a href="category.php">Alquiler coches <span>1</span></a></li>
+								<li><a href="category.php">Taxi <span>1</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Category list -->
+					
+					
+					<!-- Category list -->
+					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6">
+						<div class="category-block">
+							<div class="header">
+								<i class="fa fa-wifi icon-bg-8"></i>
+								<h4>Conectividad</h4>
+							</div>
+							<ul class="category-list">
+								<li><a href="category.php">WiFi <span>Gratis</span></a></li>
+								<li><a href="category.php">Business Center <span>1</span></a></li>
+								<li><a href="category.php">TV Cable <span>150</span></a></li>
+								<li><a href="category.php">Teléfono <span>24h</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+
 
 <section class="section bg-gray">
   <div class="container">
     <div class="row">
       <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
         <div class="counter-content text-center bg-light py-4 rounded">
+          <i class="fa fa-bed d-block"></i>
+          <span class="counter my-2 d-block" data-count="150">0</span>
+          <h5>Habitaciones</h5>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
+        <div class="counter-content text-center bg-light py-4 rounded">
+          <i class="fa fa-star-o d-block"></i>
+          <span class="counter my-2 d-block" data-count="5">0</span>
+          <h5>Estrellas</h5>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
+        <div class="counter-content text-center bg-light py-4 rounded">
+          <i class="fa fa-users d-block"></i>
+          <span class="counter my-2 d-block" data-count="50000">0</span>
+          <h5>Huéspedes al Año</h5>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
+        <div class="counter-content text-center bg-light py-4 rounded">
           <i class="fa fa-smile-o d-block"></i>
-          <span class="counter my-2 d-block" data-count="2314">0</span>
-          <h5>Happy Customers</h5>
-          </script>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
-        <div class="counter-content text-center bg-light py-4 rounded">
-          <i class="fa fa-user-o d-block"></i>
-          <span class="counter my-2 d-block" data-count="1013">0</span>
-          <h5>Active Members</h5>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
-        <div class="counter-content text-center bg-light py-4 rounded">
-          <i class="fa fa-bookmark-o d-block"></i>
-          <span class="counter my-2 d-block" data-count="2413">0</span>
-          <h5>Verified Ads</h5>
-        </div>
-      </div>
-      <div class="col-lg-3 col-sm-6 my-lg-0 my-3">
-        <div class="counter-content text-center bg-light py-4 rounded">
-          <i class="fa fa-smile-o d-block"></i>
-          <span class="counter my-2 d-block" data-count="200">0</span>
-          <h5>Happy Customers</h5>
+          <span class="counter my-2 d-block" data-count="98">0</span>
+          <h5>% Satisfacción</h5>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+
 <!--============================
 =            Footer            =
 =============================-->
 
-<footer class="footer section section-sm">
-  <!-- Container Start -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0 mb-4 mb-lg-0">
-        <!-- About -->
-        <div class="block about">
-          <!-- footer logo -->
-          <img src="images/logo-footer.png" alt="logo">
-          <!-- description -->
-          <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 offset-lg-1 col-md-3 col-6 mb-4 mb-lg-0">
-        <div class="block">
-          <h4>Site Pages</h4>
-          <ul>
-            <li><a href="dashboard-my-ads.php">My Ads</a></li>
-            <li><a href="dashboard-favourite-ads.php">Favourite Ads</a></li>
-            <li><a href="dashboard-archived-ads.php">Archived Ads</a></li>
-            <li><a href="dashboard-pending-ads.php">Pending Ads</a></li>
-            <li><a href="terms-condition.php">Terms & Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0 col-6 mb-4 mb-md-0">
-        <div class="block">
-          <h4>Admin Pages</h4>
-          <ul>
-            <li><a href="category.php">Category</a></li>
-            <li><a href="single.php">Single Page</a></li>
-            <li><a href="store.php">Store Single</a></li>
-            <li><a href="single-blog.php">Single Post</a>
-            </li>
-            <li><a href="blog.php">Blog</a></li>
+<?php 
 
+include ("./componentes/footer.php");
 
-
-          </ul>
-        </div>
-      </div>
-      <!-- Promotion -->
-      <div class="col-lg-4 col-md-7">
-        <!-- App promotion -->
-        <div class="block-2 app-promotion">
-          <div class="mobile d-flex  align-items-center">
-            <a href="index.php">
-              <!-- Icon -->
-              <img src="images/footer/phone-icon.png" alt="mobile-icon">
-            </a>
-            <p class="mb-0">Get the Dealsy Mobile App and Save more</p>
-          </div>
-          <div class="download-btn d-flex my-3">
-            <a href="index.php"><img src="images/apps/google-play-store.png" class="img-fluid" alt=""></a>
-            <a href="index.php" class=" ml-3"><img src="images/apps/apple-app-store.png" class="img-fluid" alt=""></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Container End -->
-</footer>
-<!-- Footer Bottom -->
-<footer class="footer-bottom">
-  <!-- Container Start -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 text-center text-lg-left mb-3 mb-lg-0">
-        <!-- Copyright -->
-        <div class="copyright">
-          <p>Copyright &copy; <script>
-              var CurrentYear = new Date().getFullYear()
-              document.write(CurrentYear)
-            </script>. Designed & Developed by <a class="text-white" href="https://themefisher.com">Themefisher</a></p>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <!-- Social Icons -->
-        <ul class="social-media-icons text-center text-lg-right">
-          <li><a class="fa fa-facebook" href="https://www.facebook.com/themefisher"></a></li>
-          <li><a class="fa fa-twitter" href="https://www.twitter.com/themefisher"></a></li>
-          <li><a class="fa fa-pinterest-p" href="https://www.pinterest.com/themefisher"></a></li>
-          <li><a class="fa fa-github-alt" href="https://www.github.com/themefisher"></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- Container End -->
-  <!-- To Top -->
-  <div class="scroll-top-to">
-    <i class="fa fa-angle-up"></i>
-  </div>
-</footer>
+?>
 
 <!-- 
 Essential Scripts

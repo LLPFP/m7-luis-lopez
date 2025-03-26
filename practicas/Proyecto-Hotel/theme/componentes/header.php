@@ -12,14 +12,24 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="index.php">Home</a>
 							</li>
 							
 							<li class="nav-item">
 								<a class="nav-link" href="about-us.php">Sobre Nosotros</a>
 							</li>
-							
+							<li class="nav-item">
+								<a class="nav-link" href="rooms.php">Habitaciones</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="contact.php">Contacto</a>
+							</li>
+							<?php if(isset($_SESSION['rol']) && $_SESSION['rol'] == 'Admin'): ?>
+							<li class="nav-item">
+								<a class="nav-link" href="admin.php">Panel Admin</a>
+							</li>
+							<?php endif; ?>
 						</ul>
 						<?php 
 						if(!isset($_SESSION['id_cliente']) || empty($_SESSION['id_cliente'])) { 
@@ -39,8 +49,8 @@
 						<?php } else { 
 							// Asegurarse de que todas las variables de sesión necesarias existen
 							$nombre = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'Usuario';
-							$imagen = isset($_SESSION['imagen']) && !empty($_SESSION['imagen']) ? $_SESSION['imagen'] : 'default-avatar.png';
-							$ruta_imagen = $imagen === 'default-avatar.png' ? 'images/' . $imagen : 'uploads/clientes/' . $imagen;
+							$imagen = isset($_SESSION['imagen']) && !empty($_SESSION['imagen']) ? $_SESSION['imagen'] : 'avatar.png';
+							$ruta_imagen = $imagen === 'avatar.png' ? 'images/clientes/' . $imagen : 'uploads/clientes/' . $imagen;
 						?>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item dropdown dropdown-slide">

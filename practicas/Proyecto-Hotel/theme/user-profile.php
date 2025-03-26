@@ -46,7 +46,7 @@ $_SESSION['imagen']= $clientes['imagen'];
                             <?php if(!empty($clientes['imagen'])): ?>
                                 <img src="uploads/clientes/<?php echo htmlspecialchars($clientes['imagen']); ?>" alt="Foto de perfil">
                             <?php else: ?>
-                                <img src="images/clientes/user-thumb.jpg" alt="Foto por defecto">
+                                <img src="images/clientes/avatar.png" alt="Foto por defecto">
                             <?php endif; ?>
                         </div>
                         <h5 class="text-center"><?php echo htmlspecialchars($clientes['nombre']); ?></h5>

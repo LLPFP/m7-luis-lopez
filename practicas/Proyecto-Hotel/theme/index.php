@@ -115,9 +115,9 @@ $result = $conn->query($sql);
 												<a href="#" class="text-muted"><i class="fa fa-bed me-2"></i>Habitación</a>
 											</li>
 											<li class="list-inline-item">
-												<a href="#" class="<?php echo ($row['disponible'] == 1) ? 'text-success' : 'text-danger'; ?>">
+												<a href="#" class="<?php echo ($row['disponible'] >= 1) ? 'text-success' : 'text-danger'; ?>">
 													<i class="fa fa-check-circle me-2"></i>
-													<?php echo ($row['disponible'] == 1) ? 'Disponible' : 'No disponible'; ?>
+													<?php echo ($row['disponible'] >= 1) ? 'Disponible' : 'No disponible'; ?>
 												</a>
 											</li>
 										</ul>
@@ -224,7 +224,6 @@ $result = $conn->query($sql);
 	</div>
 </section>
 	<!-- Container End -->
-</section>
 
 
 <!--====================================
@@ -239,7 +238,7 @@ $result = $conn->query($sql);
 				<div class="content-holder">
 					<h2>Empieza hoy a disfrutar de una experiencia única en nuestro hotel</h2>
 					<ul class="list-inline mt-30">
-						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.php">Reservar ahora</a></li>
+						<li class="list-inline-item"><a class="btn btn-main" href="rooms.php">Reservar ahora</a></li>
 					</ul>
 				</div>
 			</div>
