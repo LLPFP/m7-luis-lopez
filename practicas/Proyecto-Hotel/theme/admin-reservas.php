@@ -2,12 +2,19 @@
 include_once("./config/config.php");
 session_start();
 
-$sql = "SELECT r.*, c.nombre as nombre_cliente, h.id as num_habitacion 
+$sql = "SELECT r.*, c.nombre as nombre_cliente, h.tipo as tipo_habitacion 
 FROM reservas r 
 INNER JOIN clientes c ON r.id_cliente = c.id 
 INNER JOIN habitaciones h ON r.id_habitacion = h.id 
 ORDER BY r.fecha_inicio DESC";
 $result = mysqli_query($conn, $sql);
+
+// Obtener lista de clientes y habitaciones para los selects
+$sql_clientes = "SELECT id, nombre FROM clientes";
+$clientes = mysqli_query($conn, $sql_clientes);
+
+$sql_habitaciones = "SELECT id, tipo FROM habitaciones";
+$habitaciones = mysqli_query($conn, $sql_habitaciones);
 
 // Procesar eliminación de reserva
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST['editar_reserva'])) {
@@ -24,19 +31,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id']) && !isset($_POST
     exit();
 }
 
-
 // Procesar edición de reserva
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_reserva'])) {
     $id = intval($_POST['id']);
     $fecha_inicio = mysqli_real_escape_string($conn, $_POST['fecha_inicio']);
     $fecha_fin = mysqli_real_escape_string($conn, $_POST['fecha_fin']);
+    $id_cliente = intval($_POST['id_cliente']);
+    $id_habitacion = intval($_POST['id_habitacion']);
+    $estado = mysqli_real_escape_string($conn, $_POST['estado']);
     
-    $sql = "UPDATE reservas SET fecha_inicio = '$fecha_inicio', fecha_fin = '$fecha_fin' WHERE id = $id";
+    $sql = "UPDATE reservas SET 
+            fecha_inicio = '$fecha_inicio', 
+            fecha_fin = '$fecha_fin', 
+            id_cliente = $id_cliente, 
+            id_habitacion = $id_habitacion, 
+            estado = '$estado' 
+            WHERE id = $id";
+            
     if (mysqli_query($conn, $sql)) {
         $_SESSION['mensaje'] = "Reserva actualizada exitosamente";
         $_SESSION['tipo_mensaje'] = "success";
     } else {
-        $_SESSION['mensaje'] = "Error al actualizar la reserva";
+        $_SESSION['mensaje'] = "Error al actualizar la reserva: " . mysqli_error($conn);
         $_SESSION['tipo_mensaje'] = "danger";
     }
     header("Location: admin-reservas.php");
@@ -75,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_reserva'])) {
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
-                    <th>Habitación</th>
+                    <th>Tipo Habitación</th>
                     <th>Fecha Entrada</th>
                     <th>Fecha Salida</th>
                     <th>Estado</th>
@@ -87,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_reserva'])) {
                 <tr>
                     <td><?php echo $row['id']; ?></td>
                     <td><?php echo htmlspecialchars($row['nombre_cliente']); ?></td>
-                    <td>Habitación <?php echo $row['num_habitacion']; ?></td>
+                    <td><?php echo $row['tipo_habitacion']; ?></td>
                     <td><?php echo date('d/m/Y', strtotime($row['fecha_inicio'])); ?></td>
                     <td><?php echo date('d/m/Y', strtotime($row['fecha_fin'])); ?></td>
                     <td><?php echo ucfirst($row['estado']); ?></td>
@@ -110,12 +126,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_reserva'])) {
                                     <input type="hidden" name="editar_reserva" value="1">
                                     <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                                     <div class="form-group">
+                                        <label>Cliente</label>
+                                        <select class="form-control" name="id_cliente" required>
+                                            <?php 
+                                            mysqli_data_seek($clientes, 0);
+                                            while($cliente = mysqli_fetch_assoc($clientes)): 
+                                            ?>
+                                                <option value="<?php echo $cliente['id']; ?>" <?php echo ($cliente['id'] == $row['id_cliente']) ? 'selected' : ''; ?>>
+                                                    <?php echo htmlspecialchars($cliente['nombre']); ?>
+                                                </option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipo Habitación</label>
+                                        <select class="form-control" name="id_habitacion" required>
+                                            <?php 
+                                            mysqli_data_seek($habitaciones, 0);
+                                            while($habitacion = mysqli_fetch_assoc($habitaciones)): 
+                                            ?>
+                                                <option value="<?php echo $habitacion['id']; ?>" <?php echo ($habitacion['id'] == $row['id_habitacion']) ? 'selected' : ''; ?>>
+                                                    <?php echo $habitacion['tipo']; ?>
+                                                </option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Fecha de Entrada</label>
                                         <input type="date" class="form-control" name="fecha_inicio" value="<?php echo $row['fecha_inicio']; ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Fecha de Salida</label>
                                         <input type="date" class="form-control" name="fecha_fin" value="<?php echo $row['fecha_fin']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <select class="form-control" name="estado" required>
+                                            <option value="pendiente" <?php echo ($row['estado'] == 'pendiente') ? 'selected' : ''; ?>>Pendiente</option>
+                                            <option value="confirmada" <?php echo ($row['estado'] == 'confirmada') ? 'selected' : ''; ?>>Confirmada</option>
+                                            <option value="cancelada" <?php echo ($row['estado'] == 'cancelada') ? 'selected' : ''; ?>>Cancelada</option>
+                                            <option value="completada" <?php echo ($row['estado'] == 'completada') ? 'selected' : ''; ?>>Completada</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

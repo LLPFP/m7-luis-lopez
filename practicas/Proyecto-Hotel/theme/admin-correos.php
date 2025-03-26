@@ -86,6 +86,7 @@ if (!$result_clientes) {
                     <td><?php echo date('d/m/Y H:i', strtotime($row['fecha_envio'])); ?></td>
                     <td>
                         <button class="btn btn-info" data-toggle="modal" data-target="#verModal<?php echo $row['id']; ?>">Ver</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal<?php echo $row['id']; ?>">Eliminar</button>
                     </td>
                 </tr>
 
@@ -136,6 +137,7 @@ if (!$result_clientes) {
                             </div>
                             <div class="modal-body">¿Está seguro de que desea eliminar este correo?</div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <form method="POST">
                                     <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
