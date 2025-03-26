@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $url = $_POST['url'];
     $description = $_POST['description'];
     
-    // Modificar esta parte del código donde se sube la imagen
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {
         $imagen_nombre = time() . '_' . $_FILES['thumbnail']['name'];
         $imagen_temporal = $_FILES['thumbnail']['tmp_name'];
@@ -56,21 +55,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         }
         
         if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
-            // Guardar la ruta completa en la base de datos
-            $update_query = "UPDATE PROJECTS SET title = ?, url = ?, description = ?, thumbnail = ? WHERE id = ?";
-            $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("ssssi", $title, $url, $description, $ruta_destino, $id);
+            $update_query = "UPDATE PROJECTS SET title = '$title', url = '$url', description = '$description', thumbnail = '$ruta_destino' WHERE id = $id";
+            $stmt = $conn->query($update_query);
         } else {
             $_SESSION['error_message'] = "Error al subir la imagen.";
             header("Location: admin-proyectos.php");
             exit();
         }
     } else {
-        $update_query = "UPDATE PROJECTS SET title = ?, url = ?, description = ? WHERE id = ?";
-        $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("sssi", $title, $url, $description, $id);
+        $update_query = "UPDATE PROJECTS SET title = '$title', url = '$url', description = '$description' WHERE id = $id";
+        $stmt = $conn->query($update_query);
     }    
-    if ($stmt->execute()) {
+    if ($stmt) {
         $_SESSION['success_message'] = "Proyecto actualizado correctamente.";
     } else {
         $_SESSION['error_message'] = "Error al actualizar el proyecto: " . $conn->error;

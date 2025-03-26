@@ -40,21 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Preparar la consulta SQL para insertar el comentario
-    $stmt = $conn->prepare("INSERT INTO COMMENTS (new_id, user_id, description, date) VALUES (?, ?, ?, ?)");
+    $sql = "INSERT INTO COMMENTS (new_id, user_id, description, date) VALUES ('$new_id', '$user_id', '$description', '$date')";
     
-    if ($stmt) {
-        $stmt->bind_param("iiss", $new_id, $user_id, $description, $date);
-        
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Comentario añadido correctamente.";
-        } else {
-            $_SESSION['error_message'] = "Error al añadir el comentario: " . $stmt->error;
-        }
-        
-        $stmt->close();
+    if ($conn->query($sql)) {
+        $_SESSION['success_message'] = "Comentario añadido correctamente.";
     } else {
-        $_SESSION['error_message'] = "Error en la preparación de la consulta: " . $conn->error;
+        $_SESSION['error_message'] = "Error al añadir el comentario: " . $conn->error;
     }
     
     // Redirigir de vuelta a la página de la noticia

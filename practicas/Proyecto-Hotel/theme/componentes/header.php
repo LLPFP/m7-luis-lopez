@@ -39,12 +39,13 @@
 						<?php } else { 
 							// Asegurarse de que todas las variables de sesión necesarias existen
 							$nombre = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'Usuario';
-							$imagen = isset($_SESSION['imagen']) ? $_SESSION['imagen'] : '';
+							$imagen = isset($_SESSION['imagen']) && !empty($_SESSION['imagen']) ? $_SESSION['imagen'] : 'default-avatar.png';
+							$ruta_imagen = $imagen === 'default-avatar.png' ? 'images/' . $imagen : 'uploads/clientes/' . $imagen;
 						?>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="#!">
-									<img src="<?php echo $imagen ? 'uploads/avatars/'.$imagen : 'images/default-avatar.png'; ?>" 
+									<img src="<?php echo $ruta_imagen; ?>" 
 										alt="Avatar" class="rounded-circle mr-2" style="width: 30px; height: 30px; object-fit: cover;">
 									<span><?php echo htmlspecialchars($nombre); ?></span>
 									<i class="fa fa-angle-down ml-2"></i>

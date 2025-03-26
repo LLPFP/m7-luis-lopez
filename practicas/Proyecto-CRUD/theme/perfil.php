@@ -10,11 +10,8 @@ if (!isset($_SESSION['usuario'])) {
 
 // Obtener datos del usuario
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM USERS WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT * FROM USERS WHERE id = $user_id";
+$result = $conn->query($sql);
 $user = $result->fetch_assoc();
 
 // Procesar el formulario cuando se envía
@@ -36,22 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $messageType = "danger";
         } else {
             // Verificar si el correo ya existe (excepto el del usuario actual)
-            $check_email = "SELECT id FROM USERS WHERE email = ? AND id != ?";
-            $stmt = $conn->prepare($check_email);
-            $stmt->bind_param("si", $email, $user_id);
-            $stmt->execute();
-            $email_result = $stmt->get_result();
+            $check_email = "SELECT id FROM USERS WHERE email = '$email' AND id != $user_id";
+            $email_result = $conn->query($check_email);
             
             if ($email_result->num_rows > 0) {
                 $message = "El correo electrónico ya está en uso";
                 $messageType = "danger";
             } else {
                 // Actualizar información del usuario
-                $update_sql = "UPDATE USERS SET name = ?, surname = ?, email = ?, age = ?, job = ? WHERE id = ?";
-                $stmt = $conn->prepare($update_sql);
-                $stmt->bind_param("sssisi", $name, $surname, $email, $age, $job, $user_id);
+                $update_sql = "UPDATE USERS SET name = '$name', surname = '$surname', email = '$email', age = $age, job = '$job' WHERE id = $user_id";
                 
-                if ($stmt->execute()) {
+                if ($conn->query($update_sql)) {
                     $message = "Perfil actualizado correctamente";
                     $messageType = "success";
                     
@@ -59,11 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['usuario'] = $name;
                     
                     // Recargar datos del usuario
-                    $sql = "SELECT * FROM USERS WHERE id = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $user_id);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
+                    $sql = "SELECT * FROM USERS WHERE id = $user_id";
+                    $result = $conn->query($sql);
                     $user = $result->fetch_assoc();
                 } else {
                     $message = "Error al actualizar el perfil: " . $conn->error;
@@ -92,11 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Actualizar contraseña
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $update_sql = "UPDATE USERS SET password = ? WHERE id = ?";
-            $stmt = $conn->prepare($update_sql);
-            $stmt->bind_param("si", $hashed_password, $user_id);
+            $update_sql = "UPDATE USERS SET password = '$hashed_password' WHERE id = $user_id";
             
-            if ($stmt->execute()) {
+            if ($conn->query($update_sql)) {
                 $message = "Contraseña actualizada correctamente";
                 $messageType = "success";
             } else {
@@ -132,20 +119,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (move_uploaded_file($_FILES['avatar']['tmp_name'], $destination)) {
                     // Actualizar avatar en la base de datos
                     $avatar_path = $destination;
-                    $update_sql = "UPDATE USERS SET avatar = ? WHERE id = ?";
-                    $stmt = $conn->prepare($update_sql);
-                    $stmt->bind_param("si", $avatar_path, $user_id);
+                    $update_sql = "UPDATE USERS SET avatar = '$avatar_path' WHERE id = $user_id";
                     
-                    if ($stmt->execute()) {
+                    if ($conn->query($update_sql)) {
                         $message = "Avatar actualizado correctamente";
                         $messageType = "success";
                         
                         // Recargar datos del usuario
-                        $sql = "SELECT * FROM USERS WHERE id = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("i", $user_id);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                        $sql = "SELECT * FROM USERS WHERE id = $user_id";
+                        $result = $conn->query($sql);
                         $user = $result->fetch_assoc();
                     } else {
                         $message = "Error al actualizar el avatar: " . $conn->error;

@@ -12,11 +12,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'Admin') {
 // Procesar eliminación de comentarios si se solicita
 if (isset($_POST['delete_comment']) && isset($_POST['comment_id'])) {
     $comment_id = $_POST['comment_id'];
-    $delete_sql = "DELETE FROM COMMENTS WHERE id = ?";
-    $stmt = $conn->prepare($delete_sql);
-    $stmt->bind_param("i", $comment_id);
+    $delete_sql = "DELETE FROM COMMENTS WHERE id = " . intval($comment_id);
     
-    if ($stmt->execute()) {
+    if ($conn->query($delete_sql)) {
         $message = "Comentario eliminado correctamente";
         $messageType = "success";
     } else {
@@ -32,20 +30,13 @@ $sql = "SELECT c.*, u.name, u.surname, u.avatar, n.title as news_title
         LEFT JOIN NEWS n ON c.new_id = n.id 
         ORDER BY c.date DESC";
 try {
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        throw new Exception("Error en la preparación de la consulta: " . $conn->error);
+    $result = $conn->query($sql);
+    if ($result === false) {
+        throw new Exception("Error al ejecutar la consulta: " . $conn->error);
     }
-    
-    if (!$stmt->execute()) {
-        throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
-    }
-    
-    $result = $stmt->get_result();
 } catch (Exception $e) {
     die("Error al obtener comentarios: " . $e->getMessage());
 }
-
 
 ?>
 

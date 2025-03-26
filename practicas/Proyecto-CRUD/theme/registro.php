@@ -32,19 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-        // Use mysqli prepared statements instead of PDO
-    $sql = "INSERT INTO USERS (name, surname, email, password, avatar, age, job, date_register, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
     
-    if ($stmt) {
-        $stmt->bind_param("sssssssss", $name, $surname, $email, $password, $avatar, $age, $job, $date_register, $rol);
-        $stmt->execute();
-        $stmt->close();
+    $sql = "INSERT INTO USERS (name, surname, email, password, avatar, age, job, date_register, rol) VALUES ('$name', '$surname', '$email', '$password', '$avatar', '$age', '$job', '$date_register', '$rol')";
+    
+    if ($conn->query($sql) === TRUE) {
+        header("Location: inicioSesion.php");
     } else {
-        echo "Error preparing statement: " . $conn->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
 
 ?>
 

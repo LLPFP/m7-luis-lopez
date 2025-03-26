@@ -29,17 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // Insertar el nuevo proyecto
-    $insert_query = "INSERT INTO PROJECTS (title, url, description, thumbnail) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($insert_query);
-    $stmt->bind_param("ssss", $title, $url, $description, $thumbnail);
-    
-    if ($stmt->execute()) {
+    // Replace the bind_param section with direct SQL query
+    $title = $conn->real_escape_string($title);
+    $url = $conn->real_escape_string($url);
+    $description = $conn->real_escape_string($description);
+    $thumbnail = $conn->real_escape_string($thumbnail);
+
+    $insert_query = "INSERT INTO PROJECTS (title, url, description, thumbnail) 
+                    VALUES ('$title', '$url', '$description', '$thumbnail')";
+
+    if ($conn->query($insert_query)) {
         $_SESSION['success_message'] = "Proyecto creado correctamente.";
     } else {
         $_SESSION['error_message'] = "Error al crear el proyecto: " . $conn->error;
     }
-    
-    header("Location: admin-proyectos.php");
-    exit();
+
 }

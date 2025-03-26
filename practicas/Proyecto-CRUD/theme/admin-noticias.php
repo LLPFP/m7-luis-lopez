@@ -58,20 +58,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         }
         
         if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
-            $update_query = "UPDATE NEWS SET title = ?, description = ?, thumbnail = ? WHERE id = ?";
-            $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("sssi", $title, $description, $imagen_nombre, $id);
+
+
+
+            $update_query = "UPDATE NEWS SET title = '$title', description = '$description', thumbnail = '$imagen_nombre' WHERE id = $id";
+            $stmt = $conn->query($update_query);
         } else {
             $_SESSION['error_message'] = "Error al subir la imagen.";
             header("Location: admin-noticias.php");
             exit();
         }
     } else {
-        $update_query = "UPDATE NEWS SET title = ?, description = ? WHERE id = ?";
-        $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("ssi", $title, $description, $id);
+
+
+
+        $update_query = "UPDATE NEWS SET title = '$title', description = '$description' WHERE id = $id";
+        $stmt = $conn->query($update_query);
     }    
-    if ($stmt->execute()) {
+
+    if ($stmt) {
         $_SESSION['success_message'] = "Noticia actualizada correctamente.";
     } else {
         $_SESSION['error_message'] = "Error al actualizar la noticia: " . $conn->error;
@@ -334,8 +339,11 @@ $noticiasArray = $noticiasObject->fetch_all(MYSQLI_ASSOC);
                           </div>
                         </div>
                       </div>
-                    <?php endforeach; ?>
-                  </tbody>
+
+
+
+
+                    <?php endforeach; ?>   </tbody>
                 </table>
               </div>
             <?php else: ?>

@@ -18,35 +18,29 @@ if (isset($_POST['crear_usuario'])) {
     $job = $_POST['job'];
     $rol = $_POST['rol'];
     
-    $sql_insert = "INSERT INTO USERS (name, surname, email, password, age, job, rol, date_register) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-    $stmt_insert = $conn->prepare($sql_insert);
-    $stmt_insert->bind_param("sssssss", $name, $surname, $email, $password, $age, $job, $rol);
+    $sql_insert = "INSERT INTO USERS (name, surname, email, password, age, job, rol, date_register) VALUES ('$name', '$surname', '$email', '$password', '$age', '$job', '$rol', NOW())";
     
-    if ($stmt_insert->execute()) {
+    if ($conn->query($sql_insert)) {
         $mensaje = "Usuario creado correctamente";
         $tipo_mensaje = "success";
     } else {
         $mensaje = "Error al crear el usuario: " . $conn->error;
         $tipo_mensaje = "danger";
     }
-    $stmt_insert->close();
 }
 
 // Procesar eliminación de usuario
 if (isset($_GET['delete']) && !empty($_GET['delete'])) {
     $id = $_GET['delete'];
-    $sql_delete = "DELETE FROM USERS WHERE id = ?";
-    $stmt_delete = $conn->prepare($sql_delete);
-    $stmt_delete->bind_param("i", $id);
+    $sql_delete = "DELETE FROM USERS WHERE id = $id";
     
-    if ($stmt_delete->execute()) {
+    if ($conn->query($sql_delete)) {
         $mensaje = "Usuario eliminado correctamente";
         $tipo_mensaje = "success";
     } else {
         $mensaje = "Error al eliminar el usuario: " . $conn->error;
         $tipo_mensaje = "danger";
     }
-    $stmt_delete->close();
 }
 
 // Procesar cambios de usuario
@@ -57,14 +51,9 @@ if (isset($_POST['actualizar_usuario'])) {
     $rol = $_POST['rol'];
     $job = $_POST['job'];
     
-    // Preparar la consulta base
-    $sql_update = "UPDATE USERS SET name = ?, surname = ?, rol = ?, job = ?";
-    $tipos = "ssss";
-    $params = [$name, $surname, $rol, $job];
+    $sql_update = "UPDATE USERS SET name = '$name', surname = '$surname', rol = '$rol', job = '$job'";
 
-    // Manejar la subida de imagen si existe
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === 0) {
-        // Crear el directorio si no existe
         if (!file_exists('uploads/avatars')) {
             mkdir('uploads/avatars', 0777, true);
         }
@@ -74,28 +63,19 @@ if (isset($_POST['actualizar_usuario'])) {
         $ruta_destino = 'uploads/avatars/' . $imagen_nombre;
         
         if (move_uploaded_file($imagen_temporal, $ruta_destino)) {
-            $sql_update .= ", avatar = ?";
-            $tipos .= "s";
-            $params[] = $ruta_destino;
+            $sql_update .= ", avatar = '$ruta_destino'";
         }
     }
 
-    // Completar la consulta
-    $sql_update .= " WHERE id = ?";
-    $tipos .= "i";
-    $params[] = $user_id;
+    $sql_update .= " WHERE id = $user_id";
     
-    $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param($tipos, ...$params);
-    
-    if ($stmt_update->execute()) {
+    if ($conn->query($sql_update)) {
         $mensaje = "Usuario actualizado correctamente";
         $tipo_mensaje = "success";
     } else {
         $mensaje = "Error al actualizar el usuario: " . $conn->error;
         $tipo_mensaje = "danger";
     }
-    $stmt_update->close();
 }
 
 // Obtener todos los usuarios
